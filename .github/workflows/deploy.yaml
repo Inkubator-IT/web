@@ -26,5 +26,6 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            namespace/example:latest 
+            inkubatorit/website:latest
+            inkubatorit/website:${{ github.sha }}
           platforms: linux/amd64     
