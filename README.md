@@ -1,17 +1,16 @@
 ## Inkubator IT — Next.js Template
 
-Standardized Next.js frontend template for projects in the Inkubator IT GitHub organization. Built and maintained by the DevOps team to unify stack choices, local development, containerization, and deployment conventions across client projects.
+A production-ready Next.js frontend template for projects in the Inkubator IT GitHub organization. Built and maintained by the DevOps team to standardize stack choices, development workflows, and deployment conventions across all client projects.
 
-### Tech stack
+### Tech Stack
 - **Runtime**: Bun (scripts, tooling)
 - **Framework**: Next.js 15 (App Router, Turbopack)
 - **Language**: TypeScript
 - **UI**: Tailwind CSS v4
 - **Icons**: lucide-react
 - **Quality**: Biome (lint & format)
-- **Containerization**: Docker (Next.js standalone, Bun runtime)
 
-### Project structure
+### Project Structure
 ```
 .
 ├─ src/
@@ -19,20 +18,20 @@ Standardized Next.js frontend template for projects in the Inkubator IT GitHub o
 │  │  ├─ globals.css      # Tailwind v4 + theme tokens
 │  │  ├─ layout.tsx       # Root layout
 │  │  └─ page.tsx         # Example landing page
+│  ├─ components/         # Reusable React components
+│  │  └─ example-card.tsx # Example component
 │  └─ lib/
-│     └─ utils.ts         # Shared utilities (e.g., cn)
+│     └─ utils.ts         # Shared utilities (e.g., cn helper)
 ├─ public/                # Static assets served as-is
 │  ├─ logo-iit.png
 │  ├─ next-white.svg
 │  └─ ...
-├─ next.config.ts         # Next.js config (output: standalone)
-├─ .env.example           # Environment variables example
+├─ next.config.ts         # Next.js config (output: standalone, static export)
 ├─ postcss.config.mjs     # Tailwind v4 via PostCSS
-├─ components.json        # UI components registry (shadcn config)
-├─ biome.json             # Biome config (lint/format)
-├─ tsconfig.json          # TypeScript config (alias `@` → `src`)
-├─ package.json           # Scripts and deps
-└─ Dockerfile             # Multi-stage build (Bun build → Bun runtime)
+├─ components.json        # shadcn/ui component registry config
+├─ biome.json             # Biome config (lint/format rules)
+├─ tsconfig.json          # TypeScript config (path alias `@` → `src`)
+└─ package.json           # Scripts and dependencies
 ```
 
 ### Prerequisites
