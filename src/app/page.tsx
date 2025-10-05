@@ -1,98 +1,43 @@
-import Image from "next/image";
-import ExampleCard from "@/components/example-card";
+import Link from "next/link";
 
 function App() {
   return (
-    <div className="relative min-h-screen grid place-items-center overflow-hidden">
-      {/* Background gradient + subtle stripes */}
-      <div className="absolute inset-0 -z-20 bg-gradient-to-br via-[#0b0a0f] from-[#3f2b72] to-[#f5a524]" />
-      <div
-        className="absolute inset-0 -z-10 opacity-30"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0, rgba(255,255,255,0.08) 1px, transparent 1px, transparent 14px)",
-        }}
-      />
-      <div className="text-center text-white">
-        {/* Logos */}
-        <div className="flex items-center justify-center gap-12 my-10">
-          <a
-            href="https://nextjs.org"
-            target="_blank"
-            className="transition-transform hover:scale-110"
-            rel="noreferrer"
-          >
-            <Image
-              src="/next-white.svg"
-              className="logo drop-shadow-lg"
-              width={96}
-              height={96}
-              alt="Next.js logo"
-            />
-          </a>
-          <a
-            href="https://github.com/Inkubator-IT"
-            target="_blank"
-            className="transition-transform hover:scale-110"
-            rel="noreferrer"
-          >
-            <Image
-              src="/logo-iit.png"
-              alt="Inkubator IT"
-              className="h-16 w-auto drop-shadow-[0_6px_30px_rgba(0,0,0,0.35)]"
-              width={100}
-              height={100}
-            />
-          </a>
+    <div className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#0C0C0C]">
+      {/*Hero Section*/}
+      <section className="w-full max-w-[1200px] flex flex-col items-center justify-center md:gap-[96px] gap-[48px] px-5">
+        <div className="w-full flex flex-col md:gap-[48px] gap-[24px] items-center justify-center">
+          <div className="w-fit flex flex-col">
+            <p className="text-white italic md:text-xl text-xs font-medium">InkubatorIT’s Present</p>
+            <div className="mt-2 h-[0.5px] md:h-[1px] bg-gradient-to-r from-white/0 via-white to-white/0"></div>
+          </div>
+          <h1 className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text md:text-7xl text-3xl text-transparent text-center font-semibold">
+            Trusted Digital Solutions by ITB’s Brightest Tech Talents
+          </h1>
+          <p className="text-white text-center font-normal">
+            We build high-quality software with integrity, collaboration, and innovation. From websites to mobile apps
+            and beyond, Inkubator IT helps turn your ideas into impactful digital products.
+          </p>
         </div>
-        <h1 className="mt-4 text-4xl font-bold">Inkubator IT — Next.js</h1>
-        <p className="mt-2 text-sm text-gray-200">
-          Kickstart your frontend with Next.js, Tailwind, and Bun.
-        </p>
-
-        {/* Card */}
-        <ExampleCard />
-
-        {/* Links */}
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl mx-auto">
-          <a
-            href="https://github.com/Inkubator-IT"
-            target="_blank"
-            rel="noreferrer"
-            className="group flex items-center justify-between rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-left transition hover:shadow-sm"
+        <div className="w-fit flex flex-row items-center justify-center md:gap-6 gap-3">
+          <Link
+            href="/" //change later
+            className="text-white bg-white/2 md:rounded-[12px] rounded-[6px] md:text-2xl text-base border-white/12 border md:px-5 md:py-3 px-2 py-1"
           >
-            <div>
-              <p className="font-medium">Inkubator IT on GitHub</p>
-              <p className="text-xs text-gray-200">
-                Templates, tooling, and examples
-              </p>
-            </div>
-          </a>
-          <a
-            href="https://nextjs.org/docs"
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-left transition hover:shadow-sm"
+            See Our Portfolio
+          </Link>
+          <Link
+            href="/" //change later
+            className="bg-[#121212CC] md:rounded-[12px] rounded-[6px] md:text-2xl text-base md:px-5 md:py-3 px-2 py-1"
           >
-            <p className="font-medium">Next.js Docs</p>
-            <p className="text-xs text-gray-200">Fast dev server and build</p>
-          </a>
-          <a
-            href="https://nextjs.org/learn"
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-left transition hover:shadow-sm"
-          >
-            <p className="font-medium">Tailwind CSS</p>
-            <p className="text-xs text-gray-200">Modern UI with hooks</p>
-          </a>
+            <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-transparent">
+              Start Your Project
+            </span>
+          </Link>
         </div>
+      </section>
 
-        {/* Footer note */}
-        <p className="mt-8 text-sm text-gray-300">
-          Click on the logos to learn more • Built by Inkubator IT
-        </p>
-      </div>
+      {/*Project Highlights Section*/}
+      <section></section>
     </div>
   );
 }
