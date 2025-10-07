@@ -3,9 +3,11 @@
 import { BriefcaseBusiness, Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react"; // light
+import GradientBorderDiv from "@/components/div-gradient-border";
 
-// Easily changeable project data
+// Const bisa pindahin ke cms/file beda
 const PROJECTS = [
   {
     id: 1,
@@ -28,39 +30,98 @@ const PROJECTS = [
   },
 ];
 
+const BRANSANDPARTNERS = [
+  { id: 1, image: "/assets/landing/brands/pertamina.svg", title: "Pertamina" },
+  { id: 2, image: "/assets/landing/brands/harisenin.svg", title: "Harisenin" },
+  { id: 3, image: "/assets/landing/brands/bi.svg", title: "Bi" },
+  { id: 4, image: "/assets/landing/brands/paragon.svg", title: "Paragon" },
+  {
+    id: 5,
+    image: "/assets/landing/brands/sinar_dunia.svg",
+    title: "Sinar Dunia",
+  },
+  { id: 6, image: "/assets/landing/brands/serenic.svg", title: "Serenic" },
+  { id: 7, image: "/assets/landing/brands/tiga_roda.svg", title: "Tiga Roda" },
+  { id: 8, image: "/assets/landing/brands/99.svg", title: "99" },
+  { id: 9, image: "/assets/landing/brands/radya.svg", title: "Radya" },
+  { id: 10, image: "/assets/landing/brands/imk.svg", title: "Imk" },
+  { id: 11, image: "/assets/landing/brands/aiesec.svg", title: "Aiesec" },
+];
+
+const SERVICES = [
+  {
+    id: 1,
+    title: "Website Development",
+    desc: "Company profiles, e-commerce, competition platforms, and more.",
+    image: "/assets/landing/services/webdev.svg",
+  },
+  {
+    id: 2,
+    title: "Mobile Apps",
+    desc: "From prototypes to full-featured Android/iOS apps.",
+    image: "/assets/landing/services/mobapps.svg",
+  },
+  {
+    // sengaja id 3 skip
+    id: 4,
+    title: "Custom Solutions",
+    desc: "Games, AI/ML, AR/VR, and prototypes powered by modern technology.",
+    image: "/assets/landing/services/custsol.svg",
+  },
+  {
+    id: 5,
+    title: "AI-Powered Innovation",
+    desc: "Harness the power of AI to simplify processes, uncover patterns, and accelerate decision-making.",
+    image: "/assets/landing/services/ai.svg",
+  },
+];
+
 function App() {
-  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const handlePrev = () => {
-    setActiveProjectIndex((prev) =>
-      prev === 0 ? PROJECTS.length - 1 : prev - 1,
-    );
-  };
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
 
-  const handleNext = () => {
-    setActiveProjectIndex((prev) =>
-      prev === PROJECTS.length - 1 ? 0 : prev + 1,
-    );
-  };
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
 
-  const handleDotClick = (index: number) => {
-    setActiveProjectIndex(index);
-  };
+  const scrollTo = useCallback(
+    (index: number) => {
+      if (emblaApi) emblaApi.scrollTo(index);
+    },
+    [emblaApi],
+  );
 
-  const currentProject = PROJECTS[activeProjectIndex];
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi, onSelect]);
+
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#0C0C0C] py-[50px]">
       {/*Hero Section*/}
-      <section className="flex w-full max-w-[1200px] flex-col items-center justify-center gap-[48px] px-5 py-[50px] md:gap-[96px]">
+      <section className="flex w-full max-w-[1600px] flex-col items-center justify-center gap-[48px] px-5 py-[50px] md:gap-[96px]">
         <div className="flex w-full flex-col items-center justify-center gap-[24px] md:gap-[48px]">
           <div className="flex w-fit flex-col">
             <p className="text-xs font-medium text-white italic md:text-xl">
-              InkubatorIT’s Present
+              InkubatorIT's Present
             </p>
             <div className="mt-2 h-[1px] bg-gradient-to-r from-white/0 via-white to-white/0"></div>
           </div>
           <h1 className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-center text-2xl font-semibold text-transparent md:text-7xl">
-            Trusted Digital Solutions by ITB’s Brightest Tech Talents
+            Trusted Digital Solutions by ITB's Brightest Tech Talents
           </h1>
           <p className="text-center text-base font-normal text-white/80 md:text-2xl">
             We build high-quality software with integrity, collaboration, and
@@ -89,28 +150,39 @@ function App() {
       </section>
 
       {/*Project Highlights Section*/}
-      <section className="relative flex w-full flex-col items-center justify-center gap-9 px-5 md:gap-[60px]">
+      <section className="relative flex w-full max-w-[1600px] flex-col items-center justify-center gap-9 px-5 md:gap-[60px]">
         <Image
           src="/assets/landing/techstack_ellipse.png"
           alt="techstack ellipse"
           width={2000}
           height={2000}
-          className="pointer-events-none absolute top-1/2 left-1/2 z-0 -translate-x-1/2 -translate-y-3/5 scale-140 sm:scale-120"
+          className="pointer-events-none absolute top-1/2 left-1/2 z-0 -translate-x-1/2 -translate-y-3/5 scale-170 sm:scale-150"
         />
-        <Image
-          src={currentProject.image}
-          alt={currentProject.title}
-          width={2000}
-          height={2000}
-          className="relative z-10 transition-opacity duration-300"
-        />
-        <div className="flex flex-col gap-6 md:gap-[40px]">
+
+        {/* Embla Carousel */}
+        <div className="w-full overflow-hidden" ref={emblaRef}>
+          <div className="flex">
+            {PROJECTS.map((project) => (
+              <div key={project.id} className="min-w-0 flex-[0_0_100%]">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  width={2000}
+                  height={2000}
+                  className="relative z-10"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="z-10 flex w-full flex-col gap-6 md:gap-[40px]">
           <p className="text-center text-base font-medium text-white/48 md:text-2xl">
             PROJECT SHOWCASE
           </p>
-          <div className="flex w-full max-w-[1200px] flex-row items-center justify-between gap-5 md:gap-10">
+          <div className="flex w-full max-w-[1600px] flex-row items-center justify-between gap-5 px-0 md:gap-10 md:px-20">
             <button
-              onClick={handlePrev}
+              onClick={scrollPrev}
               aria-label="Previous project"
               className="flex aspect-square h-[40px] shrink-0 items-center justify-center rounded-full bg-white/4 text-base text-white transition-colors duration-200 hover:bg-white/20 md:h-[70px] md:w-[70px] md:p-0 md:text-2xl"
             >
@@ -118,14 +190,14 @@ function App() {
             </button>
             <div className="flex flex-col items-center justify-center gap-3 md:gap-4">
               <p className="text-center text-2xl font-medium text-white uppercase md:text-6xl">
-                {currentProject.title}
+                {PROJECTS[selectedIndex].title}
               </p>
               <p className="text-center text-xs text-white/60 md:text-[20px]">
-                {currentProject.description}
+                {PROJECTS[selectedIndex].description}
               </p>
             </div>
             <button
-              onClick={handleNext}
+              onClick={scrollNext}
               aria-label="Next project"
               className="flex aspect-square h-[40px] shrink-0 items-center justify-center rounded-full bg-white/4 text-base text-white transition-colors duration-200 hover:bg-white/20 md:h-[70px] md:w-[70px] md:p-0 md:text-2xl"
             >
@@ -137,16 +209,101 @@ function App() {
             {PROJECTS.map((project, index) => (
               <button
                 key={project.id}
-                onClick={() => handleDotClick(index)}
+                onClick={() => scrollTo(index)}
                 aria-label={`Go to project ${index + 1}`}
                 className={`h-2 w-2 rounded-full transition-all duration-300 md:h-3 md:w-3 ${
-                  index === activeProjectIndex
+                  index === selectedIndex
                     ? "w-8 bg-white"
                     : "bg-white/30 hover:bg-white/50"
                 }`}
               />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/*Brands and Partners Section*/}
+      <section className="my-20 flex w-full max-w-[1200px] flex-col items-center justify-center px-5 md:my-[160px]">
+        <p className="text-center text-base text-white/60 md:text-2xl">
+          BUILDING TRUST WITH REMARKABLE BRANDS AND PARTNERS
+        </p>
+        <div className="mt-6 w-full">
+          <div className="mx-auto flex flex-wrap items-center justify-center gap-6 px-4">
+            {BRANSANDPARTNERS.map((brand) => (
+              <div
+                key={brand.id}
+                className="flex h-10 items-center justify-center p-2 md:h-18 md:p-3"
+              >
+                <Image
+                  src={brand.image}
+                  alt={brand.title}
+                  width={1000}
+                  height={1000}
+                  className="h-full w-auto object-contain opacity-90 grayscale-[10%] hover:opacity-100"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/*Our Services Section*/}
+      <section className="flex w-full max-w-[1600px] flex-col items-center justify-center gap-10 px-5">
+        <div className="flex w-full flex-col items-center justify-center gap-6 px-0 md:gap-10 md:px-30">
+          <div className="rounded-full border border-white/12 bg-[#171717] px-4 py-2 text-xs md:text-xl">
+            <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-transparent">
+              OUR SERVICES
+            </span>
+          </div>
+          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text text-center text-3xl text-transparent md:text-7xl">
+            Complete Digital Solutions for Your Project
+          </span>
+          <p className="text-center text-sm text-white/80 md:text-3xl">
+            We provide tailored software development services to help your
+            projects succeed, whether you’re a startup, business, or
+            organization.
+          </p>
+        </div>
+
+        <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-6">
+          {SERVICES.map((service) => (
+            <GradientBorderDiv
+              key={service.id}
+              className={`${service.id % 2 == 0 ? "w-full md:w-[40%]" : "w-full md:w-[55%]"} overflow-hidden p-4`}
+            >
+              <div
+                className={`${service.id % 2 != 0 ? "absolute top-0 left-0 hidden h-[150px] w-[150px] -translate-1/2 -translate-y-1/2 rounded-full border border-white/12 md:block" : ""}`}
+              ></div>
+              <div
+                className={`${service.id % 2 != 0 ? "absolute top-0 left-0 hidden h-[200px] w-[200px] -translate-1/2 -translate-y-1/2 rounded-full border border-white/12 md:block" : ""}`}
+              ></div>
+              <div
+                className={`${service.id % 2 == 0 ? "absolute top-0 left-0 hidden h-[170px] w-[170px] -translate-1/2 -translate-y-1/2 rounded-lg border border-white/12 md:block" : ""}`}
+              ></div>
+              <div
+                className={`${service.id % 2 == 0 ? "absolute right-0 bottom-0 hidden h-[250px] w-[250px] translate-1/2 translate-y-1/2 rounded-lg border border-white/12 md:block" : ""}`}
+              ></div>
+              <div className="flex h-[120px] w-full items-center justify-between gap-4 md:h-[200px]">
+                <div className="flex h-full flex-1 flex-col justify-start md:justify-end">
+                  <span className="bg-gradient-to-r from-white to-white/20 bg-clip-text text-xl text-transparent md:text-3xl">
+                    {service.title}
+                  </span>
+                  <p className="text-xs text-white/60 md:text-lg">
+                    {service.desc}
+                  </p>
+                </div>
+                <div className="flex h-full w-[30%] shrink-0 items-center justify-center">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    width={2000}
+                    height={2000}
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+              </div>
+            </GradientBorderDiv>
+          ))}
         </div>
       </section>
     </div>
