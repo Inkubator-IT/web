@@ -119,6 +119,6 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-montserrat), ui-sans-serif;
-    word-spacing: -5%;
+    letter-spacing: -0.06em;
   }
 }
