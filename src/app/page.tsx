@@ -110,7 +110,7 @@ function App() {
   }, [emblaApi, onSelect]);
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#0C0C0C] py-[50px]">
+    <main className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#0C0C0C] py-[50px]">
       {/*Hero Section*/}
       <section className="flex w-full max-w-[1600px] flex-col items-center justify-center gap-[48px] px-5 py-[50px] md:gap-[96px]">
         <div className="flex w-full flex-col items-center justify-center gap-[24px] md:gap-[48px]">
@@ -150,17 +150,17 @@ function App() {
       </section>
 
       {/*Project Highlights Section*/}
-      <section className="relative flex w-full max-w-[1600px] flex-col items-center justify-center gap-9 px-5 md:gap-[60px]">
+      <section className="relative flex h-[500px] w-full max-w-[1600px] flex-col items-center justify-center px-5 md:h-[1200px]">
         <Image
           src="/assets/landing/techstack_ellipse.png"
           alt="techstack ellipse"
           width={2000}
           height={2000}
-          className="pointer-events-none absolute top-1/2 left-1/2 z-0 -translate-x-1/2 -translate-y-3/5 scale-170 sm:scale-150"
+          className="pointer-events-none absolute top-1/2 left-1/2 z-0 -translate-x-1/2 -translate-y-4/5 scale-170 sm:scale-150 md:-translate-y-3/5"
         />
 
         {/* Embla Carousel */}
-        <div className="w-full overflow-hidden" ref={emblaRef}>
+        <div className="flex w-full shrink-0 overflow-hidden" ref={emblaRef}>
           <div className="flex">
             {PROJECTS.map((project) => (
               <div key={project.id} className="min-w-0 flex-[0_0_100%]">
@@ -176,7 +176,7 @@ function App() {
           </div>
         </div>
 
-        <div className="z-10 flex w-full flex-col gap-6 md:gap-[40px]">
+        <div className="z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 md:gap-[40px]">
           <p className="text-center text-base font-medium text-white/48 md:text-2xl">
             PROJECT SHOWCASE
           </p>
@@ -223,7 +223,7 @@ function App() {
       </section>
 
       {/*Brands and Partners Section*/}
-      <section className="my-20 flex w-full max-w-[1200px] flex-col items-center justify-center px-5 md:my-[160px]">
+      <section className="mt-[80px] flex w-full max-w-[1200px] flex-col items-center justify-center px-5 md:mt-[160px]">
         <p className="text-center text-base text-white/60 md:text-2xl">
           BUILDING TRUST WITH REMARKABLE BRANDS AND PARTNERS
         </p>
@@ -248,14 +248,14 @@ function App() {
       </section>
 
       {/*Our Services Section*/}
-      <section className="flex w-full max-w-[1600px] flex-col items-center justify-center gap-10 px-5">
-        <div className="flex w-full flex-col items-center justify-center gap-6 px-0 md:gap-10 md:px-30">
-          <div className="rounded-full border border-white/12 bg-[#171717] px-4 py-2 text-xs md:text-xl">
-            <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-transparent">
+      <section className="mt-[80px] flex w-full max-w-[1600px] flex-col items-center justify-center gap-20 px-5 md:mt-[160px]">
+        <div className="flex w-full flex-col items-center justify-center gap-5 px-0 md:gap-14 md:px-30">
+          <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs md:text-xl">
+            <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
               OUR SERVICES
             </span>
           </div>
-          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text text-center text-3xl text-transparent md:text-7xl">
+          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-7xl">
             Complete Digital Solutions for Your Project
           </span>
           <p className="text-center text-sm text-white/80 md:text-3xl">
@@ -288,7 +288,7 @@ function App() {
                   <span className="bg-gradient-to-r from-white to-white/20 bg-clip-text text-xl text-transparent md:text-3xl">
                     {service.title}
                   </span>
-                  <p className="text-xs text-white/60 md:text-lg">
+                  <p className="text-sm text-white/60 md:text-lg">
                     {service.desc}
                   </p>
                 </div>
@@ -306,7 +306,177 @@ function App() {
           ))}
         </div>
       </section>
-    </div>
+
+      {/*How We Work Section*/}
+      <section className="relative mt-[80px] flex w-full max-w-[1600px] flex-col items-center justify-center gap-20 px-5 md:mt-[160px]">
+        <Image
+          src="/assets/landing/Bubble.svg"
+          alt="bubble"
+          width={2000}
+          height={2000}
+          className="absolute top-1/2 left-0 z-0 hidden h-full -translate-x-[45%] -translate-y-1/2 scale-200 md:block"
+        />{" "}
+        <Image
+          src="/assets/landing/Bubble.svg"
+          alt="bubble"
+          width={2000}
+          height={2000}
+          className="absolute top-1/2 right-0 z-0 hidden h-full translate-x-[45%] -translate-y-1/2 scale-200 md:block"
+        />
+        <div className="flex w-full flex-col items-center justify-center gap-5 px-0 md:gap-14 md:px-30">
+          <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs md:text-xl">
+            <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+              HOW WE WORK
+            </span>
+          </div>
+          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-7xl">
+            Building Together, Step by Step
+          </span>
+          <p className="text-center text-sm text-white/80 md:text-3xl">
+            We make project development transparent and efficient, breaking down
+            complex work into simple, reliable steps.
+          </p>
+        </div>
+        {/*DESKTOP*/}
+        {/*DESKTOP*/}
+        <div className="hidden w-full flex-col items-center justify-center md:block">
+          <div className="relative w-full">
+            {/* Glow effect layer */}
+            <div
+              className="absolute inset-0 h-[2px] -translate-y-[3px] blur-md"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
+              }}
+            />
+            {/* Main gradient line */}
+            <div
+              className="relative h-[2px] w-full"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
+              }}
+            />
+          </div>
+          <div className="grid grid-cols-4">
+            <div className="relative flex translate-x-1/2 flex-col items-center justify-center p-10">
+              <div className="absolute top-0 left-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#AD99E7] to-white"></div>
+              <div className="my-5 shrink-0 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
+                <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+                  STEP 1
+                </span>
+              </div>
+              <div className="flex-1 flex-col items-center justify-center">
+                <p className="text-center text-4xl text-[#D9D9D9]">
+                  Discover & Analysis
+                </p>
+                <p className="text-center text-2xl text-white/80">
+                  We listen to your needs and goals
+                </p>
+              </div>
+            </div>
+            <div className="relative flex translate-x-1/2 flex-col items-center justify-center p-10">
+              <div className="absolute top-0 left-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#AD99E7] to-[#FFBC6C]"></div>
+              <div className="my-5 shrink-0 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
+                <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+                  STEP 2
+                </span>
+              </div>
+              <div className="flex-1 flex-col items-center justify-center">
+                <p className="text-center text-4xl text-[#D9D9D9]">
+                  Design & Development
+                </p>
+                <p className="text-center text-2xl text-white/80">
+                  Delivering solutions with the right tech stack
+                </p>
+              </div>
+            </div>
+            <div className="relative flex translate-x-1/2 flex-col items-center justify-center p-10">
+              <div className="absolute top-0 left-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#FFBC6C] to-white"></div>
+              <div className="my-5 shrink-0 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
+                <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+                  STEP 3
+                </span>
+              </div>
+              <div className="flex-1 flex-col items-center justify-center">
+                <p className="text-center text-4xl text-[#D9D9D9]">
+                  Testing & Launch
+                </p>
+                <p className="text-center text-2xl text-white/80">
+                  Regular demos, feedback, and time delivery
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/*MOBILE*/}
+        {/*MOBILE*/}
+        <div className="relative block w-full flex-col items-center justify-center md:hidden">
+          <div className="absolute top-0 bottom-0 left-1/2 w-[8px] -translate-x-1/2">
+            {/* Glow effect layer */}
+            <div
+              className="absolute inset-0 blur-md"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
+              }}
+            />
+            {/* Main gradient line */}
+            <div
+              className="absolute top-0 bottom-0 left-1/2 w-[2px] -translate-x-1/2"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
+              }}
+            />
+          </div>
+          <div className="relative grid grid-rows-4">
+            <div className="relative flex w-[50%] translate-y-1/2 flex-col items-center justify-center justify-self-start px-10">
+              <div className="absolute top-1/2 right-0 h-5 w-5 translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#AD99E7] to-white"></div>
+              <div className="my-5rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
+                <span className="bg-gradient-to-b from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+                  STEP 1
+                </span>
+              </div>
+              <p className="text-center text-2xl text-[#D9D9D9]">
+                Discover & Analysis
+              </p>
+              <p className="text-center text-white/80">
+                We listen to your needs and goals
+              </p>
+            </div>
+            <div className="relative flex w-[50%] translate-y-1/2 flex-col items-center justify-center justify-self-end px-10">
+              <div className="absolute top-1/2 left-0 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-b from-[#AD99E7] to-[#FFBC6C]"></div>
+              <div className="my-5rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
+                <span className="bg-gradient-to-b from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+                  STEP 2
+                </span>
+              </div>
+              <p className="text-center text-2xl text-[#D9D9D9]">
+                Design & Development
+              </p>
+              <p className="text-center text-white/80">
+                Delivering solutions with the right tech stack
+              </p>
+            </div>
+            <div className="relative flex w-[50%] translate-y-1/2 flex-col items-center justify-center justify-self-start px-10">
+              <div className="absolute top-1/2 right-0 h-5 w-5 translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-b from-[#FFBC6C] to-white"></div>
+              <div className="my-5rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
+                <span className="bg-gradient-to-b from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+                  STEP 3
+                </span>
+              </div>
+              <p className="text-center text-2xl text-[#D9D9D9]">
+                Testing & Launch
+              </p>
+              <p className="text-center text-white/80">
+                Regular demos, feedback, and time delivery
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
 
