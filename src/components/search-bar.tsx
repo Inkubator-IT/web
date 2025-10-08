@@ -37,11 +37,11 @@ export default function SearchBar({
     return (
         <div className={cn('relative', className)}>
             {/* Gradient Shadow */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#7E67C1] to-[#FFB051] rounded-full blur-sm opacity-80" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#7E67C1] via-[#FFB051]/20 to-[#FFB051] animate-pulse rounded-full blur-sm" />
             
             {/* Search Bar */}
             <div className="relative flex items-center justify-between bg-black rounded-full px-4 z-10">
-                <Search size={12} color='white' className='flex-shrink-0 cursor-pointer'/>
+                <Search size={14} color='white' className='flex-shrink-0 cursor-pointer'/>
                 <input 
                     type="text" 
                     placeholder={placeholder}
@@ -51,7 +51,7 @@ export default function SearchBar({
                     disabled={disabled}
                     autoFocus={false}
                     className={cn(
-                        'w-full pl-10 pr-4 py-3 border border-gray-200 rounded-full outline-none',
+                        'w-full pl-10 pr-4 py-3 border border-gray-200 rounded-full outline-none placeholder:font-light',
                         'border-none focus:ring-0 placeholder:text-white/40 text-white text-sm bg-transparent'
                     )}
                 />
@@ -65,7 +65,7 @@ export default function SearchBar({
                         'flex-shrink-0 text-white cursor-pointer'
                     )}
                 >
-                    <SlidersHorizontal size={12} color='white'/>
+                    <SlidersHorizontal size={14} color='white'/>
                 </button>
                 )}
             </div>
