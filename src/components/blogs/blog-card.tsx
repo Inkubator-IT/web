@@ -23,14 +23,6 @@ export default function BlogCard({
     timeRead,
     image
 }: BlogCardProps) {
-    const getSnippet = (content: string) => {
-        const firstParagraph = content.split('\n')[0];
-        if (firstParagraph.length <= 200) {
-            return firstParagraph;
-        }
-        return firstParagraph.substring(0, 200) + '...';
-    }
-
     return (
         <>
          <div className='flex flex-col gap-4 items-start'>
