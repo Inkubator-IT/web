@@ -18,7 +18,7 @@ const PROJECTS = [
   },
   {
     id: 2,
-    image: "/assets/landing/project_highlights.png",
+    image: "/logo-iit.png",
     title: "Project 2",
     description: "desc 2",
   },
@@ -112,7 +112,7 @@ function App() {
   return (
     <main className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#0C0C0C] py-[50px]">
       {/*Hero Section*/}
-      <section className="flex w-full max-w-[1600px] flex-col items-center justify-center gap-[48px] px-5 py-[50px] md:gap-[96px]">
+      <section className="flex w-full max-w-[1200px] flex-col items-center justify-center gap-[48px] px-5 py-[50px] md:gap-[96px]">
         <div className="flex w-full flex-col items-center justify-center gap-[24px] md:gap-[48px]">
           <div className="flex w-fit flex-col">
             <p className="text-xs font-medium text-white italic md:text-xl">
@@ -156,27 +156,30 @@ function App() {
           alt="techstack ellipse"
           width={2000}
           height={2000}
-          className="pointer-events-none absolute top-1/2 left-1/2 z-0 -translate-x-1/2 -translate-y-4/5 scale-170 sm:scale-150 md:-translate-y-3/5"
+          className="pointer-events-none absolute top-0 left-1/2 z-0 -translate-x-1/2 -translate-y-[90px] scale-170 sm:scale-150 md:-translate-y-[200px]"
         />
 
         {/* Embla Carousel */}
         <div className="flex w-full shrink-0 overflow-hidden" ref={emblaRef}>
           <div className="flex">
             {PROJECTS.map((project) => (
-              <div key={project.id} className="min-w-0 flex-[0_0_100%]">
+              <div
+                key={project.id}
+                className="flex min-w-0 flex-[0_0_100%] justify-center"
+              >
                 <Image
                   src={project.image}
                   alt={project.title}
                   width={2000}
                   height={2000}
-                  className="relative z-10"
+                  className="relative z-10 h-auto max-h-[400px] w-full object-contain md:max-h-[800px]"
                 />
               </div>
             ))}
           </div>
         </div>
 
-        <div className="z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 md:gap-[40px]">
+        <div className="z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 px-0 md:gap-[40px] md:px-20">
           <p className="text-center text-base font-medium text-white/48 md:text-2xl">
             PROJECT SHOWCASE
           </p>
@@ -258,7 +261,7 @@ function App() {
           <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-7xl">
             Complete Digital Solutions for Your Project
           </span>
-          <p className="text-center text-sm text-white/80 md:text-3xl">
+          <p className="px-0 text-center text-sm text-white/80 md:px-25 md:text-2xl">
             We provide tailored software development services to help your
             projects succeed, whether you’re a startup, business, or
             organization.
@@ -314,16 +317,16 @@ function App() {
           alt="bubble"
           width={2000}
           height={2000}
-          className="absolute top-1/2 left-0 z-0 hidden h-full -translate-x-[45%] -translate-y-1/2 scale-200 md:block"
-        />{" "}
+          className="pointer-events-none absolute top-1/2 left-0 z-0 hidden h-full -translate-x-[45%] -translate-y-1/2 scale-200 md:block"
+        />
         <Image
           src="/assets/landing/Bubble.svg"
           alt="bubble"
           width={2000}
           height={2000}
-          className="absolute top-1/2 right-0 z-0 hidden h-full translate-x-[45%] -translate-y-1/2 scale-200 md:block"
+          className="pointer-events-none absolute top-1/2 right-0 z-0 hidden h-full translate-x-[45%] -translate-y-1/2 scale-200 md:block"
         />
-        <div className="flex w-full flex-col items-center justify-center gap-5 px-0 md:gap-14 md:px-30">
+        <div className="flex w-full flex-col items-center justify-center gap-5 px-0 md:gap-14 md:px-30 lg:px-50">
           <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs md:text-xl">
             <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
               HOW WE WORK
@@ -332,7 +335,7 @@ function App() {
           <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-7xl">
             Building Together, Step by Step
           </span>
-          <p className="text-center text-sm text-white/80 md:text-3xl">
+          <p className="text-center text-sm text-white/80 md:text-2xl">
             We make project development transparent and efficient, breaking down
             complex work into simple, reliable steps.
           </p>
@@ -340,7 +343,7 @@ function App() {
         {/*DESKTOP*/}
         {/*DESKTOP*/}
         <div className="hidden w-full flex-col items-center justify-center md:block">
-          <div className="relative w-full">
+          <div className="relative w-full px-20">
             {/* Glow effect layer */}
             <div
               className="absolute inset-0 h-[2px] -translate-y-[3px] blur-md"
@@ -367,10 +370,10 @@ function App() {
                 </span>
               </div>
               <div className="flex-1 flex-col items-center justify-center">
-                <p className="text-center text-4xl text-[#D9D9D9]">
+                <p className="text-center text-3xl text-[#D9D9D9]">
                   Discover & Analysis
                 </p>
-                <p className="text-center text-2xl text-white/80">
+                <p className="text-center text-xl text-white/80">
                   We listen to your needs and goals
                 </p>
               </div>
@@ -383,10 +386,10 @@ function App() {
                 </span>
               </div>
               <div className="flex-1 flex-col items-center justify-center">
-                <p className="text-center text-4xl text-[#D9D9D9]">
+                <p className="text-center text-3xl text-[#D9D9D9]">
                   Design & Development
                 </p>
-                <p className="text-center text-2xl text-white/80">
+                <p className="text-center text-xl text-white/80">
                   Delivering solutions with the right tech stack
                 </p>
               </div>
@@ -399,10 +402,10 @@ function App() {
                 </span>
               </div>
               <div className="flex-1 flex-col items-center justify-center">
-                <p className="text-center text-4xl text-[#D9D9D9]">
+                <p className="text-center text-3xl text-[#D9D9D9]">
                   Testing & Launch
                 </p>
-                <p className="text-center text-2xl text-white/80">
+                <p className="text-center text-xl text-white/80">
                   Regular demos, feedback, and time delivery
                 </p>
               </div>
@@ -412,7 +415,7 @@ function App() {
         {/*MOBILE*/}
         {/*MOBILE*/}
         <div className="relative block w-full flex-col items-center justify-center md:hidden">
-          <div className="absolute top-0 bottom-0 left-1/2 w-[8px] -translate-x-1/2">
+          <div className="absolute top-0 bottom-0 left-1/2 w-[3px] -translate-x-1/2">
             {/* Glow effect layer */}
             <div
               className="absolute inset-0 blur-md"
@@ -430,49 +433,179 @@ function App() {
               }}
             />
           </div>
-          <div className="relative grid grid-rows-4">
-            <div className="relative flex w-[50%] translate-y-1/2 flex-col items-center justify-center justify-self-start px-10">
+          <div className="relative grid grid-rows-3">
+            <div className="relative flex w-[50%] flex-col items-center justify-center justify-self-start pr-5">
               <div className="absolute top-1/2 right-0 h-5 w-5 translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#AD99E7] to-white"></div>
-              <div className="my-5rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
+              <div className="mb-5 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
                 <span className="bg-gradient-to-b from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
                   STEP 1
                 </span>
               </div>
-              <p className="text-center text-2xl text-[#D9D9D9]">
+              <p className="text-center text-xl text-[#D9D9D9]">
                 Discover & Analysis
               </p>
-              <p className="text-center text-white/80">
+              <p className="text-center text-sm text-white/80">
                 We listen to your needs and goals
               </p>
             </div>
-            <div className="relative flex w-[50%] translate-y-1/2 flex-col items-center justify-center justify-self-end px-10">
+            <div className="relative flex w-[50%] flex-col items-center justify-center justify-self-end pl-5">
               <div className="absolute top-1/2 left-0 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-b from-[#AD99E7] to-[#FFBC6C]"></div>
-              <div className="my-5rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
+              <div className="mb-5 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
                 <span className="bg-gradient-to-b from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
                   STEP 2
                 </span>
               </div>
-              <p className="text-center text-2xl text-[#D9D9D9]">
+              <p className="text-center text-xl text-[#D9D9D9]">
                 Design & Development
               </p>
-              <p className="text-center text-white/80">
+              <p className="text-center text-sm text-white/80">
                 Delivering solutions with the right tech stack
               </p>
             </div>
-            <div className="relative flex w-[50%] translate-y-1/2 flex-col items-center justify-center justify-self-start px-10">
+            <div className="relative flex w-[50%] flex-col items-center justify-center justify-self-start pr-5">
               <div className="absolute top-1/2 right-0 h-5 w-5 translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-b from-[#FFBC6C] to-white"></div>
-              <div className="my-5rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
+              <div className="mb-5 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
                 <span className="bg-gradient-to-b from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
                   STEP 3
                 </span>
               </div>
-              <p className="text-center text-2xl text-[#D9D9D9]">
+              <p className="text-center text-xl text-[#D9D9D9]">
                 Testing & Launch
               </p>
-              <p className="text-center text-white/80">
+              <p className="text-center text-sm text-white/80">
                 Regular demos, feedback, and time delivery
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/*Who We Are Section*/}
+      <section className="relative mt-[80px] flex w-full flex-col items-center justify-center gap-20 px-5 md:mt-[160px]">
+        <Image
+          src="/assets/landing/Bubble.svg"
+          alt="bubble"
+          width={2000}
+          height={2000}
+          className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-full -translate-x-1/2 -translate-y-1/2"
+        />
+        <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs md:text-xl">
+          <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+            WHO WE ARE
+          </span>
+        </div>
+        <span className="text-center text-xl leading-12 text-white drop-shadow-white md:text-3xl">
+          We make{" "}
+          <span className="inline-block rounded-full border border-white/12 bg-white/12 px-6 py-1 text-xs whitespace-nowrap md:text-xl">
+            <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+              <span className="text-white">💻 </span>
+              Project Development
+            </span>
+          </span>{" "}
+          transparent and efficient. InkubatorIT is the professionalism
+          department under HMIF ITB, where the best{" "}
+          <span className="inline-block rounded-full border border-white/12 bg-white/12 px-6 py-1 text-xs whitespace-nowrap md:text-xl">
+            <span className="bg-gradient-to-r from-[#AD99E7] to-[#BBE4F6] bg-clip-text text-transparent">
+              <span className="text-white">👨🏻‍💻 </span>
+              Informatics Talent
+            </span>
+          </span>{" "}
+          create digital solutions that{" "}
+          <span className="inline-block rounded-full border border-white/12 bg-white/12 px-6 py-1 text-xs whitespace-nowrap md:text-xl">
+            <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+              Make an Impact
+              <span className="text-white"> ✨</span>
+            </span>
+          </span>{" "}
+          , breaking down complex work into simple, reliable steps.
+        </span>
+        <Image
+          src="/assets/landing/who_we_are.png"
+          alt="who we are img"
+          width={2000}
+          height={2000}
+          className="w-full max-w-[1000px] object-contain"
+        />
+        <div className="flex w-full flex-wrap items-center justify-center gap-5 md:gap-20">
+          <div className="flex max-w-[100px] flex-col items-center justify-center md:max-w-[200px]">
+            <span className="relative inline-block">
+              <span
+                className="absolute inset-0 bg-white bg-clip-text text-3xl text-transparent blur-sm md:text-5xl"
+                aria-hidden="true"
+              >
+                13+
+              </span>
+              <span className="relative bg-gradient-to-r from-white to-[#FFB051] bg-clip-text text-3xl text-transparent md:text-5xl">
+                13+
+              </span>
+            </span>
+            <p className="text-center text-sm text-white italic md:text-2xl">
+              Years of Experience
+            </p>
+          </div>
+          <div className="flex max-w-[100px] flex-col items-center justify-center md:max-w-[200px]">
+            <span className="relative inline-block">
+              <span
+                className="absolute inset-0 bg-white bg-clip-text text-3xl text-transparent blur-sm md:text-5xl"
+                aria-hidden="true"
+              >
+                20+
+              </span>
+              <span className="relative bg-gradient-to-r from-white to-[#AD99E7] bg-clip-text text-3xl text-transparent md:text-5xl">
+                20+
+              </span>
+            </span>
+            <p className="text-center text-sm text-white italic md:text-2xl">
+              Loyal Clients
+            </p>
+          </div>
+          <div className="flex max-w-[100px] flex-col items-center justify-center md:max-w-[200px]">
+            <span className="relative inline-block">
+              <span
+                className="absolute inset-0 bg-white bg-clip-text text-3xl text-transparent blur-sm md:text-5xl"
+                aria-hidden="true"
+              >
+                25+
+              </span>
+              <span className="relative bg-gradient-to-r from-white to-[#FFB051] bg-clip-text text-3xl text-transparent md:text-5xl">
+                25+
+              </span>
+            </span>
+            <p className="text-center text-sm text-white italic md:text-2xl">
+              Tech Stacks Mastered
+            </p>
+          </div>
+          <div className="flex max-w-[100px] flex-col items-center justify-center md:max-w-[200px]">
+            <span className="relative inline-block">
+              <span
+                className="absolute inset-0 bg-white bg-clip-text text-3xl text-transparent blur-sm md:text-5xl"
+                aria-hidden="true"
+              >
+                4.72/5
+              </span>
+              <span className="relative bg-gradient-to-r from-white to-[#AD99E7] bg-clip-text text-3xl text-transparent md:text-5xl">
+                4.72/5
+              </span>
+            </span>
+            <p className="text-center text-sm text-white italic md:text-2xl">
+              Average Rating
+            </p>
+          </div>
+          <div className="flex max-w-[100px] flex-col items-center justify-center md:max-w-[200px]">
+            <span className="relative inline-block">
+              <span
+                className="absolute inset-0 bg-white bg-clip-text text-3xl text-transparent blur-sm md:text-5xl"
+                aria-hidden="true"
+              >
+                226+
+              </span>
+              <span className="relative bg-gradient-to-r from-white to-[#FFB051] bg-clip-text text-3xl text-transparent md:text-5xl">
+                226+
+              </span>
+            </span>
+            <p className="text-center text-sm text-white italic md:text-2xl">
+              Digitals Project Delivered
+            </p>
           </div>
         </div>
       </section>
