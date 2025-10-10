@@ -635,8 +635,43 @@ function App() {
           alt="testimonial img"
           width={2000}
           height={2000}
-          className="w-full min-w-[500px] scale-125 object-contain"
+          className="w-full min-w-[500px] -translate-y-[50px] scale-125 object-contain"
         />
+      </section>
+
+      {/*Last Section*/}
+      <section className="relative my-[80px] flex w-full flex-col items-center justify-center gap-5 px-5 md:my-[160px] md:gap-10">
+        <Image
+          src="/assets/landing/Bubble.svg"
+          alt="bubble"
+          width={2000}
+          height={2000}
+          className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-full max-w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 md:scale-100"
+        />
+        <div className="flex w-full justify-center px-10">
+          <div
+            className="h-[2px] w-full max-w-[500px]"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
+            }}
+          />
+        </div>
+        <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text p-4 text-center text-2xl font-semibold text-transparent md:text-6xl">
+          Ready to Bring Your Ideas to Life?
+        </span>
+        <p className="text-center text-base text-white md:text-3xl">
+          Let’s turn your vision into reality with the right digital solutions.
+        </p>
+        <Link
+          href="/" //change later
+          className="rounded-full"
+        >
+          <span className="my-10 flex flex-row items-center gap-4 rounded-full bg-gradient-to-r from-[#564292] to-[#A77741] px-5 py-2 text-xl text-white md:my-15 md:px-10 md:py-4 md:text-4xl">
+            Let’s Collaborate{" "}
+            <Sparkles className="h-4 w-4 text-white md:h-10 md:w-10" />
+          </span>
+        </Link>
       </section>
     </main>
   );
