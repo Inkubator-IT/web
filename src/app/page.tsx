@@ -7,6 +7,8 @@ import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react"; // light
 import GradientBorderDiv from "@/components/div-gradient-border";
 
+// headings blm ditambah, bingung mau mana yg h1 h2 h3 buat seo
+
 // Const bisa pindahin ke cms/file beda
 const PROJECTS = [
   {
@@ -120,7 +122,7 @@ function App() {
             </p>
             <div className="mt-2 h-[1px] bg-gradient-to-r from-white/0 via-white to-white/0"></div>
           </div>
-          <h1 className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-center text-2xl font-semibold text-transparent md:text-7xl">
+          <h1 className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-center text-2xl font-semibold text-transparent md:text-6xl">
             Trusted Digital Solutions by ITB's Brightest Tech Talents
           </h1>
           <p className="text-center text-base font-normal text-white/80 md:text-2xl">
@@ -258,7 +260,7 @@ function App() {
               OUR SERVICES
             </span>
           </div>
-          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-7xl">
+          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-6xl">
             Complete Digital Solutions for Your Project
           </span>
           <p className="px-0 text-center text-sm text-white/80 md:px-25 md:text-2xl">
@@ -332,7 +334,7 @@ function App() {
               HOW WE WORK
             </span>
           </div>
-          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-7xl">
+          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-6xl">
             Building Together, Step by Step
           </span>
           <p className="text-center text-sm text-white/80 md:text-2xl">
@@ -608,6 +610,33 @@ function App() {
             </p>
           </div>
         </div>
+      </section>
+
+      {/*What Our Clients Say Section*/}
+      <section className="mt-[80px] flex w-full flex-col items-center justify-center gap-20 px-5 md:mt-[160px]">
+        <div className="flex w-full items-center justify-start gap-5 md:gap-10">
+          <span className="max-w-[200px] flex-1 bg-gradient-to-r from-white to-white/60 bg-clip-text text-xl text-transparent md:max-w-[500px] md:text-6xl">
+            What Our Clients Say
+          </span>
+          <div className="flex max-w-[500px] flex-col items-start justify-center gap-4">
+            <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs md:text-xl">
+              <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+                TESTIMONIALS
+              </span>
+            </div>
+            <p className="max-w-[200px] text-xs text-white md:max-w-none md:text-2xl">
+              Don’t just take our word for it, hear what our clients say about
+              working with us.
+            </p>
+          </div>
+        </div>
+        <Image
+          src={"/assets/landing/Testimonials.svg"}
+          alt="testimonial img"
+          width={2000}
+          height={2000}
+          className="w-full min-w-[500px] scale-125 object-contain"
+        />
       </section>
     </main>
   );
