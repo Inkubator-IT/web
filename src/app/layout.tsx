@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import Image from 'next/image';
+import Image from "next/image";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -24,12 +24,12 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} antialiased bg-[#0C0C0C] font-sans`}
       >
-        <div className='fixed inset-0 -z-10 overflow-hidden pointer-events-none'>
+        <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
           <Image
-            src='/Wave.svg'
-            alt='bg-wave'
+            src="/Wave.svg"
+            alt="bg-wave"
             fill
-            className='object-cover'
+            className="object-cover"
             priority
           />
         </div>
