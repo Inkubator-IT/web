@@ -274,7 +274,9 @@ function App() {
           {SERVICES.map((service) => (
             <GradientBorderDiv
               key={service.id}
-              className={`${service.id % 2 == 0 ? "w-full md:w-[40%]" : "w-full md:w-[55%]"} overflow-hidden p-4`}
+              className={`${service.id % 2 == 0 ? "w-full md:w-[40%]" : "w-full md:w-[55%]"} overflow-hidden rounded-xl p-[1px]`}
+              gradientClassName="p-[2px] rounded-[14px]"
+              contentClassName="p-2 backdrop-blur-sm rounded-[14px]"
             >
               <div
                 className={`${service.id % 2 != 0 ? "absolute top-0 left-0 hidden h-[150px] w-[150px] -translate-1/2 -translate-y-1/2 rounded-full border border-white/12 md:block" : ""}`}
@@ -293,7 +295,7 @@ function App() {
                   <span className="bg-gradient-to-r from-white to-white/20 bg-clip-text text-xl text-transparent md:text-3xl">
                     {service.title}
                   </span>
-                  <p className="text-sm text-white/60 md:text-lg">
+                  <p className="text-xs text-white/60 md:text-lg">
                     {service.desc}
                   </p>
                 </div>
