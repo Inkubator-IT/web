@@ -112,7 +112,7 @@ function App() {
   }, [emblaApi, onSelect]);
 
   return (
-    <main className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#0C0C0C] py-[50px]">
+    <main className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden py-[50px]">
       {/*Hero Section*/}
       <section className="flex w-full max-w-[1200px] flex-col items-center justify-center gap-[48px] px-5 py-[50px] md:gap-[96px]">
         <div className="flex w-full flex-col items-center justify-center gap-[24px] md:gap-[48px]">

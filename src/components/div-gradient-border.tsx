@@ -20,13 +20,12 @@ export default function GradientBorderDiv({
       }}
     >
       <div
+        className="scale-y-[calc(100%+1px)] rounded-[14px] p-[1px] md:scale-y-100 md:p-[2px]"
         style={{
           content: '""',
           position: "absolute",
           zIndex: -1,
           inset: "0px",
-          borderRadius: "11px",
-          padding: "3px",
           background:
             "linear-gradient(to bottom right, #AD99E7 0%, #FFBC6C 50%, #AD99E7 100%)",
           WebkitMask:
