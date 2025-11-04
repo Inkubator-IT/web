@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
+import { Providers } from "./providers";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -33,7 +34,7 @@ export default function RootLayout({
             priority
           />
         </div>
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
