@@ -6,6 +6,7 @@ import type { Blog } from "@/types/blog";
 interface ApiResponse<T> {
   success: boolean;
   data?: T;
+  jsonLd?: object;
   error?: string;
 }
 
@@ -20,7 +21,6 @@ const blogKeys = {
 
 // Helper to extract data from API response
 function extractData<T>(response: T | ApiResponse<T>): T {
-  // Check if response is wrapped (Hono backend format)
   if (
     response &&
     typeof response === "object" &&
@@ -31,10 +31,19 @@ function extractData<T>(response: T | ApiResponse<T>): T {
     if (!apiResponse.success || !apiResponse.data) {
       throw new Error(apiResponse.error || "API request failed");
     }
-    return apiResponse.data;
+    
+    if (Array.isArray(apiResponse.data)) {
+      return apiResponse.data as T;
+    }
+    
+    // Handle objects
+    return {
+      ...apiResponse.data,
+      ...(apiResponse.jsonLd && { jsonLd: apiResponse.jsonLd }),
+    } as T & { jsonLd?: object };
   }
   // Direct response (Next.js API route format)
-  return response as T;
+  return response as T & { jsonLd?: object };
 }
 
 // Fetch all blogs
