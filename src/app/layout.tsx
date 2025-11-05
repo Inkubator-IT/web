@@ -23,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+        suppressHydrationWarning // no way i found this bug while using grammarly
         className={`${montserrat.variable} antialiased bg-[#0C0C0C] font-sans`}
       >
         <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
