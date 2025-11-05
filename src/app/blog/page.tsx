@@ -10,20 +10,30 @@ import BlogCard from "@/components/blogs/blog-card";
 import SearchBar from "@/components/search-bar";
 import { cn } from "@/lib/utils";
 import { useBlogs } from "@/hooks/useBlogs";
+import { useTags } from "@/hooks/useTags";
 
-// mock
-const filterOptions = [
-  { id: "trends", label: "Trends & Innovation" },
-  { id: "technology", label: "Technology" },
-  { id: "business", label: "Business" },
-  { id: "design", label: "Design" },
-  { id: "development", label: "Development" },
-];
-
-// Helper function to generate snippet from content
 const generateSnippet = (content: any, maxLength: number = 200): string => {
   try {
-    // If content is already an array of ContentBlock
+    // Handle TipTap JSON format
+    if (content && typeof content === "object" && "type" in content && content.type === "doc") {
+      // Extract text from TipTap JSON
+      const extractText = (node: any): string => {
+        if (node.text) return node.text;
+        if (node.content && Array.isArray(node.content)) {
+          return node.content.map(extractText).join(" ");
+        }
+        return "";
+      };
+      
+      const plainText = content.content
+        ? content.content.map(extractText).join(" ").trim()
+        : "";
+      
+      return plainText.length > maxLength
+        ? `${plainText.substring(0, maxLength)}...`
+        : plainText;
+    }
+    
     if (Array.isArray(content)) {
       const plainText = content
         .filter((block) => block.type === "paragraph")
@@ -33,12 +43,14 @@ const generateSnippet = (content: any, maxLength: number = 200): string => {
         ? `${plainText.substring(0, maxLength)}...`
         : plainText;
     }
+    
     // Fallback for string content
     if (typeof content === "string") {
       return content.length > maxLength
         ? `${content.substring(0, maxLength)}...`
         : content;
     }
+    
     return "";
   } catch {
     return "";
@@ -50,7 +62,11 @@ export default function Blog() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
-  const { data: blogs = [], isLoading, error } = useBlogs();
+  const { data: blogs = [], isLoading: blogsLoading, error: blogsError } = useBlogs();
+  const { data: tags = [], isLoading: tagsLoading, error: tagsError } = useTags();
+
+  const isLoading = blogsLoading || tagsLoading;
+  const error = blogsError || tagsError;
 
   const blogPostPerPage = 4;
   const pageSlots = 5;
@@ -62,13 +78,14 @@ export default function Blog() {
       title: blog.title,
       snippet: blog.excerpt || generateSnippet(blog.content),
       category: blog.tag?.tag_name || "Uncategorized",
+      tagId: blog.tag?.tag_id?.toString() || "",
       author: blog.author,
       date: new Date(blog.created_at).toLocaleDateString("id-ID", {
         day: "numeric",
         month: "long",
         year: "numeric",
       }),
-      timeRead: blog.time_read || "5 min read",
+      timeRead: blog.time_read || "1",
       image: blog.thumbnail || "/preview.png",
     }));
   }, [blogs]);
@@ -77,6 +94,14 @@ export default function Blog() {
   const filteredPosts = useMemo(() => {
     let filtered = allPosts;
 
+    // Filter by selected tags
+    if (selectedFilters.length > 0) {
+      filtered = filtered.filter((post) =>
+        selectedFilters.includes(post.tagId)
+      );
+    }
+
+    // Filter by search value
     if (searchValue.trim()) {
       filtered = filtered.filter(
         (post) =>
@@ -87,7 +112,7 @@ export default function Blog() {
     }
 
     return filtered;
-  }, [allPosts, searchValue]);
+  }, [allPosts, searchValue, selectedFilters]);
 
   const totalPages = Math.max(
     1,
@@ -148,7 +173,10 @@ export default function Blog() {
               filter={true}
               onFilterChange={setSelectedFilters}
               selectedFilters={selectedFilters}
-              filterOptions={filterOptions}
+              filterOptions={tags?.map((tag) => ({
+                id: tag.tag_id.toString(),
+                label: tag.tag_name,
+              }))}
             />
           </div>
         </div>
