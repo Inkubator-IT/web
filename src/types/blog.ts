@@ -4,12 +4,17 @@ export interface Tag {
   tag_description: string;
 }
 
-export type ContentBlockType = "paragraph" | "header" | "quote";
+// export type ContentBlockType = "paragraph" | "header" | "quote";
 
-export interface ContentBlock {
-  type: ContentBlockType;
-  text: string;
+// export interface ContentBlock {
+//   type: ContentBlockType;
+//   text: string;
+// }
+export interface TipTapJSON {
+  type: "doc";
+  content: Array<any>;
 }
+
 
 export interface Blog {
   id: number;
@@ -18,7 +23,7 @@ export interface Blog {
   slug: string;
   excerpt: string | null;
   thumbnail: string | null;
-  content: ContentBlock[];
+  content: TipTapJSON;
   time_read: string;
   tag_id: number;
   tag?: Tag;
