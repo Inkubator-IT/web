@@ -89,7 +89,7 @@ export function renderTipTapContent(content: TipTapJSON) {
                     key={index}
                     src={node.attrs?.src || ""}
                     alt={node.attrs?.alt || ""}
-                    className="my-4 max-w-full h-auto rounded-lg"
+                    className="my-4 w-[100px] h-auto rounded-lg"
                 />
                 );
 
