@@ -60,6 +60,29 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
     );
   }
 
+  if (!blog.thumbnail) {
+    return (
+      <div className="relative min-h-screen px-4 py-8 sm:px-8 sm:py-12 md:px-16 lg:px-22">
+        <div className="mb-6 items-start sm:mb-8">
+          <Link
+            href="/blog"
+            className="group inline-flex items-center gap-2 text-white"
+          >
+            <ArrowLeft
+              size={16}
+              color="white"
+              className="duration-300 group-hover:-translate-x-1"
+            />
+            Back
+          </Link>
+        </div>
+        <div className="flex items-center justify-center py-12">
+          <p className="text-red-400">Blog image is missing</p>
+        </div>
+      </div>
+    );
+  }
+
   const categoryName = blog.tag?.tag_name || "Uncategorized";
   const formattedDate = new Date(blog.created_at).toLocaleDateString("id-ID", {
     day: "numeric",
@@ -147,7 +170,7 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
             <Share2 size={14} className="sm:h-4 sm:w-4" color="white" />
           </div>
           <Image
-            src={blog.thumbnail || "https://placehold.co/1450x400"}
+            src={blog.thumbnail}
             alt={blog.title}
             width={1450}
             height={250}
