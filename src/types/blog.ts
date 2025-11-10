@@ -26,6 +26,8 @@ export interface Blog {
   content: TipTapJSON;
   time_read: string;
   tag_id: number;
+  like_count?: number;
+  is_liked?: boolean;
   tag?: Tag;
   created_at: string;
   updated_at: string;

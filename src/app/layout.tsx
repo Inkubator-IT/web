@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
         suppressHydrationWarning // no way i found this bug while using grammarly
         className={`${montserrat.variable} antialiased bg-[#0C0C0C] font-sans`}

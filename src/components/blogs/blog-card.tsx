@@ -10,7 +10,7 @@ interface BlogCardProps {
   author: string;
   date: string;
   timeRead: string;
-  image?: string;
+  image: string;
 }
 
 export default function BlogCard({
@@ -27,7 +27,7 @@ export default function BlogCard({
     <>
       <div className="flex w-full flex-col items-start gap-4">
         {/* Category */}
-        <div className="rounded-lg border border-white/20 bg-gradient-to-r from-[#7E67C1]/40 to-[#FFB051]/40 px-4 py-1 backdrop-blur-xl">
+        <div className="rounded-lg border border-white/20 bg-linear-to-r from-[#7E67C1]/40 to-[#FFB051]/40 px-4 py-1 backdrop-blur-xl">
           <p className="text-sm text-white">{category}</p>
         </div>
 
@@ -67,25 +67,31 @@ export default function BlogCard({
             </div>
 
             {/* Image Blog - Desktop */}
-            <Image
-              src={image || "https://placehold.co/400x200"}
-              alt={title}
-              width={400}
-              height={200}
-              className="rounded-lg"
-            />
+            <div className="relative h-[200px] w-[360px] overflow-hidden rounded-lg">
+              <Image
+                src={image}
+                alt={title}
+                fill
+                className="object-cover"
+                sizes="360px"
+                priority={false}
+              />
+            </div>
           </div>
 
           {/* Mobile */}
           <div className="flex flex-col gap-4 xl:hidden">
             {/* Image Blog */}
-            <Image
-              src={image || "https://placehold.co/400x200"}
-              alt={title}
-              width={400}
-              height={200}
-              className="h-auto w-full rounded-lg"
-            />
+            <div className="relative aspect-video w-full overflow-hidden rounded-lg">
+              <Image
+                src={image}
+                alt={title}
+                fill
+                className="object-cover"
+                sizes="100vw"
+                priority={false}
+              />
+            </div>
 
             <div className="flex flex-col gap-2">
               {/* Title */}

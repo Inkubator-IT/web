@@ -13,7 +13,10 @@ import Link from "next/link";
 import Script from "next/script";
 import { use } from "react";
 import { useBlogBySlug } from "@/hooks/useBlogs";
+import { useBlogLikes } from "@/hooks/useBlogLikes";
 import { renderTipTapContent } from "@/utils/renderTipTapContent";
+import { cn } from "@/lib/utils";
+import { ShareModal } from "@/components/blogs/share-modal";
 
 interface BlogDetailPageProps {
   params: Promise<{
@@ -26,6 +29,7 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
   const slug = resolvedParams.slug;
 
   const { data: blog, isLoading, error } = useBlogBySlug(slug);
+  const { likeCount, isLiked, toggleLike, isToggling } = useBlogLikes(blog?.id ?? 0);
 
   if (isLoading) {
     return (
@@ -124,10 +128,10 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
 
         {/* Header */}
         <div className="flex flex-col items-center gap-4 sm:gap-6">
-          <div className="rounded-lg border border-white/20 bg-gradient-to-r from-[#7E67C1]/40 to-[#FFB051]/40 px-3 py-1 backdrop-blur-xl sm:px-4">
+          <div className="rounded-lg border border-white/20 bg-linear-to-r from-[#7E67C1]/40 to-[#FFB051]/40 px-3 py-1 backdrop-blur-xl sm:px-4">
             <p className="text-xs text-white sm:text-sm">{categoryName}</p>
           </div>
-          <h1 className="max-w-[520px] px-4 text-center text-2xl leading-tight font-bold text-white [text-shadow:_6px_2px_15px_rgba(255,255,255,0.8)] sm:text-3xl md:text-4xl">
+          <h1 className="max-w-[520px] px-4 text-center text-2xl leading-tight font-bold text-white [text-shadow:6px_2px_15px_rgba(255,255,255,0.8)] sm:text-3xl md:text-4xl">
             {blog.title}
           </h1>
 
@@ -158,24 +162,47 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
         <div className="mt-8 flex flex-col sm:mt-10">
           <div className="flex items-center justify-end gap-2">
             <div className="flex gap-1">
-              <button type="button">
+              <button 
+                type="button"
+                onClick={() => toggleLike()}
+                disabled={isToggling}
+                className={cn(
+                  "flex items-center gap-1 transition-all duration-300",
+                  isLiked ? "text-[#ffb051]" : "text-white hover:text-[ffb051]",
+                  isToggling && "opacity-50 cursor-not-allowed"
+                )}
+              >
                 <ThumbsUp
                   size={14}
-                  className="cursor-pointer sm:h-4 sm:w-4"
-                  color="white"
+                  className={cn(
+                    "cursor-pointer sm:h-4 sm:w-4 transition-transform",
+                    isLiked && "fill-current"
+                  )}
+                  color="currentColor"
                 />
               </button>
-              <span className="text-xs font-light text-white sm:text-sm">0</span>
+              <span className="text-xs font-light text-white sm:text-sm">
+                {likeCount}
+              </span>
             </div>
-            <Share2 size={14} className="sm:h-4 sm:w-4" color="white" />
+            <ShareModal
+              trigger={
+                <span className="rounded-md p-2 text-white transition hover:bg-white/10">
+                  <Share2 size={14} className="sm:h-4 sm:w-4" />
+                </span>
+              }
+            />
           </div>
-          <Image
-            src={blog.thumbnail}
-            alt={blog.title}
-            width={1450}
-            height={250}
-            className="mt-4 h-auto w-full rounded-lg object-cover sm:mt-6"
-          />
+          <div className="relative mt-4 aspect-video w-full overflow-hidden rounded-lg sm:mt-6">
+            <Image
+              src={blog.thumbnail}
+              alt={blog.title}
+              fill
+              priority
+              className="object-cover"
+              sizes="(min-width: 1024px) 1024px, 100vw"
+            />
+          </div>
         </div>
 
         {/* Blog Content */}

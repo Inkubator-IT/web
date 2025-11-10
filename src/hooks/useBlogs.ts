@@ -11,7 +11,7 @@ interface ApiResponse<T> {
 }
 
 // Query keys
-const blogKeys = {
+export const blogKeys = {
   all: ["blogs"] as const,
   lists: () => [...blogKeys.all, "list"] as const,
   list: () => [...blogKeys.lists()] as const,

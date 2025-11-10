@@ -156,7 +156,7 @@ export default function Blog() {
       <div className="flex flex-col items-center gap-6 sm:gap-8">
         {/* Title */}
         <div className="flex flex-col items-center gap-2">
-          <h1 className="word-spacing-tight bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text p-2 text-4xl font-semibold text-transparent sm:text-5xl md:text-6xl">
+          <h1 className="word-spacing-tight bg-linear-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text p-2 text-4xl font-semibold text-transparent sm:text-5xl md:text-6xl">
             Blog
           </h1>
           <p className="max-w-[700px] px-2 text-center text-base font-light text-white sm:px-4 sm:text-lg">
@@ -263,7 +263,7 @@ export default function Blog() {
                   className={cn(
                     "w-[32px] cursor-pointer rounded-md border border-white/40 bg-white/10 py-1 text-center text-sm font-semibold text-white transition-all duration-500 hover:bg-white/20 disabled:opacity-80 sm:w-[40px] sm:py-2 sm:text-base",
                     active
-                      ? "border-none bg-gradient-to-r from-[#7E67C1]/40 to-[#FFB051]/40"
+                      ? "border-none bg-linear-to-r from-[#7E67C1]/40 to-[#FFB051]/40"
                       : "",
                   )}
                   aria-current={active ? "page" : undefined}
