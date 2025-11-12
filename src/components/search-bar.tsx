@@ -80,7 +80,7 @@ export default function SearchBar({
             )}
           />
 
-          {/* Selected Filters - simplified with CSS overflow */}
+          {/* Selected Filters */}
           {selectedFilters.length > 0 && (
             <div className="hidden sm:flex items-center gap-1 flex-shrink-0 overflow-hidden max-w-[100px] md:max-w-[200px]">
               {selectedFilters.map((filterId) => {

@@ -10,7 +10,7 @@ interface BlogCardProps {
   author: string;
   date: string;
   timeRead: string;
-  image?: string;
+  image: string;
 }
 
 export default function BlogCard({
@@ -25,94 +25,100 @@ export default function BlogCard({
 }: BlogCardProps) {
   return (
     <>
-      <div className="flex flex-col gap-4 items-start">
+      <div className="flex w-full flex-col items-start gap-4">
         {/* Category */}
-        <div className="backdrop-blur-xl bg-gradient-to-r from-[#7E67C1]/40 to-[#FFB051]/40 rounded-lg border border-white/20 px-4 py-1">
-          <p className="text-white text-sm">{category}</p>
+        <div className="rounded-lg border border-white/20 bg-linear-to-r from-[#7E67C1]/40 to-[#FFB051]/40 px-4 py-1 backdrop-blur-xl">
+          <p className="text-sm text-white">{category}</p>
         </div>
 
         <Link
           href={`/blog/${id}`}
-          className="block-w-full hover:-translate-x-1.5 duration-300"
+          className="block w-full duration-300 hover:-translate-x-1.5"
         >
           {/* Desktop Layout */}
-          <div className="hidden xl:flex gap-14">
-            <div className="flex flex-col gap-2">
+          <div className="hidden w-full gap-14 xl:flex">
+            <div className="flex flex-1 flex-col gap-2">
               {/* Title */}
-              <h3 className="text-white font-semibold text-3xl">{title}</h3>
+              <h3 className="text-3xl font-semibold text-white">{title}</h3>
               {/* Snippet */}
-              <p className="text-white text-xl font-extralight text-justify">
+              <p className="text-justify text-xl font-extralight text-white">
                 {snippet}
               </p>
 
               {/* Meta detail */}
-              <div className="flex gap-6 items-center">
-                <div className="flex gap-1 items-center">
+              <div className="flex flex-1 items-end gap-6">
+                <div className="flex items-center gap-1">
                   <User size={14} color="white" />
-                  <p className="text-white text-sm font-extralight">{author}</p>
+                  <p className="text-sm font-extralight text-white">{author}</p>
                 </div>
 
-                <div className="flex gap-1 items-center">
+                <div className="flex items-center gap-1">
                   <CalendarDays size={14} color="white" />
-                  <p className="text-white text-sm font-extralight">{date}</p>
+                  <p className="text-sm font-extralight text-white">{date}</p>
                 </div>
 
-                <div className="flex gap-1 items-center">
+                <div className="flex items-center gap-1">
                   <Clock size={14} color="white" />
-                  <p className="text-white text-sm font-extralight">
-                    {timeRead}
+                  <p className="text-sm font-extralight text-white">
+                    {timeRead} min
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Image Blog - Desktop */}
-            <Image
-              src={image || "https://placehold.co/400x200"}
-              alt={title}
-              width={400}
-              height={200}
-              className="rounded-lg"
-            />
+            <div className="relative h-[200px] w-[360px] overflow-hidden rounded-lg">
+              <Image
+                src={image}
+                alt={title}
+                fill
+                className="object-cover"
+                sizes="360px"
+                priority={false}
+              />
+            </div>
           </div>
 
           {/* Mobile */}
-          <div className="flex xl:hidden flex-col gap-4">
+          <div className="flex flex-col gap-4 xl:hidden">
             {/* Image Blog */}
-            <Image
-              src={image || "https://placehold.co/400x200"}
-              alt={title}
-              width={400}
-              height={200}
-              className="rounded-lg w-full h-auto"
-            />
+            <div className="relative aspect-video w-full overflow-hidden rounded-lg">
+              <Image
+                src={image}
+                alt={title}
+                fill
+                className="object-cover"
+                sizes="100vw"
+                priority={false}
+              />
+            </div>
 
             <div className="flex flex-col gap-2">
               {/* Title */}
-              <h3 className="text-white font-semibold text-xl sm:text-2xl lg:text-3xl">
+              <h3 className="text-xl font-semibold text-white sm:text-2xl lg:text-3xl">
                 {title}
               </h3>
               {/* Snippet */}
-              <p className="text-white text-base sm:text-lg lg:text-xl font-extralight text-justify">
+              <p className="text-justify text-base font-extralight text-white sm:text-lg lg:text-xl">
                 {snippet}
               </p>
 
               {/* Meta detail */}
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 lg:gap-6 items-start sm:items-center">
-                <div className="flex gap-1 items-center">
+              <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-4 lg:gap-6">
+                <div className="flex items-center gap-1">
                   <User size={14} color="white" />
-                  <p className="text-white text-sm font-extralight">{author}</p>
+                  <p className="text-sm font-extralight text-white">{author}</p>
                 </div>
 
-                <div className="flex gap-1 items-center">
+                <div className="flex items-center gap-1">
                   <CalendarDays size={14} color="white" />
-                  <p className="text-white text-sm font-extralight">{date}</p>
+                  <p className="text-sm font-extralight text-white">{date}</p>
                 </div>
 
-                <div className="flex gap-1 items-center">
+                <div className="flex items-center gap-1">
                   <Clock size={14} color="white" />
-                  <p className="text-white text-sm font-extralight">
-                    {timeRead}
+                  <p className="text-sm font-extralight text-white">
+                    {timeRead} min
                   </p>
                 </div>
               </div>

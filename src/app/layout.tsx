@@ -21,9 +21,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
-        className={`${montserrat.variable} bg-[#0C0C0C] font-sans antialiased`}
+        suppressHydrationWarning // no way i found this bug while using grammarly
+        className={`${montserrat.variable} antialiased bg-[#0C0C0C] font-sans`}
       >
         <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
           <Image
@@ -34,6 +35,7 @@ export default function RootLayout({
             priority
           />
         </div>
+        <Providers>{children}</Providers>
         <Navbar />
         <div className="pt-[120px]">{children}</div>
       </body>
