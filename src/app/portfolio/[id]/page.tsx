@@ -1,53 +1,44 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import {
-  ArrowLeft,
-  ChevronLeft,
-  ChevronRight,
-  ExternalLink,
-} from "lucide-react";
+import { ArrowLeft, ExternalLink } from "lucide-react";
 import { fetchProjectById } from "@/lib/api";
-import type { Project } from "@/types/project";
 import Image from "next/image";
-import { use, useState, useEffect } from "react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import ImageCarousel from "./image-carousel";
 
-export default function ProjectDetailPage({
+export async function generateStaticParams() {
+  try {
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+    const response = await fetch(`${API_BASE_URL}/api/projects`, {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      console.error("Failed to fetch projects for static params");
+      return [];
+    }
+
+    const result = await response.json();
+    const projects = result.data || [];
+
+    return projects.map((project: { id: number }) => ({
+      id: project.id.toString(),
+    }));
+  } catch (error) {
+    console.error("Error generating static params:", error);
+    return [];
+  }
+}
+
+export default async function ProjectDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = use(params);
-  const router = useRouter();
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [project, setProject] = useState<Project | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadProject = async () => {
-      setLoading(true);
-      const data = await fetchProjectById(id);
-      setProject(data);
-      setLoading(false);
-    };
-    loadProject();
-  }, [id]);
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-black">
-        <div className="text-xl text-white">Loading...</div>
-      </div>
-    );
-  }
+  const { id } = await params;
+  const project = await fetchProjectById(id);
 
   if (!project) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-black">
-        <div className="text-xl text-white">Project not found</div>
-      </div>
-    );
+    notFound();
   }
 
   return (
@@ -57,13 +48,13 @@ export default function ProjectDetailPage({
     >
       <div className="mx-auto max-w-[1540px] px-4 pb-12 md:px-6 md:pb-24">
         <div className="py-6 md:py-8">
-          <button
-            onClick={() => router.back()}
+          <Link
+            href="/portfolio"
             className="flex items-center gap-2 transition-colors hover:text-white/80"
           >
             <ArrowLeft className="h-5 w-5 md:h-6 md:w-6" />
             <span className="text-lg font-medium md:text-xl">Back</span>
-          </button>
+          </Link>
         </div>
 
         <div>
@@ -153,79 +144,7 @@ export default function ProjectDetailPage({
               </div>
             )}
 
-            <div className="mb-10 space-y-4">
-              <h2 className="text-2xl font-semibold text-white md:text-3xl">
-                Preview
-              </h2>
-
-              <div className="relative">
-                <div
-                  className="scrollbar-hide flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 md:gap-6"
-                  id="preview-scroll"
-                  onScroll={(e) => {
-                    const container = e.currentTarget;
-                    setCanScrollLeft(container.scrollLeft > 0);
-                    setCanScrollRight(
-                      container.scrollLeft <
-                        container.scrollWidth - container.clientWidth - 10,
-                    );
-                  }}
-                >
-                  {project.images && project.images.length > 0 ? (
-                    project.images.map((img, index) => (
-                      <div
-                        key={index}
-                        className="w-[280px] flex-shrink-0 snap-center md:w-[432px]"
-                      >
-                        <div className="group relative h-[175px] w-full cursor-pointer overflow-hidden rounded-xl bg-gray-800 md:h-[270px]">
-                          <img
-                            src={img}
-                            alt={`Preview ${index + 1}`}
-                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          />
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="w-[280px] flex-shrink-0 snap-center md:w-[432px]">
-                      <div className="relative flex h-[175px] w-full items-center justify-center overflow-hidden rounded-xl bg-gray-800 md:h-[270px]">
-                        <p className="text-white/60">
-                          No preview images available
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {canScrollLeft && (
-                  <button
-                    onClick={() => {
-                      const container =
-                        document.getElementById("preview-scroll");
-                      if (container)
-                        container.scrollBy({ left: -300, behavior: "smooth" });
-                    }}
-                    className="absolute top-1/2 left-0 -translate-y-1/2 rounded-full bg-white p-2 text-black/80 backdrop-blur-sm transition-all hover:bg-white/80 md:p-3"
-                  >
-                    <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
-                  </button>
-                )}
-
-                {canScrollRight && (
-                  <button
-                    onClick={() => {
-                      const container =
-                        document.getElementById("preview-scroll");
-                      if (container)
-                        container.scrollBy({ left: 300, behavior: "smooth" });
-                    }}
-                    className="absolute top-1/2 right-0 -translate-y-1/2 rounded-full bg-white p-2 text-black/80 backdrop-blur-sm transition-all hover:bg-white/80 md:p-3"
-                  >
-                    <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
-                  </button>
-                )}
-              </div>
-            </div>
+            <ImageCarousel images={project.images} />
 
             <div className="mb-10 space-y-4">
               <h3 className="text-2xl font-semibold text-white md:text-3xl">
@@ -233,10 +152,16 @@ export default function ProjectDetailPage({
               </h3>
               <div className="flex flex-wrap gap-2 md:gap-3">
                 <span className="rounded-full border border-white/[0.12] bg-white/[0.02] bg-gradient-to-r from-[#FFB051] to-[#7E67C1] bg-clip-text px-4 py-2 text-sm font-medium text-transparent md:rounded-3xl md:px-6 md:py-4 md:text-xl">
-                  {project.category ? project.category.charAt(0).toUpperCase() + project.category.slice(1) : ""}
+                  {project.category
+                    ? project.category.charAt(0).toUpperCase() +
+                      project.category.slice(1)
+                    : ""}
                 </span>
                 <span className="rounded-full border border-white/[0.12] bg-white/[0.02] bg-gradient-to-r from-[#FFB051] to-[#7E67C1] bg-clip-text px-4 py-2 text-sm font-medium text-transparent md:rounded-3xl md:px-6 md:py-4 md:text-xl">
-                  {project.scope ? project.scope.charAt(0).toUpperCase() + project.scope.slice(1) : ""}
+                  {project.scope
+                    ? project.scope.charAt(0).toUpperCase() +
+                      project.scope.slice(1)
+                    : ""}
                 </span>
               </div>
             </div>
