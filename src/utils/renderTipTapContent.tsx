@@ -16,8 +16,20 @@ interface TipTapJSON {
     content: TipTapNode[];
 }
 
-export function renderTipTapContent(content: TipTapJSON) {
-    if (!content || content.type !== "doc" || !Array.isArray(content.content)) {
+export function renderTipTapContent(content: TipTapJSON | string) {
+    let parsedContent: TipTapJSON;
+    if (typeof content === 'string') {
+        try {
+            parsedContent = JSON.parse(content);
+        } catch (error) {
+            console.error('Failed to parse content:', error);
+            return <p className='text-base text-white'>Invalid content format</p>;
+        }
+    } else {
+        parsedContent = content;
+    }
+
+    if (!parsedContent || parsedContent.type !== "doc" || !Array.isArray(parsedContent.content)) {
         return <p className='text-base text-white'>Invalid content format</p>;
     }
 
@@ -96,6 +108,9 @@ export function renderTipTapContent(content: TipTapJSON) {
             case "hardBreak":
                 return <br key={index} />;
 
+            case "horizontalRule":
+                return <hr key={index} className="my-8 border-t border-white/20" />;
+
             case "text":
                 let text: React.ReactNode = node.text || "";
                 // Apply marks (bold, italic, etc.)
@@ -147,7 +162,7 @@ export function renderTipTapContent(content: TipTapJSON) {
 
         return (
             <div className="space-y-4">
-            {content.content.map((node: TipTapNode, index: number) =>
+            {parsedContent.content.map((node: TipTapNode, index: number) =>
                 renderNode(node, index),
             )}
             </div>

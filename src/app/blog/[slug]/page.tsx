@@ -182,7 +182,7 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
                 />
               </button>
               <span className="text-xs font-light text-white sm:text-sm">
-                {likeCount}
+                {isNaN(likeCount) ? 0 : likeCount}
               </span>
             </div>
             <ShareModal
