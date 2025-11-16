@@ -54,7 +54,12 @@ export function useBlogLikes(blogId: number) {
     mutationFn: async () => {
       const response = await apiClient.post<LikeInfo | ApiResponse<LikeInfo>>(
         `/blogs/${blogId}/likes`,
-        { userIdentifier },
+        { userIdentifier: userIdentifier },
+        {
+          headers: {
+            "X-User-Identifier": userIdentifier,
+          },
+        },
       );
       return extractData(response);
     },

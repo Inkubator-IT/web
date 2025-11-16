@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
 import Navbar from "@/components/navbar";
+import { Providers } from "./providers";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -35,9 +36,10 @@ export default function RootLayout({
             priority
           />
         </div>
-        <Providers>{children}</Providers>
-        <Navbar />
-        <div className="pt-[120px]">{children}</div>
+        <Providers>
+          <Navbar />
+          <div className="pt-[120px]">{children}</div>
+        </Providers>
       </body>
     </html>
   );
