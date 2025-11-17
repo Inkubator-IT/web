@@ -23,12 +23,14 @@ interface ProjectInquiryFormProps {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   onSubmit: () => void;
+  isSubmitting: boolean;
 }
 
 const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
   formData,
   setFormData,
   onSubmit,
+  isSubmitting,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -403,10 +405,12 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
         <button
           type="button"
           onClick={onSubmit}
-          className="w-full py-4 sm:py-5 bg-gradient-to-r from-[#7E67C1] to-[#BBE4F6] text-black text-xl sm:text-2xl lg:text-3xl font-semibold rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2"
+          disabled={isSubmitting}
+          className="w-full py-4 sm:py-5 bg-gradient-to-r from-[#7E67C1] to-[#BBE4F6] text-black text-xl sm:text-2xl lg:text-3xl font-semibold rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2
+          disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Send Message
-          <Send className="w-5 h-5 sm:w-6 sm:h-6" />
+          {isSubmitting ? "Sending..." : "Send Message"}
+          {!isSubmitting && <Send className="w-5 h-5 sm:w-6 sm:h-6" />}
         </button>
       </div>
     </div>

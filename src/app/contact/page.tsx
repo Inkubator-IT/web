@@ -5,6 +5,53 @@ import ProjectInquiryForm, {
   FormData,
 } from "./components/project-inquiry-form";
 
+interface ApiPayload {
+  nama_lengkap: string;
+  email: string;
+  no_whatsapp: string;
+  instansi: string;
+  civitas_itb: boolean;
+  jenis_proyek: string;
+  tujuan_pembuatan_proyek: string;
+  deskripsi_proyek: string;
+  ekspetasi_biaya: string;
+  deadline_proyek: string;
+  sudah_memiliki_desain: boolean;
+  pertanyaan_untuk_proyek: string;
+  dimana_mengetahui_iit: string;
+  rating_website: null;
+  masukan_website: null;
+  kode_promo: null;
+}
+
+const transformDataForAPI = (data: FormData): ApiPayload => {
+  const finalProjectType = data.projectType === "Others" ? data.projectTypeOther || "Others" : data.projectType;
+  
+  let hearAboutString = data.hearAbout.join(', ');
+  if (data.hearAbout.includes("Others") && data.othersSpecify) {
+    hearAboutString += ` (Lainnya: ${data.othersSpecify})`;
+  }
+
+  return {
+    nama_lengkap: data.fullName,
+    email: data.email,
+    no_whatsapp: data.whatsappNumber,
+    instansi: data.company,
+    civitas_itb: data.isAcademic,
+    jenis_proyek: finalProjectType,
+    tujuan_pembuatan_proyek: data.projectPurpose,
+    deskripsi_proyek: data.projectDetails,
+    ekspetasi_biaya: data.costExpectations,
+    deadline_proyek: data.projectDeadline,
+    sudah_memiliki_desain: data.hasDesign,
+    pertanyaan_untuk_proyek: data.questions,
+    dimana_mengetahui_iit: hearAboutString,
+    rating_website: null,
+    masukan_website: null,
+    kode_promo: null,
+  };
+};
+
 const ProjectInquiryPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
@@ -23,9 +70,65 @@ const ProjectInquiryPage: React.FC = () => {
     questions: "",
   });
 
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
-    alert("Message sent successfully!");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setSubmitSuccess(false);
+
+    const apiPayload = transformDataForAPI(formData);
+
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const endpoint = `${API_URL}/api/client-information`;
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(apiPayload),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || result.success === false) {
+        // Ambil error dari backend (jika ada)
+        throw new Error(result.error || "Gagal mengirim data.");
+      }
+
+      // Sukses
+      setSubmitSuccess(true);
+      // Reset form
+      setFormData({
+        fullName: "",
+        whatsappNumber: "",
+        email: "",
+        company: "",
+        isAcademic: false,
+        hearAbout: [],
+        othersSpecify: "",
+        projectType: "",
+        projectPurpose: "",
+        costExpectations: "",
+        projectDeadline: "",
+        hasDesign: false,
+        projectDetails: "",
+        questions: "",
+      });
+
+    } catch (error) {
+      if (error instanceof Error) {
+        setSubmitError(error.message);
+      } else {
+        setSubmitError("Terjadi kesalahan yang tidak diketahui.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -52,10 +155,23 @@ const ProjectInquiryPage: React.FC = () => {
           </div>
         </div>
         <div className="bg-[#201C1D] rounded-xl p-4 sm:p-6 lg:p-8 backdrop-blur-sm">
+          {submitSuccess && (
+            <div className="mb-4 p-4 text-center rounded-lg bg-green-800 border border-green-600 text-white">
+              <p className="font-semibold">Pesan Terkirim!</p>
+              <p>Terima kasih telah menghubungi kami. Kami akan segera merespon.</p>
+            </div>
+          )}
+          {submitError && (
+            <div className="mb-4 p-4 text-center rounded-lg bg-red-800 border border-red-600 text-white">
+              <p className="font-semibold">Gagal Mengirim</p>
+              <p>{submitError}</p>
+            </div>
+          )}
           <ProjectInquiryForm
             formData={formData}
             setFormData={setFormData}
             onSubmit={handleSubmit}
+            isSubmitting={isSubmitting}
           />
         </div>
       </div>
