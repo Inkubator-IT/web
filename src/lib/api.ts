@@ -1,5 +1,5 @@
 import type { Project, ProjectFilters } from "@/types/project";
-import type { Blog } from "@/types/blog";
+import type { Blog, Tag } from "@/types/blog";
 import type { ApiResponse } from "@/types/api";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -28,7 +28,8 @@ export async function fetchProjects(
 
     const url = `${API_BASE_URL}/api/projects${params.toString() ? `?${params.toString()}` : ""}`;
     const response = await fetch(url, {
-      next: { revalidate: 3600 }, // Revalidate every hour
+      // Static export requires fully cached data with no revalidation hooks.
+      cache: "force-cache",
     });
 
     if (!response.ok) {
@@ -53,7 +54,7 @@ export async function fetchProjectById(
 ): Promise<Project | null> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/projects/${id}`, {
-      next: { revalidate: 3600 }, // Revalidate every hour
+      cache: "force-cache",
     });
 
     if (!response.ok) {
@@ -76,7 +77,7 @@ export async function fetchProjectById(
 export async function fetchBlogs(): Promise<Blog[]> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/blogs`, {
-      next: { revalidate: 3600 }, // Revalidate every hour
+      cache: "force-cache",
     });
 
     if (!response.ok) {
@@ -96,12 +97,35 @@ export async function fetchBlogs(): Promise<Blog[]> {
   }
 }
 
+export async function fetchTags(): Promise<Tag[]> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/tags`, {
+      cache: "force-cache",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch tags");
+    }
+
+    const result: ApiResponse<Tag[]> = await response.json();
+
+    if (!result.success || !result.data) {
+      throw new Error(result.error || "Failed to fetch tags");
+    }
+
+    return result.data;
+  } catch (error) {
+    console.error("Error fetching tags:", error);
+    return [];
+  }
+}
+
 export async function fetchBlogBySlug(
   slug: string,
 ): Promise<(Blog & { jsonLd?: object }) | null> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/blogs/slug/${slug}`, {
-      next: { revalidate: 3600 }, // Revalidate every hour
+      cache: "force-cache",
     });
 
     if (!response.ok) {
