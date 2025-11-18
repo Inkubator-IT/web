@@ -9,7 +9,11 @@ class ApiClient {
     endpoint: string,
     options?: RequestInit,
   ): Promise<T> {
-    const url = `${this.baseURL}${endpoint}`;
+    // Ensure endpoint starts with /api if baseURL is external
+    const normalizedEndpoint = endpoint.startsWith("/api")
+      ? endpoint
+      : `/api${endpoint}`;
+    const url = `${this.baseURL}${normalizedEndpoint}`;
 
     const response = await fetch(url, {
       ...options,
@@ -36,7 +40,11 @@ class ApiClient {
     });
   }
 
-  async post<T>(endpoint: string, data?: unknown, options?: RequestInit): Promise<T> {
+  async post<T>(
+    endpoint: string,
+    data?: unknown,
+    options?: RequestInit,
+  ): Promise<T> {
     return this.request<T>(endpoint, {
       ...options,
       method: "POST",

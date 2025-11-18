@@ -31,11 +31,11 @@ function extractData<T>(response: T | ApiResponse<T>): T {
     if (!apiResponse.success || !apiResponse.data) {
       throw new Error(apiResponse.error || "API request failed");
     }
-    
+
     if (Array.isArray(apiResponse.data)) {
       return apiResponse.data as T;
     }
-    
+
     // Handle objects
     return {
       ...apiResponse.data,

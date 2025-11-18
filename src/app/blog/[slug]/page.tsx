@@ -1,22 +1,11 @@
-"use client";
-
-import {
-  ArrowLeft,
-  CalendarDays,
-  Clock,
-  Share2,
-  ThumbsUp,
-  User,
-} from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
-import { use } from "react";
-import { useBlogBySlug } from "@/hooks/useBlogs";
-import { useBlogLikes } from "@/hooks/useBlogLikes";
+import { notFound } from "next/navigation";
+import { fetchBlogBySlug, fetchBlogs } from "@/lib/api";
 import { renderTipTapContent } from "@/utils/renderTipTapContent";
-import { cn } from "@/lib/utils";
-import { ShareModal } from "@/components/blogs/share-modal";
+import { BlogActions } from "@/components/blogs/blog-actions";
 
 interface BlogDetailPageProps {
   params: Promise<{
@@ -24,44 +13,24 @@ interface BlogDetailPageProps {
   }>;
 }
 
-export default function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const resolvedParams = use(params);
-  const slug = resolvedParams.slug;
-
-  const { data: blog, isLoading, error } = useBlogBySlug(slug);
-  const { likeCount, isLiked, toggleLike, isToggling } = useBlogLikes(blog?.id ?? 0);
-
-  if (isLoading) {
-    return (
-      <div className="relative min-h-screen px-4 py-8 sm:px-8 sm:py-12 md:px-16 lg:px-22">
-        <div className="flex items-center justify-center py-12">
-          <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-white"></div>
-        </div>
-      </div>
-    );
+export async function generateStaticParams() {
+  try {
+    const blogs = await fetchBlogs();
+    return blogs.map((blog) => ({
+      slug: blog.slug,
+    }));
+  } catch (error) {
+    console.error("Error generating static params:", error);
+    return [];
   }
+}
 
-  if (error || !blog) {
-    return (
-      <div className="relative min-h-screen px-4 py-8 sm:px-8 sm:py-12 md:px-16 lg:px-22">
-        <div className="mb-6 items-start sm:mb-8">
-          <Link
-            href="/blog"
-            className="group inline-flex items-center gap-2 text-white"
-          >
-            <ArrowLeft
-              size={16}
-              color="white"
-              className="duration-300 group-hover:-translate-x-1"
-            />
-            Back
-          </Link>
-        </div>
-        <div className="flex items-center justify-center py-12">
-          <p className="text-red-400">Blog not found</p>
-        </div>
-      </div>
-    );
+export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+  const { slug } = await params;
+  const blog = await fetchBlogBySlug(slug);
+
+  if (!blog) {
+    notFound();
   }
 
   if (!blog.thumbnail) {
@@ -160,39 +129,7 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
 
         {/* Func */}
         <div className="mt-8 flex flex-col sm:mt-10">
-          <div className="flex items-center justify-end gap-2">
-            <div className="flex gap-1">
-              <button 
-                type="button"
-                onClick={() => toggleLike()}
-                disabled={isToggling}
-                className={cn(
-                  "flex items-center gap-1 transition-all duration-300",
-                  isLiked ? "text-[#ffb051]" : "text-white hover:text-[ffb051]",
-                  isToggling && "opacity-50 cursor-not-allowed"
-                )}
-              >
-                <ThumbsUp
-                  size={14}
-                  className={cn(
-                    "cursor-pointer sm:h-4 sm:w-4 transition-transform",
-                    isLiked && "fill-current"
-                  )}
-                  color="currentColor"
-                />
-              </button>
-              <span className="text-xs font-light text-white sm:text-sm">
-                {isNaN(likeCount) ? 0 : likeCount}
-              </span>
-            </div>
-            <ShareModal
-              trigger={
-                <span className="rounded-md p-2 text-white transition hover:bg-white/10">
-                  <Share2 size={14} className="sm:h-4 sm:w-4" />
-                </span>
-              }
-            />
-          </div>
+          <BlogActions blogId={blog.id} />
           <div className="relative mt-4 aspect-video w-full overflow-hidden rounded-lg sm:mt-6">
             <Image
               src={blog.thumbnail}

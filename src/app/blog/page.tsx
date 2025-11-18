@@ -15,7 +15,12 @@ import { useTags } from "@/hooks/useTags";
 const generateSnippet = (content: any, maxLength: number = 200): string => {
   try {
     // Handle TipTap JSON format
-    if (content && typeof content === "object" && "type" in content && content.type === "doc") {
+    if (
+      content &&
+      typeof content === "object" &&
+      "type" in content &&
+      content.type === "doc"
+    ) {
       // Extract text from TipTap JSON
       const extractText = (node: any): string => {
         if (node.text) return node.text;
@@ -24,16 +29,16 @@ const generateSnippet = (content: any, maxLength: number = 200): string => {
         }
         return "";
       };
-      
+
       const plainText = content.content
         ? content.content.map(extractText).join(" ").trim()
         : "";
-      
+
       return plainText.length > maxLength
         ? `${plainText.substring(0, maxLength)}...`
         : plainText;
     }
-    
+
     if (Array.isArray(content)) {
       const plainText = content
         .filter((block) => block.type === "paragraph")
@@ -43,14 +48,14 @@ const generateSnippet = (content: any, maxLength: number = 200): string => {
         ? `${plainText.substring(0, maxLength)}...`
         : plainText;
     }
-    
+
     // Fallback for string content
     if (typeof content === "string") {
       return content.length > maxLength
         ? `${content.substring(0, maxLength)}...`
         : content;
     }
-    
+
     return "";
   } catch {
     return "";
@@ -62,8 +67,16 @@ export default function Blog() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
-  const { data: blogs = [], isLoading: blogsLoading, error: blogsError } = useBlogs();
-  const { data: tags = [], isLoading: tagsLoading, error: tagsError } = useTags();
+  const {
+    data: blogs = [],
+    isLoading: blogsLoading,
+    error: blogsError,
+  } = useBlogs();
+  const {
+    data: tags = [],
+    isLoading: tagsLoading,
+    error: tagsError,
+  } = useTags();
 
   const isLoading = blogsLoading || tagsLoading;
   const error = blogsError || tagsError;
@@ -97,7 +110,7 @@ export default function Blog() {
     // Filter by selected tags
     if (selectedFilters.length > 0) {
       filtered = filtered.filter((post) =>
-        selectedFilters.includes(post.tagId)
+        selectedFilters.includes(post.tagId),
       );
     }
 
