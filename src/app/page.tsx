@@ -133,17 +133,17 @@ function App() {
         </div>
         <div className="flex w-fit flex-row items-center justify-center gap-3 md:gap-6">
           <Link
-            href="/" //change later
+            href="/portfolio" //change later
             className="z-10 flex flex-row items-center gap-4 rounded-[6px] border border-white/12 bg-white/2 px-2 py-1 text-xs text-white duration-200 hover:bg-white/20 md:rounded-[12px] md:px-5 md:py-3 md:text-2xl"
           >
             See Our Portfolio{" "}
             <BriefcaseBusiness className="h-4 w-4 md:h-5 md:w-5" />
           </Link>
           <Link
-            href="/" //change later
+            href="/contact" //change later
             className="z-10 rounded-[6px] bg-[#121212CC] px-2 py-1 text-xs transition-colors duration-200 hover:bg-[#1A1A1ACC] md:rounded-[12px] md:px-5 md:py-3 md:text-2xl"
           >
-            <span className="flex flex-row items-center gap-4 bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-transparent">
+            <span className="flex flex-row items-center gap-4 bg-linear-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-transparent">
               Start Your Project{" "}
               <Sparkles className="h-4 w-4 text-[#FFBC6C] md:h-5 md:w-5" />
             </span>
@@ -666,7 +666,7 @@ function App() {
           Let’s turn your vision into reality with the right digital solutions.
         </p>
         <Link
-          href="/" //change later
+          href="/contact" //change later
           className="rounded-full"
         >
           <span className="my-10 flex flex-row items-center gap-4 rounded-full bg-gradient-to-r from-[#564292] to-[#A77741] px-5 py-2 text-xl text-white md:my-15 md:px-10 md:py-4 md:text-4xl">

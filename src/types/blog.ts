@@ -15,7 +15,6 @@ export interface TipTapJSON {
   content: Array<any>;
 }
 
-
 export interface Blog {
   id: number;
   title: string;

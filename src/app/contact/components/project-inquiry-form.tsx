@@ -34,7 +34,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
 
   const handleInputChange = (
     field: keyof FormData,
-    value: string | boolean
+    value: string | boolean,
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };

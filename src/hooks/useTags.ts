@@ -21,11 +21,11 @@ function extractData<T>(response: T | ApiResponse<T>): T {
     if (!apiResponse.success || !apiResponse.data) {
       throw new Error(apiResponse.error || "API request failed");
     }
-    
+
     if (Array.isArray(apiResponse.data)) {
       return apiResponse.data as T;
     }
-    
+
     return apiResponse.data as T;
   }
   return response as T;
@@ -42,9 +42,7 @@ export function useTags() {
   return useQuery({
     queryKey: tagKeys.lists(),
     queryFn: async () => {
-      const response = await apiClient.get<Tag[] | ApiResponse<Tag[]>>(
-        "/tags",
-      );
+      const response = await apiClient.get<Tag[] | ApiResponse<Tag[]>>("/tags");
       return extractData(response);
     },
   });

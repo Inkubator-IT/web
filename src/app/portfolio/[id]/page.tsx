@@ -1,5 +1,5 @@
 import { ArrowLeft, ExternalLink } from "lucide-react";
-import { fetchProjectById } from "@/lib/api";
+import { fetchProjectById, fetchProjects } from "@/lib/api";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -7,20 +7,8 @@ import ImageCarousel from "./image-carousel";
 
 export async function generateStaticParams() {
   try {
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-    const response = await fetch(`${API_BASE_URL}/api/projects`, {
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      console.error("Failed to fetch projects for static params");
-      return [];
-    }
-
-    const result = await response.json();
-    const projects = result.data || [];
-
-    return projects.map((project: { id: number }) => ({
+    const projects = await fetchProjects();
+    return projects.map((project) => ({
       id: project.id.toString(),
     }));
   } catch (error) {
