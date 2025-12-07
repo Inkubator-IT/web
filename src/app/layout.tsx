@@ -4,6 +4,7 @@ import "./globals.css";
 import Image from "next/image";
 import Navbar from "@/components/navbar";
 import { Providers } from "./providers";
+import { Toaster } from "sonner";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -64,6 +65,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           <div className="pt-[120px]">{children}</div>
+          <Toaster position="bottom-center" theme="dark" />
         </Providers>
       </body>
     </html>

@@ -23,12 +23,20 @@ interface ProjectInquiryFormProps {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   onSubmit: () => void;
+  validationErrors?: {
+    fullName?: string;
+    email?: string;
+    whatsappNumber?: string;
+  };
+  isSubmitting?: boolean;
 }
 
 const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
   formData,
   setFormData,
   onSubmit,
+  validationErrors = {},
+  isSubmitting = false,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -86,24 +94,36 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
               ["Whatsapp Number", "whatsappNumber", "08123456789", "tel"],
               ["Email Address", "email", "john@example.com", "email"],
               ["Company", "company", "John Company", "text"],
-            ].map(([label, key, placeholder, type]) => (
-              <div key={key} className="space-y-2">
-                <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
-                  {label}
-                </label>
-                <div className="p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4">
-                  <input
-                    type={type}
-                    placeholder={placeholder}
-                    value={(formData as any)[key]}
-                    onChange={(e) =>
-                      handleInputChange(key as keyof FormData, e.target.value)
-                    }
-                    className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
-                  />
+            ].map(([label, key, placeholder, type]) => {
+              const hasError = validationErrors[key as keyof typeof validationErrors];
+              return (
+                <div key={key} className="space-y-2">
+                  <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
+                    {label}
+                  </label>
+                  <div className={`p-[1px] rounded-lg mt-2 sm:mt-3 lg:mt-4 ${
+                    hasError
+                      ? "bg-red-500"
+                      : "bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6]"
+                  }`}>
+                    <input
+                      type={type}
+                      placeholder={placeholder}
+                      value={(formData as any)[key]}
+                      onChange={(e) =>
+                        handleInputChange(key as keyof FormData, e.target.value)
+                      }
+                      className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
+                    />
+                  </div>
+                  {hasError && (
+                    <p className="text-red-500 text-sm sm:text-base mt-1">
+                      {hasError}
+                    </p>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 md:gap-4 mt-6">
@@ -403,9 +423,10 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
         <button
           type="button"
           onClick={onSubmit}
-          className="w-full py-4 sm:py-5 bg-gradient-to-r from-[#7E67C1] to-[#BBE4F6] text-black text-xl sm:text-2xl lg:text-3xl font-semibold rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2"
+          disabled={isSubmitting}
+          className="w-full py-4 sm:py-5 bg-gradient-to-r from-[#7E67C1] to-[#BBE4F6] text-black text-xl sm:text-2xl lg:text-3xl font-semibold rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Send Message
+          {isSubmitting ? "Sending..." : "Send Message"}
           <Send className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
       </div>
