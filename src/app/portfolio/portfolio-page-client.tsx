@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import {
   Search,
   ChevronRight,
@@ -103,7 +104,21 @@ export default function PortfolioPageClient({
       </section>
 
       <section className="px-4 py-8 sm:px-6 md:py-12 lg:px-8">
-        <div className="mx-auto overflow-hidden">
+        <div
+          className="mx-auto overflow-hidden"
+          onMouseEnter={(e) => {
+            const scrollElement = e.currentTarget.querySelector(".animate-scroll-left");
+            if (scrollElement && scrollElement instanceof HTMLElement) {
+              scrollElement.style.animationPlayState = "paused";
+            }
+          }}
+          onMouseLeave={(e) => {
+            const scrollElement = e.currentTarget.querySelector(".animate-scroll-left");
+            if (scrollElement && scrollElement instanceof HTMLElement) {
+              scrollElement.style.animationPlayState = "running";
+            }
+          }}
+        >
           {featuredProjects.length === 0 ? (
             <div className="text-center text-white/70">
               No featured projects yet.
@@ -116,13 +131,15 @@ export default function PortfolioPageClient({
                     key={`${project.id}-${index}`}
                     className="w-[280px] flex-shrink-0 md:w-[432px]"
                   >
-                    <div className="group relative h-[175px] w-full cursor-pointer overflow-hidden rounded-xl md:h-[270px]">
-                      <img
-                        src={project.thumbnail || "/portfolio/image.png"}
-                        alt={project.title}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                    </div>
+                    <Link href={`/portfolio/${project.id}`}>
+                      <div className="group relative h-[175px] w-full cursor-pointer overflow-hidden rounded-xl md:h-[270px]">
+                        <img
+                          src={project.thumbnail || "/portfolio/image.png"}
+                          alt={project.title}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                      </div>
+                    </Link>
                   </div>
                 ),
               )}

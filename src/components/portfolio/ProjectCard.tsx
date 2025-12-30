@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 interface ProjectCardProps {
   project: Project;
@@ -15,7 +18,76 @@ interface Project {
   thumbnail: string;
 }
 
+// Skeleton Loader Component
+function SkeletonLoader() {
+  return (
+    <div className="relative h-[180px] w-full flex-shrink-0 overflow-hidden md:h-[240px] lg:h-[339px]">
+      <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800" />
+      <div className="absolute inset-0 opacity-30">
+        <div className="h-full w-full bg-gradient-to-r from-transparent via-white to-transparent" />
+      </div>
+    </div>
+  );
+}
+
+// Device Mockup Wrapper for standardized thumbnails
+function DeviceMockupWrapper({
+  children,
+  deviceType = "laptop",
+}: {
+  children: React.ReactNode;
+  deviceType?: "laptop" | "phone" | "tablet";
+}) {
+  if (deviceType === "laptop") {
+    return (
+      <div className="relative flex h-full w-full items-center justify-center bg-gradient-to-b from-gray-900 to-gray-950">
+        <div className="relative h-[85%] w-[90%] overflow-hidden rounded-t-xl border-t-4 border-r-4 border-l-4 border-gray-800 bg-gray-950 shadow-lg">
+          {children}
+        </div>
+        {/* Laptop stand */}
+        <div className="absolute bottom-0 left-1/2 h-1.5 w-2/3 -translate-x-1/2 rounded-b-sm bg-gray-800" />
+      </div>
+    );
+  } else if (deviceType === "phone") {
+    return (
+      <div className="relative flex h-full w-full items-center justify-center">
+        <div
+          className="relative rounded-3xl border-[10px] border-gray-900 bg-gray-950 shadow-2xl"
+          style={{ width: "55%", height: "90%", aspectRatio: "9/16" }}
+        >
+          {/* Phone notch */}
+          <div className="absolute top-2 left-1/2 z-10 h-5 w-24 -translate-x-1/2 rounded-b-2xl bg-gray-950" />
+          {/* Phone screen */}
+          <div className="relative h-full w-full overflow-hidden rounded-2xl bg-black">
+            {children}
+          </div>
+        </div>
+      </div>
+    );
+  } else if (deviceType === "tablet") {
+    return (
+      <div className="relative flex h-full w-full items-center justify-center bg-gradient-to-b from-gray-900 to-gray-950">
+        <div className="relative h-[88%] w-[85%] overflow-hidden rounded-2xl border-[12px] border-gray-800 bg-gray-950 shadow-lg">
+          {children}
+        </div>
+      </div>
+    );
+  }
+
+  return <>{children}</>;
+}
+
 export default function ProjectCard({ project, className }: ProjectCardProps) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Determine device type based on category
+  const getDeviceType = () => {
+    const category = project.category.toLowerCase();
+    if (category === "app" || category === "mobile") return "phone";
+    if (category === "games") return "laptop";
+    return "laptop";
+  };
+
   return (
     <Link
       href={`/portfolio/${project.id}`}
@@ -27,14 +99,26 @@ export default function ProjectCard({ project, className }: ProjectCardProps) {
         className,
       )}
     >
-      <div className="relative h-[180px] w-full flex-shrink-0 overflow-hidden md:h-[240px] lg:h-[339px]">
-        <Image
-          src={project.thumbnail}
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-        />
+      <div className="relative h-[180px] w-full flex-shrink-0 overflow-hidden bg-gray-950 md:h-[240px] lg:h-[339px]">
+        {/* Skeleton Loader */}
+        {isLoading && <SkeletonLoader />}
+
+        {/* Device Mockup Wrapper */}
+        <div
+          className={`relative h-full w-full ${!isLoading ? "block" : "hidden"}`}
+        >
+          <DeviceMockupWrapper deviceType={getDeviceType()}>
+            <Image
+              src={project.thumbnail}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+              priority={false}
+              onLoadingComplete={() => setIsLoading(false)}
+            />
+          </DeviceMockupWrapper>
+        </div>
 
         <div className="absolute top-2 right-2 z-10 md:top-4 md:right-4">
           <div className="rounded-[40px] bg-gradient-to-r from-[#7E67C1]/70 via-[#D2CEDD]/70 to-[#FFB051]/70 p-[2px] md:p-[3px]">
