@@ -6,15 +6,18 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import BlogCard from "@/components/blogs/blog-card";
+import BlogCardSkeleton from "@/components/blogs/blog-card-skeleton";
 import SearchBar from "@/components/search-bar";
 import { cn } from "@/lib/utils";
+import { useDebounce } from "@/hooks/useDebounce";
 import type { Blog, Tag } from "@/types/blog";
 
 interface BlogPageClientProps {
   blogs: Blog[];
   tags: Tag[];
+  isLoading?: boolean;
 }
 
 const generateSnippet = (content: unknown, maxLength: number = 200): string => {
@@ -65,13 +68,28 @@ const generateSnippet = (content: unknown, maxLength: number = 200): string => {
   }
 };
 
-export default function BlogPageClient({ blogs, tags }: BlogPageClientProps) {
+export default function BlogPageClient({ blogs, tags, isLoading }: BlogPageClientProps) {
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+
+  const debouncedSearchValue = useDebounce(searchValue, 500);
 
   const blogPostPerPage = 4;
   const pageSlots = 5;
+
+  useEffect(() => {
+    if (searchValue !== debouncedSearchValue) {
+      setIsSearching(true);
+    } else {
+      setIsSearching(false);
+    }
+  }, [searchValue, debouncedSearchValue]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearchValue, selectedFilters]);
 
   const allPosts = useMemo(() => {
     return blogs.map((blog) => ({
@@ -100,8 +118,8 @@ export default function BlogPageClient({ blogs, tags }: BlogPageClientProps) {
       );
     }
 
-    if (searchValue.trim()) {
-      const query = searchValue.toLowerCase();
+    if (debouncedSearchValue.trim()) {
+      const query = debouncedSearchValue.toLowerCase();
       filtered = filtered.filter(
         (post) =>
           post.title.toLowerCase().includes(query) ||
@@ -111,7 +129,7 @@ export default function BlogPageClient({ blogs, tags }: BlogPageClientProps) {
     }
 
     return filtered;
-  }, [allPosts, searchValue, selectedFilters]);
+  }, [allPosts, debouncedSearchValue, selectedFilters]);
 
   const totalPages = Math.max(
     1,
@@ -178,8 +196,12 @@ export default function BlogPageClient({ blogs, tags }: BlogPageClientProps) {
           </div>
         </div>
 
-        <div className="flex w-full flex-col items-start gap-8">
-          {visiblePosts.length === 0 ? (
+        <div className="mt-6 flex w-full flex-col items-start gap-8">
+          {isLoading || isSearching ? (
+            Array.from({ length: blogPostPerPage }).map((_, index) => (
+              <BlogCardSkeleton key={index} />
+            ))
+          ) : visiblePosts.length === 0 ? (
             <div className="flex h-[100px] w-full items-center justify-center">
               <p className="text-white/40">No result.</p>
             </div>

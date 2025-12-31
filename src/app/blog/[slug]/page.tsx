@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { ArrowLeft, CalendarDays, Clock, User } from "lucide-react";
 import ExportedImage from "next-image-export-optimizer";
 import Link from "next/link";
@@ -6,6 +7,7 @@ import { notFound } from "next/navigation";
 import { fetchBlogBySlug, fetchBlogs } from "@/lib/api";
 import { renderTipTapContent } from "@/utils/renderTipTapContent";
 import { BlogActions } from "@/components/blogs/blog-actions";
+import BlogDetailSkeleton from "@/components/blogs/blog-detail-skeleton";
 
 interface BlogDetailPageProps {
   params: Promise<{
@@ -25,8 +27,8 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const { slug } = await params;
+async function BlogDetailContent({ slug }: { slug: string }) {
+  await new Promise(resolve => setTimeout(resolve, 2000)); // delay
   const blog = await fetchBlogBySlug(slug);
 
   if (!blog) {
@@ -63,12 +65,10 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     year: "numeric",
   });
 
-  // Get JSON-LD from API response
   const jsonLd = (blog as any).jsonLd;
 
   return (
     <>
-      {/* Add JSON-LD Script Tag */}
       {jsonLd && (
         <Script
           id="blog-jsonld"
@@ -79,8 +79,9 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         />
       )}
 
+      <div className="fixed inset-0 bg-black/8wqk0 -z-10" />
+
       <div className="relative min-h-screen px-4 py-8 sm:px-8 sm:py-12 md:px-16 lg:px-22">
-        {/* Back Button */}
         <div className="mb-6 items-start sm:mb-8">
           <Link
             href="/blog"
@@ -95,7 +96,6 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           </Link>
         </div>
 
-        {/* Header */}
         <div className="flex flex-col items-center gap-4 sm:gap-6">
           <div className="rounded-lg border border-white/20 bg-linear-to-r from-[#7E67C1]/40 to-[#FFB051]/40 px-3 py-1 backdrop-blur-xl sm:px-4">
             <p className="text-xs text-white sm:text-sm">{categoryName}</p>
@@ -104,7 +104,6 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             {blog.title}
           </h1>
 
-          {/* Meta detail */}
           <div className="flex flex-row items-center justify-center gap-4 text-white sm:gap-8 md:gap-12">
             <div className="flex items-center gap-1">
               <User size={14} className="sm:h-4 sm:w-4" color="white" />
@@ -127,7 +126,6 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           </div>
         </div>
 
-        {/* Func */}
         <div className="mt-8 flex flex-col sm:mt-10">
           <BlogActions blogId={blog.id} />
           <div className="relative mt-4 aspect-video w-full overflow-hidden rounded-lg sm:mt-6">
@@ -142,11 +140,20 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           </div>
         </div>
 
-        {/* Blog Content */}
         <div className="mt-8 max-w-none space-y-10 [word-spacing:0.1em] sm:mt-10">
           {renderTipTapContent(blog.content)}
         </div>
       </div>
     </>
+  );
+}
+
+export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+  const { slug } = await params;
+
+  return (
+    <Suspense fallback={<BlogDetailSkeleton />}>
+      <BlogDetailContent slug={slug} />
+    </Suspense>
   );
 }

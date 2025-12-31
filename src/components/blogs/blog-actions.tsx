@@ -10,20 +10,27 @@ interface BlogActionsProps {
 }
 
 export function BlogActions({ blogId }: BlogActionsProps) {
-  const { likeCount, isLiked, toggleLike, isToggling } = useBlogLikes(blogId);
+  const { likeCount, isLiked, toggleLike, isToggling, error } = useBlogLikes(blogId);
+
+  const handleLikeClick = () => {
+    console.log("Like button clicked", { blogId, isLiked, likeCount });
+    toggleLike();
+  };
 
   return (
     <div className="flex items-center justify-end gap-2">
       <div className="flex gap-1">
         <button
           type="button"
-          onClick={() => toggleLike()}
+          onClick={handleLikeClick}
           disabled={isToggling}
           className={cn(
             "flex items-center gap-1 transition-all duration-300",
-            isLiked ? "text-[#ffb051]" : "text-white hover:text-[ffb051]",
+            isLiked ? "text-[#ffb051]" : "text-white hover:text-[#ffb051]",
             isToggling && "opacity-50 cursor-not-allowed",
+            error && "opacity-50",
           )}
+          aria-label={isLiked ? "Unlike this blog" : "Like this blog"}
         >
           <ThumbsUp
             size={14}
