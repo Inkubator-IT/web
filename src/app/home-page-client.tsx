@@ -19,6 +19,33 @@ interface HomePageClientProps {
   projectShowcase: ProjectShowcaseItem[];
 }
 
+const GPU_ACCELERATION = {
+  transform: "translateZ(0)",
+  willChange: "transform, opacity",
+} as const;
+
+const FADE_UP_VARIANTS = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+    },
+  },
+} as const;
+
+const STAGGER_CONTAINER_VARIANTS = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+} as const;
+
 const BRANDS_AND_PARTNERS = [
   { id: 1, image: "/assets/landing/brands/pertamina.png", title: "Pertamina" },
   { id: 2, image: "/assets/landing/brands/harisenin.svg", title: "Harisenin" },
@@ -161,34 +188,35 @@ export default function HomePageClient({
     <main className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden py-[50px]">
       <section className="flex w-full max-w-[1200px] flex-col items-center justify-center gap-[48px] px-5 py-[50px] md:gap-[96px]">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          variants={FADE_UP_VARIANTS}
+          initial="hidden"
+          animate="show"
+          style={GPU_ACCELERATION}
           className="flex w-full flex-col items-center justify-center gap-[24px] md:gap-[48px]"
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            variants={FADE_UP_VARIANTS}
             transition={{ delay: 0.2, duration: 0.5 }}
+            style={GPU_ACCELERATION}
             className="flex w-fit flex-col"
           >
             <p className="text-xs font-medium text-white italic md:text-xl">
               InkubatorIT&apos;s Present
             </p>
-            <div className="mt-2 h-[1px] bg-gradient-to-r from-white/0 via-white to-white/0"></div>
+            <div className="mt-2 h-px bg-linear-to-r from-white/0 via-white to-white/0"></div>
           </motion.div>
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            variants={FADE_UP_VARIANTS}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-center text-2xl font-semibold text-transparent md:text-6xl"
+            style={GPU_ACCELERATION}
+            className="bg-linear-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-center text-2xl font-semibold text-transparent md:text-6xl"
           >
             Trusted Digital Solutions by ITB&apos;s Brightest Tech Talents
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            variants={FADE_UP_VARIANTS}
             transition={{ delay: 0.6, duration: 0.8 }}
+            style={GPU_ACCELERATION}
             className="text-center text-base font-normal text-white/80 md:text-2xl"
           >
             We build high-quality software with integrity, collaboration, and
@@ -197,9 +225,11 @@ export default function HomePageClient({
           </motion.p>
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          variants={FADE_UP_VARIANTS}
+          initial="hidden"
+          animate="show"
           transition={{ delay: 0.8, duration: 0.8 }}
+          style={GPU_ACCELERATION}
           className="flex w-fit flex-row items-center justify-center gap-3 md:gap-6"
         >
           <Link
@@ -227,6 +257,7 @@ export default function HomePageClient({
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
+          style={{ transform: "translateZ(0)", willChange: "opacity" }}
           className="absolute inset-0 z-0 pointer-events-none"
         >
           <ExportedImage
@@ -239,10 +270,11 @@ export default function HomePageClient({
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          variants={FADE_UP_VARIANTS}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          style={GPU_ACCELERATION}
           className="flex w-full shrink-0 justify-center overflow-hidden"
         >
           <div className="flex w-full shrink-0 justify-center overflow-hidden" ref={emblaRef}>
@@ -266,9 +298,15 @@ export default function HomePageClient({
         </motion.div>
 
         <div className="z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 px-0 md:gap-[40px] md:px-20">
-          <p className="text-center text-base font-medium text-white/48 md:text-2xl">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            style={{ transform: "translateZ(0)", willChange: "opacity" }}
+            className="text-center text-base font-medium text-white/48 md:text-2xl"
+          >
             PROJECT SHOWCASE
-          </p>
+          </motion.p>
           <div className="flex w-full max-w-[1600px] flex-row items-center justify-between gap-5 px-0 md:gap-10 md:px-20">
             {showcaseItems.length > 1 && (
               <button
@@ -279,14 +317,20 @@ export default function HomePageClient({
                 ←
               </button>
             )}
-            <div className="flex flex-col items-center justify-center gap-3 md:gap-4">
+            <motion.div
+              key={selectedIndex}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              style={GPU_ACCELERATION}
+              className="flex flex-col items-center justify-center gap-3 md:gap-4"
+            >
               <p className="text-center text-2xl font-medium text-white uppercase md:text-6xl">
                 {currentProject.title}
               </p>
               <p className="text-center text-xs text-white/60 md:text-[20px]">
                 {currentProject.description}
               </p>
-            </div>
+            </motion.div>
             {showcaseItems.length > 1 && (
               <button
                 onClick={scrollNext}
@@ -316,28 +360,22 @@ export default function HomePageClient({
 
       <section className="mt-[80px] flex w-full max-w-[1200px] flex-col items-center justify-center px-5 md:mt-[160px]">
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={FADE_UP_VARIANTS}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          style={GPU_ACCELERATION}
           className="text-center text-base text-white/60 md:text-2xl"
         >
           BUILDING TRUST WITH REMARKABLE BRANDS AND PARTNERS
         </motion.p>
         <div className="mt-6 w-full">
           <motion.div
+            variants={STAGGER_CONTAINER_VARIANTS}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            variants={{
-              hidden: { opacity: 0 },
-              show: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.1,
-                },
-              },
-            }}
+            style={{ transform: "translateZ(0)" }}
             className="mx-auto flex flex-wrap items-center justify-center gap-6 px-4"
           >
             {BRANDS_AND_PARTNERS.map((brand) => (
@@ -348,6 +386,7 @@ export default function HomePageClient({
                   show: { opacity: 1, scale: 1 },
                 }}
                 whileHover={{ scale: 1.1 }}
+                style={GPU_ACCELERATION}
                 className="flex h-10 items-center justify-center p-2 md:h-18 md:p-3"
               >
                 <ExportedImage
@@ -355,7 +394,7 @@ export default function HomePageClient({
                   alt={brand.title}
                   width={1000}
                   height={1000}
-                  className="h-full w-auto object-contain opacity-90 grayscale-[10%] hover:opacity-100"
+                  className="h-full w-auto object-contain opacity-90 grayscale-10 hover:opacity-100"
                 />
               </motion.div>
             ))}
@@ -365,18 +404,19 @@ export default function HomePageClient({
 
       <section className="mt-[80px] flex w-full max-w-[1600px] flex-col items-center justify-center gap-20 px-5 md:mt-[160px]">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={FADE_UP_VARIANTS}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          style={GPU_ACCELERATION}
           className="flex w-full flex-col items-center justify-center gap-5 px-0 md:gap-14 md:px-30"
         >
           <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs md:text-xl">
-            <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
               OUR SERVICES
             </span>
           </div>
-          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-6xl">
+          <span className="bg-linear-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-6xl">
             Complete Digital Solutions for Your Project
           </span>
           <p className="px-0 text-center text-sm text-white/80 md:px-25 md:text-2xl">
@@ -387,51 +427,41 @@ export default function HomePageClient({
         </motion.div>
 
         <motion.div
+          variants={STAGGER_CONTAINER_VARIANTS}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          variants={{
-            hidden: { opacity: 0 },
-            show: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.2,
-              },
-            },
-          }}
+          style={{ transform: "translateZ(0)" }}
           className="mx-auto flex w-full flex-wrap items-center justify-center gap-6"
         >
           {SERVICES.map((service) => (
             <motion.div
               key={service.id}
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                show: { opacity: 1, y: 0 },
-              }}
+              variants={FADE_UP_VARIANTS}
               whileHover={{ y: -5 }}
-              transition={{ duration: 0.5 }}
-              className={`${service.id % 2 == 0 ? "w-full md:w-[40%]" : "w-full md:w-[55%]"}`}
+              style={GPU_ACCELERATION}
+              className={`${service.id % 2 === 0 ? "w-full md:w-[40%]" : "w-full md:w-[55%]"}`}
             >
               <GradientBorderDiv
-                className="overflow-hidden rounded-xl p-[1px] w-full"
+                className="overflow-hidden rounded-xl p-px w-full"
                 gradientClassName="p-[2px] rounded-[14px]"
                 contentClassName="p-2 backdrop-blur-sm rounded-[14px]"
               >
                 <div
-                  className={`${service.id % 2 != 0 ? "absolute top-0 left-0 hidden h-[150px] w-[150px] -translate-1/2 -translate-y-1/2 rounded-full border border-white/12 md:block" : ""}`}
+                  className={`${service.id % 2 !== 0 ? "absolute top-0 left-0 hidden h-[150px] w-[150px] -translate-1/2 -translate-y-1/2 rounded-full border border-white/12 md:block" : ""}`}
                 ></div>
                 <div
-                  className={`${service.id % 2 != 0 ? "absolute top-0 left-0 hidden h-[200px] w-[200px] -translate-1/2 -translate-y-1/2 rounded-full border border-white/12 md:block" : ""}`}
+                  className={`${service.id % 2 !== 0 ? "absolute top-0 left-0 hidden h-[200px] w-[200px] -translate-1/2 -translate-y-1/2 rounded-full border border-white/12 md:block" : ""}`}
                 ></div>
                 <div
-                  className={`${service.id % 2 == 0 ? "absolute top-0 left-0 hidden h-[170px] w-[170px] -translate-1/2 -translate-y-1/2 rounded-lg border border-white/12 md:block" : ""}`}
+                  className={`${service.id % 2 === 0 ? "absolute top-0 left-0 hidden h-[170px] w-[170px] -translate-1/2 -translate-y-1/2 rounded-lg border border-white/12 md:block" : ""}`}
                 ></div>
                 <div
-                  className={`${service.id % 2 == 0 ? "absolute right-0 bottom-0 hidden h-[250px] w-[250px] translate-1/2 translate-y-1/2 rounded-lg border border-white/12 md:block" : ""}`}
+                  className={`${service.id % 2 === 0 ? "absolute right-0 bottom-0 hidden h-[250px] w-[250px] translate-1/2 translate-y-1/2 rounded-lg border border-white/12 md:block" : ""}`}
                 ></div>
                 <div className="flex h-[120px] w-full items-center justify-between gap-4 md:h-[200px]">
                   <div className="flex h-full flex-1 flex-col justify-start md:justify-end">
-                    <span className="bg-gradient-to-r from-white to-white/20 bg-clip-text text-xl text-transparent md:text-3xl">
+                    <span className="bg-linear-to-r from-white to-white/20 bg-clip-text text-xl text-transparent md:text-3xl">
                       {service.title}
                     </span>
                     <p className="text-xs text-white/60 md:text-lg">
@@ -466,6 +496,7 @@ export default function HomePageClient({
             repeat: Infinity,
             ease: "easeInOut",
           }}
+          style={{ transform: "translateZ(0)", willChange: "transform" }}
           className="pointer-events-none absolute top-1/2 left-0 z-0 hidden h-full -translate-x-[45%] -translate-y-1/2 scale-200 md:block"
         >
           <ExportedImage
@@ -486,6 +517,7 @@ export default function HomePageClient({
             repeat: Infinity,
             ease: "easeInOut",
           }}
+          style={{ transform: "translateZ(0)", willChange: "transform" }}
           className="pointer-events-none absolute top-1/2 right-0 z-0 hidden h-full translate-x-[45%] -translate-y-1/2 scale-200 md:block"
         >
           <ExportedImage
@@ -497,18 +529,19 @@ export default function HomePageClient({
           />
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={FADE_UP_VARIANTS}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          style={GPU_ACCELERATION}
           className="flex w-full flex-col items-center justify-center gap-5 px-0 md:gap-14 md:px-30 lg:px-50"
         >
           <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs md:text-xl">
-            <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
               HOW WE WORK
             </span>
           </div>
-          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-6xl">
+          <span className="bg-linear-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-6xl">
             Building Together, Step by Step
           </span>
           <p className="text-center text-sm text-white/80 md:text-2xl">
@@ -524,105 +557,78 @@ export default function HomePageClient({
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1, ease: "easeInOut" }}
-              className="absolute inset-0 h-[2px] -translate-y-[3px] blur-md origin-left"
               style={{
+                transform: "translateZ(0)",
+                willChange: "transform",
                 backgroundImage:
                   "linear-gradient(to right, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
               }}
+              className="absolute inset-0 h-[2px] -translate-y-[3px] blur-md origin-left"
             />
             <motion.div
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1, ease: "easeInOut" }}
-              className="relative h-[2px] w-full origin-left"
               style={{
+                transform: "translateZ(0)",
+                willChange: "transform",
                 backgroundImage:
                   "linear-gradient(to right, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
               }}
+              className="relative h-[2px] w-full origin-left"
             />
           </div>
           <motion.div
+            variants={STAGGER_CONTAINER_VARIANTS}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            variants={{
-              hidden: { opacity: 0 },
-              show: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.3,
-                },
-              },
-            }}
+            style={{ transform: "translateZ(0)" }}
             className="grid grid-cols-4"
           >
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                show: { opacity: 1, y: 0 },
-              }}
-              className="relative flex translate-x-1/2 flex-col items-center justify-center p-10"
-            >
-              <div className="absolute top-0 left-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#AD99E7] to-white"></div>
-              <div className="my-5 shrink-0 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
-                <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
-                  STEP 1
-                </span>
-              </div>
-              <div className="flex-1 flex-col items-center justify-center">
-                <p className="text-center text-3xl text-[#D9D9D9]">
-                  Discover & Analysis
-                </p>
-                <p className="text-center text-xl text-white/80">
-                  We listen to your needs and goals
-                </p>
-              </div>
-            </motion.div>
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                show: { opacity: 1, y: 0 },
-              }}
-              className="relative flex translate-x-1/2 flex-col items-center justify-center p-10"
-            >
-              <div className="absolute top-0 left-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#AD99E7] to-[#FFBC6C]"></div>
-              <div className="my-5 shrink-0 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
-                <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
-                  STEP 2
-                </span>
-              </div>
-              <div className="flex-1 flex-col items-center justify-center">
-                <p className="text-center text-3xl text-[#D9D9D9]">
-                  Design & Development
-                </p>
-                <p className="text-center text-xl text-white/80">
-                  Delivering solutions with the right tech stack
-                </p>
-              </div>
-            </motion.div>
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                show: { opacity: 1, y: 0 },
-              }}
-              className="relative flex translate-x-1/2 flex-col items-center justify-center p-10"
-            >
-              <div className="absolute top-0 left-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#FFBC6C] to-white"></div>
-              <div className="my-5 shrink-0 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
-                <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
-                  STEP 3
-                </span>
-              </div>
-              <div className="flex-1 flex-col items-center justify-center">
-                <p className="text-center text-3xl text-[#D9D9D9]">
-                  Testing & Launch
-                </p>
-                <p className="text-center text-xl text-white/80">
-                  Regular demos, feedback, and time delivery
-                </p>
-              </div>
-            </motion.div>
+            {[
+              {
+                step: "STEP 1",
+                title: "Discover & Analysis",
+                desc: "We listen to your needs and goals",
+                colors: "from-[#AD99E7] to-white",
+              },
+              {
+                step: "STEP 2",
+                title: "Design & Development",
+                desc: "Delivering solutions with the right tech stack",
+                colors: "from-[#AD99E7] to-[#FFBC6C]",
+              },
+              {
+                step: "STEP 3",
+                title: "Testing & Launch",
+                desc: "Regular demos, feedback, and time delivery",
+                colors: "from-[#FFBC6C] to-white",
+              },
+            ].map((s, i) => (
+              <motion.div
+                key={i}
+                variants={FADE_UP_VARIANTS}
+                style={GPU_ACCELERATION}
+                className="relative flex translate-x-1/2 flex-col items-center justify-center p-10"
+              >
+                <div
+                  className={`absolute top-0 left-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-r ${s.colors}`}
+                ></div>
+                <div className="my-5 shrink-0 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
+                  <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+                    {s.step}
+                  </span>
+                </div>
+                <div className="flex-1 flex-col items-center justify-center">
+                  <p className="text-center text-3xl text-[#D9D9D9]">
+                    {s.title}
+                  </p>
+                  <p className="text-center text-xl text-white/80">{s.desc}</p>
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
         {/*MOBILE*/}
@@ -633,99 +639,80 @@ export default function HomePageClient({
               whileInView={{ scaleY: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1 }}
-              className="absolute inset-0 blur-md origin-top"
               style={{
+                transform: "translateZ(0)",
+                willChange: "transform",
                 backgroundImage:
                   "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
               }}
+              className="absolute inset-0 blur-md origin-top"
             />
             <motion.div
               initial={{ scaleY: 0 }}
               whileInView={{ scaleY: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1 }}
-              className="absolute top-0 bottom-0 left-1/2 w-[2px] -translate-x-1/2 origin-top"
               style={{
+                transform: "translateZ(0)",
+                willChange: "transform",
                 backgroundImage:
                   "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
               }}
+              className="absolute top-0 bottom-0 left-1/2 w-[2px] -translate-x-1/2 origin-top"
             />
           </div>
           <motion.div
+            variants={STAGGER_CONTAINER_VARIANTS}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            variants={{
-              hidden: { opacity: 0 },
-              show: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.3,
-                },
-              },
-            }}
+            style={{ transform: "translateZ(0)" }}
             className="relative grid grid-rows-3"
           >
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, x: -20 },
-                show: { opacity: 1, x: 0 },
-              }}
-              className="relative flex w-[50%] flex-col items-center justify-center justify-self-start pr-5"
-            >
-              <div className="absolute top-1/2 right-0 h-5 w-5 translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#AD99E7] to-white"></div>
-              <div className="mb-5 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
-                <span className="bg-gradient-to-b from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
-                  STEP 1
-                </span>
-              </div>
-              <p className="text-center text-xl text-[#D9D9D9]">
-                Discover & Analysis
-              </p>
-              <p className="text-center text-sm text-white/80">
-                We listen to your needs and goals
-              </p>
-            </motion.div>
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, x: 20 },
-                show: { opacity: 1, x: 0 },
-              }}
-              className="relative flex w-[50%] flex-col items-center justify-center justify-self-end pl-5"
-            >
-              <div className="absolute top-1/2 left-0 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-b from-[#AD99E7] to-[#FFBC6C]"></div>
-              <div className="mb-5 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
-                <span className="bg-gradient-to-b from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
-                  STEP 2
-                </span>
-              </div>
-              <p className="text-center text-xl text-[#D9D9D9]">
-                Design & Development
-              </p>
-              <p className="text-center text-sm text-white/80">
-                Delivering solutions with the right tech stack
-              </p>
-            </motion.div>
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, x: -20 },
-                show: { opacity: 1, x: 0 },
-              }}
-              className="relative flex w-[50%] flex-col items-center justify-center justify-self-start pr-5"
-            >
-              <div className="absolute top-1/2 right-0 h-5 w-5 translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-b from-[#FFBC6C] to-white"></div>
-              <div className="mb-5 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
-                <span className="bg-gradient-to-b from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
-                  STEP 3
-                </span>
-              </div>
-              <p className="text-center text-xl text-[#D9D9D9]">
-                Testing & Launch
-              </p>
-              <p className="text-center text-sm text-white/80">
-                Regular demos, feedback, and time delivery
-              </p>
-            </motion.div>
+            {[
+              {
+                step: "STEP 1",
+                title: "Discover & Analysis",
+                desc: "We listen to your needs and goals",
+                colors: "from-[#AD99E7] to-white",
+                align: "justify-self-start pr-5",
+                dot: "right-0 translate-x-1/2",
+              },
+              {
+                step: "STEP 2",
+                title: "Design & Development",
+                desc: "Delivering solutions with the right tech stack",
+                colors: "from-[#AD99E7] to-[#FFBC6C]",
+                align: "justify-self-end pl-5",
+                dot: "left-0 -translate-x-1/2",
+              },
+              {
+                step: "STEP 3",
+                title: "Testing & Launch",
+                desc: "Regular demos, feedback, and time delivery",
+                colors: "from-[#FFBC6C] to-white",
+                align: "justify-self-start pr-5",
+                dot: "right-0 translate-x-1/2",
+              },
+            ].map((s, i) => (
+              <motion.div
+                key={i}
+                variants={FADE_UP_VARIANTS}
+                style={GPU_ACCELERATION}
+                className={`relative flex w-[50%] flex-col items-center justify-center ${s.align}`}
+              >
+                <div
+                  className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-linear-to-r ${s.dot} ${s.colors}`}
+                ></div>
+                <div className="mb-5 rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xl">
+                  <span className="bg-linear-to-b from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+                    {s.step}
+                  </span>
+                </div>
+                <p className="text-center text-xl text-[#D9D9D9]">{s.title}</p>
+                <p className="text-center text-sm text-white/80">{s.desc}</p>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>
@@ -741,6 +728,7 @@ export default function HomePageClient({
             repeat: Infinity,
             ease: "linear",
           }}
+          style={{ transform: "translateZ(0)", willChange: "transform" }}
           className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-full -translate-x-1/2 -translate-y-1/2 opacity-50"
         >
           <ExportedImage
@@ -752,25 +740,28 @@ export default function HomePageClient({
           />
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          variants={FADE_UP_VARIANTS}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true }}
+          style={GPU_ACCELERATION}
           className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs md:text-xl"
         >
-          <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
             WHO WE ARE
           </span>
         </motion.div>
         <motion.span
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={FADE_UP_VARIANTS}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          style={GPU_ACCELERATION}
           className="text-center text-xl leading-12 text-white drop-shadow-white md:text-3xl"
         >
           We make{" "}
           <span className="inline-block rounded-full border border-white/12 bg-white/12 px-6 py-1 text-xs whitespace-nowrap md:text-xl">
-            <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
               <span className="text-white">💻 </span>
               Project Development
             </span>
@@ -778,14 +769,14 @@ export default function HomePageClient({
           transparent and efficient. InkubatorIT is the professionalism
           department under HMIF ITB, where the best{" "}
           <span className="inline-block rounded-full border border-white/12 bg-white/12 px-6 py-1 text-xs whitespace-nowrap md:text-xl">
-            <span className="bg-gradient-to-r from-[#AD99E7] to-[#BBE4F6] bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-[#AD99E7] to-[#BBE4F6] bg-clip-text text-transparent">
               <span className="text-white">👨🏻‍💻 </span>
               Informatics Talent
             </span>
           </span>{" "}
           create digital solutions that{" "}
           <span className="inline-block rounded-full border border-white/12 bg-white/12 px-6 py-1 text-xs whitespace-nowrap md:text-xl">
-            <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
               Make an Impact
               <span className="text-white"> ✨</span>
             </span>
@@ -793,10 +784,11 @@ export default function HomePageClient({
           , breaking down complex work into simple, reliable steps.
         </motion.span>
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          variants={FADE_UP_VARIANTS}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true }}
-          transition={{ duration: 1 }}
+          style={GPU_ACCELERATION}
           className="w-full max-w-[1000px]"
         >
           <ExportedImage
@@ -808,18 +800,11 @@ export default function HomePageClient({
           />
         </motion.div>
         <motion.div
+          variants={STAGGER_CONTAINER_VARIANTS}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          variants={{
-            hidden: { opacity: 0 },
-            show: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.1,
-              },
-            },
-          }}
+          style={{ transform: "translateZ(0)" }}
           className="flex w-full flex-wrap items-center justify-center gap-5 md:gap-20"
         >
           {[
@@ -835,10 +820,8 @@ export default function HomePageClient({
           ].map((stat, index) => (
             <motion.div
               key={index}
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                show: { opacity: 1, y: 0 },
-              }}
+              variants={FADE_UP_VARIANTS}
+              style={GPU_ACCELERATION}
               className="flex max-w-[100px] flex-col items-center justify-center md:max-w-[200px]"
             >
               <span className="relative inline-block">
@@ -849,7 +832,7 @@ export default function HomePageClient({
                   {stat.value}
                 </span>
                 <span
-                  className="relative bg-gradient-to-r from-white bg-clip-text text-3xl text-transparent md:text-5xl"
+                  className="relative bg-linear-to-r from-white bg-clip-text text-3xl text-transparent md:text-5xl"
                   style={{
                     backgroundImage: `linear-gradient(to right, white, ${stat.color})`,
                   }}
@@ -873,7 +856,8 @@ export default function HomePageClient({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="max-w-[200px] flex-1 bg-gradient-to-r from-white to-white/60 bg-clip-text text-xl text-transparent md:max-w-[500px] md:text-6xl"
+            style={GPU_ACCELERATION}
+            className="max-w-[200px] flex-1 bg-linear-to-r from-white to-white/60 bg-clip-text text-xl text-transparent md:max-w-[500px] md:text-6xl"
           >
             What Our Clients Say
           </motion.span>
@@ -882,10 +866,11 @@ export default function HomePageClient({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
+            style={GPU_ACCELERATION}
             className="flex max-w-[500px] flex-col items-start justify-center gap-4"
           >
             <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs md:text-xl">
-              <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
                 TESTIMONIALS
               </span>
             </div>
@@ -900,6 +885,7 @@ export default function HomePageClient({
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
+          style={GPU_ACCELERATION}
           className="w-full overflow-hidden"
         >
           <ExportedImage
@@ -924,6 +910,7 @@ export default function HomePageClient({
             repeat: Infinity,
             ease: "easeInOut",
           }}
+          style={{ transform: "translateZ(0)", willChange: "transform, opacity" }}
           className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-full max-w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 md:scale-100"
         >
           <ExportedImage
@@ -940,27 +927,32 @@ export default function HomePageClient({
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1 }}
-            className="h-[2px] w-full max-w-[500px]"
             style={{
+              ...GPU_ACCELERATION,
+              willChange: "transform",
               backgroundImage:
                 "linear-gradient(to right, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
             }}
+            className="h-px w-full max-w-[500px]"
           />
         </div>
         <motion.span
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={FADE_UP_VARIANTS}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text p-4 text-center text-2xl font-semibold text-transparent md:text-6xl"
+          style={GPU_ACCELERATION}
+          className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text p-4 text-center text-2xl font-semibold text-transparent md:text-6xl"
         >
           Ready to Bring Your Ideas to Life?
         </motion.span>
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={FADE_UP_VARIANTS}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.8 }}
+          transition={{ delay: 0.2 }}
+          style={GPU_ACCELERATION}
           className="text-center text-base text-white md:text-3xl"
         >
           Let’s turn your vision into reality with the right digital solutions.
@@ -970,12 +962,13 @@ export default function HomePageClient({
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 0.8 }}
+          style={GPU_ACCELERATION}
         >
           <Link href="/contact" className="rounded-full">
             <motion.span
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="my-10 flex flex-row items-center gap-4 rounded-full bg-gradient-to-r from-[#564292] to-[#A77741] px-5 py-2 text-xl text-white md:my-15 md:px-10 md:py-4 md:text-4xl shadow-lg hover:shadow-purple-500/20 transition-shadow"
+              className="my-10 flex flex-row items-center gap-4 rounded-full bg-linear-to-r from-[#564292] to-[#A77741] px-5 py-2 text-xl text-white md:my-15 md:px-10 md:py-4 md:text-4xl shadow-lg hover:shadow-purple-500/20 transition-shadow"
             >
               Let’s Collaborate{" "}
               <Sparkles className="h-4 w-4 text-white md:h-10 md:w-10" />

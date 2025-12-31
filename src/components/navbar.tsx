@@ -1,4 +1,5 @@
 "use client";
+
 import { motion, AnimatePresence } from "motion/react";
 import React, { useState } from "react";
 import Link from "next/link";
@@ -6,22 +7,40 @@ import ExportedImage from "next-image-export-optimizer";
 import { Menu, X, SendHorizontal } from "lucide-react";
 import { usePathname } from "next/navigation";
 
+const GPU_ACCELERATION = {
+  transform: "translateZ(0)",
+  willChange: "transform, opacity",
+} as const;
+
+const SLIDE_DOWN_VARIANTS = {
+  hidden: { y: -100, opacity: 0 },
+  show: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+    },
+  },
+} as const;
+
+const NAV_LINKS = [
+  { href: "/about-us", label: "About Us" },
+  { href: "/portfolio", label: "Portfolio" },
+  { href: "/blog", label: "Blog" },
+  { href: "/our-services", label: "Our Services" },
+] as const;
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  const navLinks = [
-    { href: "/about-us", label: "About Us" },
-    { href: "/portfolio", label: "Portfolio" },
-    { href: "/blog", label: "Blog" },
-    { href: "/our-services", label: "Our Services" },
-  ];
-
   return (
     <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      variants={SLIDE_DOWN_VARIANTS}
+      initial="hidden"
+      animate="show"
+      style={GPU_ACCELERATION}
       className="fixed top-6 z-50 w-full px-3 md:top-12 md:px-12"
     >
       <div className="mx-auto flex max-w-[1600px] items-center justify-between rounded-2xl bg-white/5 p-4 backdrop-blur-md md:px-8 md:py-4">
@@ -38,7 +57,7 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-8 rounded-xl border border-white/20 bg-black/40 px-10 py-3 md:flex">
-          {navLinks.map((link) => {
+          {NAV_LINKS.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
@@ -57,7 +76,7 @@ const Navbar = () => {
                 </span>
 
                 <span
-                  className={`absolute -bottom-1 h-[2px] w-full rounded-full bg-gradient-to-r from-[#7E67C1] to-[#FFB051] transition-all duration-300 ${
+                  className={`absolute -bottom-1 h-px w-full rounded-full bg-linear-to-r from-[#7E67C1] to-[#FFB051] transition-all duration-300 ${
                     isActive
                       ? "scale-x-100 opacity-100"
                       : "scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100"
@@ -71,7 +90,7 @@ const Navbar = () => {
         <Link
           key="/contact"
           href="/contact"
-          className="hidden items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#564292] to-[#A77741] px-8 py-4 text-base text-white/90 transition-all duration-200 hover:scale-105 hover:text-white hover:shadow-lg hover:shadow-purple-500/20 md:flex"
+          className="hidden items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#564292] to-[#A77741] px-8 py-4 text-base text-white/90 transition-all duration-200 hover:scale-105 hover:text-white hover:shadow-lg hover:shadow-purple-500/20 md:flex"
         >
           Let’s Collaborate <SendHorizontal height={15} />
         </Link>
@@ -93,6 +112,7 @@ const Navbar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            style={{ ...GPU_ACCELERATION, willChange: "opacity" }}
             className="fixed inset-0 top-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
             onClick={() => setIsOpen(false)}
           />
@@ -105,6 +125,7 @@ const Navbar = () => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            style={{ ...GPU_ACCELERATION, willChange: "transform" }}
             className="fixed top-0 right-0 z-50 h-full w-[280px] bg-[#0C0C0C] shadow-2xl md:hidden"
           >
             <div className="flex h-full flex-col items-center justify-center px-6 py-6">
@@ -116,7 +137,7 @@ const Navbar = () => {
               </button>
               {/* Nav links */}
               <div className="flex flex-col space-y-8">
-                {navLinks.map((link, index) => {
+                {NAV_LINKS.map((link, index) => {
                   const isActive = pathname === link.href;
                   return (
                     <motion.div
@@ -124,6 +145,7 @@ const Navbar = () => {
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.1 * index }}
+                      style={GPU_ACCELERATION}
                     >
                       <Link
                         href={link.href}
@@ -145,11 +167,12 @@ const Navbar = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
+                  style={GPU_ACCELERATION}
                 >
                   <Link
                     href="/contact"
                     onClick={() => setIsOpen(false)}
-                    className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#564292] to-[#A77741] px-4 py-3 text-xl text-white transition-transform active:scale-95"
+                    className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#564292] to-[#A77741] px-4 py-3 text-xl text-white transition-transform active:scale-95"
                   >
                     Let's Collaborate <SendHorizontal height={15} />
                   </Link>
