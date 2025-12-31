@@ -1,7 +1,7 @@
 "use client";
 
 import { BriefcaseBusiness, Sparkles } from "lucide-react";
-import Image from "next/image";
+import ExportedImage from "next-image-export-optimizer";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -173,7 +173,7 @@ export default function HomePageClient({
       </section>
 
       <section className="relative flex h-[500px] w-full max-w-[1600px] flex-col items-center justify-center px-5 md:h-[1200px]">
-        <Image
+        <ExportedImage
           src="/assets/landing/techstack_ellipse.png"
           alt="techstack ellipse"
           width={2000}
@@ -191,7 +191,7 @@ export default function HomePageClient({
                 key={project.id}
                 className="flex min-w-0 flex-[0_0_100%] justify-center"
               >
-                <Image
+                <ExportedImage
                   src={project.image}
                   alt={project.title}
                   width={2000}
@@ -263,7 +263,7 @@ export default function HomePageClient({
                 key={brand.id}
                 className="flex h-10 items-center justify-center p-2 md:h-18 md:p-3"
               >
-                <Image
+                <ExportedImage
                   src={brand.image}
                   alt={brand.title}
                   width={1000}
@@ -323,7 +323,7 @@ export default function HomePageClient({
                   </p>
                 </div>
                 <div className="flex h-full w-[30%] shrink-0 items-center justify-center">
-                  <Image
+                  <ExportedImage
                     src={service.image}
                     alt={service.title}
                     width={2000}
@@ -339,14 +339,14 @@ export default function HomePageClient({
 
       {/*How We Work Section*/}
       <section className="relative mt-[80px] flex w-full max-w-[1600px] flex-col items-center justify-center gap-20 px-5 md:mt-[160px]">
-        <Image
+        <ExportedImage
           src="/assets/landing/Bubble.svg"
           alt="bubble"
           width={2000}
           height={2000}
           className="pointer-events-none absolute top-1/2 left-0 z-0 hidden h-full -translate-x-[45%] -translate-y-1/2 scale-200 md:block"
         />
-        <Image
+        <ExportedImage
           src="/assets/landing/Bubble.svg"
           alt="bubble"
           width={2000}
@@ -503,7 +503,7 @@ export default function HomePageClient({
 
       {/*Who We Are Section*/}
       <section className="relative mt-[80px] flex w-full flex-col items-center justify-center gap-20 px-5 md:mt-[160px]">
-        <Image
+        <ExportedImage
           src="/assets/landing/Bubble.svg"
           alt="bubble"
           width={2000}
@@ -540,7 +540,7 @@ export default function HomePageClient({
           </span>{" "}
           , breaking down complex work into simple, reliable steps.
         </span>
-        <Image
+        <ExportedImage
           src="/assets/landing/who_we_are.png"
           alt="who we are img"
           width={2000}
@@ -649,7 +649,7 @@ export default function HomePageClient({
             </p>
           </div>
         </div>
-        <Image
+        <ExportedImage
           src={"/assets/landing/Testimonials.svg"}
           alt="testimonial img"
           width={2000}
@@ -660,7 +660,7 @@ export default function HomePageClient({
 
       {/*Last Section*/}
       <section className="relative my-[80px] flex w-full flex-col items-center justify-center gap-5 px-5 md:my-[160px] md:gap-10">
-        <Image
+        <ExportedImage
           src="/assets/landing/Bubble.svg"
           alt="bubble"
           width={2000}

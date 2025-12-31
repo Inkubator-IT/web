@@ -2,13 +2,13 @@
 
 import React from "react";
 import { ServiceCard, ServiceCardProps } from "./components/service-card";
-import Image from "next/image";
+import ExportedImage from "next-image-export-optimizer";
 
 const OurServicesPage: React.FC = () => {
   const services: ServiceCardProps[] = [
     {
       icon: (
-        <Image
+        <ExportedImage
           src="/our-services/icon/1.svg"
           alt="Palette Icon"
           width={24}
@@ -26,7 +26,7 @@ const OurServicesPage: React.FC = () => {
         "App and Website",
       ],
       image: (
-        <Image
+        <ExportedImage
           src="/our-services/image/1.png"
           alt="Palette Icon"
           width={24}
@@ -37,7 +37,7 @@ const OurServicesPage: React.FC = () => {
     },
     {
       icon: (
-        <Image
+        <ExportedImage
           src="/our-services/icon/2.svg"
           alt="Palette Icon"
           width={24}
@@ -55,7 +55,7 @@ const OurServicesPage: React.FC = () => {
         "E-commerce, Company Profile, etc",
       ],
       image: (
-        <Image
+        <ExportedImage
           src="/our-services/image/2.png"
           alt="Palette Icon"
           width={24}
@@ -66,7 +66,7 @@ const OurServicesPage: React.FC = () => {
     },
     {
       icon: (
-        <Image
+        <ExportedImage
           src="/our-services/icon/3.svg"
           alt="Palette Icon"
           width={24}
@@ -84,7 +84,7 @@ const OurServicesPage: React.FC = () => {
         "Push Notifications",
       ],
       image: (
-        <Image
+        <ExportedImage
           src="/our-services/image/3.png"
           alt="Palette Icon"
           width={24}
@@ -95,7 +95,7 @@ const OurServicesPage: React.FC = () => {
     },
     {
       icon: (
-        <Image
+        <ExportedImage
           src="/our-services/icon/4.svg"
           alt="Palette Icon"
           width={24}
@@ -113,7 +113,7 @@ const OurServicesPage: React.FC = () => {
         "Secure Data Handling",
       ],
       image: (
-        <Image
+        <ExportedImage
           src="/our-services/image/4.png"
           alt="Palette Icon"
           width={24}
@@ -124,7 +124,7 @@ const OurServicesPage: React.FC = () => {
     },
     {
       icon: (
-        <Image
+        <ExportedImage
           src="/our-services/icon/5.svg"
           alt="Palette Icon"
           width={24}
@@ -142,7 +142,7 @@ const OurServicesPage: React.FC = () => {
         "Recommendation Systems",
       ],
       image: (
-        <Image
+        <ExportedImage
           src="/our-services/image/5.png"
           alt="Palette Icon"
           width={24}
@@ -153,7 +153,7 @@ const OurServicesPage: React.FC = () => {
     },
     {
       icon: (
-        <Image
+        <ExportedImage
           src="/our-services/icon/6.svg"
           alt="Palette Icon"
           width={24}
@@ -171,7 +171,7 @@ const OurServicesPage: React.FC = () => {
         "Interactive Training",
       ],
       image: (
-        <Image
+        <ExportedImage
           src="/our-services/image/6.png"
           alt="Palette Icon"
           width={24}
@@ -182,7 +182,7 @@ const OurServicesPage: React.FC = () => {
     },
     {
       icon: (
-        <Image
+        <ExportedImage
           src="/our-services/icon/7.svg"
           alt="Palette Icon"
           width={24}
@@ -200,7 +200,7 @@ const OurServicesPage: React.FC = () => {
         "Automation Systems",
       ],
       image: (
-        <Image
+        <ExportedImage
           src="/our-services/image/7.png"
           alt="Palette Icon"
           width={24}
@@ -211,7 +211,7 @@ const OurServicesPage: React.FC = () => {
     },
     {
       icon: (
-        <Image
+        <ExportedImage
           src="/our-services/icon/8.svg"
           alt="Palette Icon"
           width={24}
@@ -228,7 +228,7 @@ const OurServicesPage: React.FC = () => {
         "One or Many Main Features",
       ],
       image: (
-        <Image
+        <ExportedImage
           src="/our-services/image/8.png"
           alt="Palette Icon"
           width={24}
@@ -302,7 +302,7 @@ const OurServicesPage: React.FC = () => {
           >
             Start Your Project Today
             <span>
-              <Image
+              <ExportedImage
                 src="/our-services/image/star.png"
                 alt="Arrow Right"
                 width={16}

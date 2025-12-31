@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import ExportedImage from "next-image-export-optimizer";
 
 interface ImageCarouselProps {
   images: string[] | null;
@@ -35,10 +36,12 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
                 className="w-[280px] flex-shrink-0 snap-center md:w-[432px]"
               >
                 <div className="group relative h-[175px] w-full cursor-pointer overflow-hidden rounded-xl bg-gray-800 md:h-[270px]">
-                  <img
+                  <ExportedImage
                     src={img}
                     alt={`Preview ${index + 1}`}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    sizes="(max-width: 768px) 280px, 432px"
                   />
                 </div>
               </div>
