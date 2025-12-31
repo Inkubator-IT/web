@@ -13,7 +13,7 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
   const [canScrollRight, setCanScrollRight] = useState(true);
 
   return (
-    <div className="mb-10 space-y-4">
+    <div className="mt-8 md:mt-10 mb-8 md:mb-10 space-y-4 md:space-y-6">
       <h2 className="text-2xl font-semibold text-white md:text-3xl">Preview</h2>
 
       <div className="relative">

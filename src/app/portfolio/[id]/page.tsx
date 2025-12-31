@@ -71,12 +71,12 @@ export default async function ProjectDetailPage({
                 </div>
               </div>
 
-              <div className="flex w-full flex-col gap-4 md:mr-5 md:w-1/2">
+              <div className="flex w-full flex-col gap-2 md:gap-4 md:mr-5 md:w-1/2">
                 <div className="leading-tight font-semibold md:leading-16">
                   <h1 className="text-3xl md:text-5xl lg:text-7xl">
                     {project.title}
                   </h1>
-                  <p className="mt-1 text-base text-white/60 md:text-2xl">
+                  <p className="mt-1 md:mt-4 text-base text-white/60 md:text-2xl">
                     {project.owner}
                   </p>
                 </div>
@@ -114,7 +114,7 @@ export default async function ProjectDetailPage({
 
             {/* Tech Stack Icons */}
             {project.tech_stacks && project.tech_stacks.length > 0 && (
-              <div className="mt-6 mb-10 flex gap-3 md:mb-16 md:gap-4">
+              <div className="mt-8 md:mt-16 mb-8 md:mb-20 flex gap-3 md:gap-4">
                 {project.tech_stacks.map((techStack) => (
                   <div key={techStack.tech_stack_id} className="group relative">
                     <ExportedImage
@@ -134,7 +134,7 @@ export default async function ProjectDetailPage({
 
             <ImageCarousel images={project.images} />
 
-            <div className="mb-10 space-y-4">
+            <div className="mt-8 md:mt-10 mb-8 md:mb-10 space-y-4 md:space-y-6">
               <h3 className="text-2xl font-semibold text-white md:text-3xl">
                 Tags
               </h3>
@@ -153,8 +153,7 @@ export default async function ProjectDetailPage({
                 </span>
               </div>
             </div>
-
-            <div className="space-y-4">
+            <div className="mt-8 md:mt-10 mb-8 md:mb-10 space-y-4 md:space-y-6">
               <h3 className="text-2xl font-semibold text-white md:text-3xl">
                 Testimonial
               </h3>

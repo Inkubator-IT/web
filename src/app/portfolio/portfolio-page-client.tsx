@@ -106,10 +106,10 @@ export default function PortfolioPageClient({
     >
       <section className="relative px-4 py-12 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <h1 className="mb-4 bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-4xl leading-tight font-semibold tracking-[-0.06em] text-transparent md:mb-6 md:text-6xl md:leading-16 lg:text-[100px] lg:leading-20">
+          <h1 className="word-spacing-tight bg-linear-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text p-2 text-4xl font-semibold text-transparent sm:text-5xl md:text-6xl">
             Portfolio
           </h1>
-          <p className="mb-6 px-4 text-sm leading-relaxed tracking-[-0.06em] text-white md:mb-8 md:text-2xl md:leading-9">
+          <p className="mb-6 px-4 text-base font-light text-white sm:px-4 sm:text-lg md:mb-8">
             Every project is a story of collaboration and Impact
           </p>
         </div>
@@ -166,10 +166,10 @@ export default function PortfolioPageClient({
       >
         <div className="mx-auto max-w-[1540px]">
           <div className="mb-8 text-center md:mb-12">
-            <h2 className="text-2xl leading-tight font-medium tracking-[-0.06em] text-white md:text-4xl md:leading-20 lg:text-6xl">
+            <h2 className="text-2xl font-semibold text-white sm:text-3xl md:text-4xl">
               Featured Project
             </h2>
-            <p className="mt-2 text-sm leading-relaxed tracking-[-0.06em] text-white/80 md:text-xl md:leading-7 lg:text-[26px]">
+            <p className="mt-2 text-base font-light text-white/80 sm:text-lg md:text-xl">
               Showcasing our latest work and successful client partnerships
             </p>
           </div>
@@ -232,7 +232,7 @@ export default function PortfolioPageClient({
                               : "bg-black text-[#777777]"
                           }`}
                         >
-                          {category.charAt(0).toUpperCase() + category.slice(1)}
+                          {category.toUpperCase() === "AI" ? "AI" : category.charAt(0).toUpperCase() + category.slice(1)}
                         </button>
                       ))}
                     </div>
