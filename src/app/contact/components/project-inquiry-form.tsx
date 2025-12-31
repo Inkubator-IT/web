@@ -1,23 +1,11 @@
+"use client";
 import React, { useState } from "react";
 import { User, FileText, Send, ChevronDown } from "lucide-react";
+import { projectInquirySchema } from "@/lib/validators/project-inquiry";
+import { z } from "zod";
+import { toast } from "sonner";
 
-interface FormData {
-  fullName: string;
-  whatsappNumber: string;
-  email: string;
-  company: string;
-  isAcademic: boolean;
-  hearAbout: string[];
-  othersSpecify: string;
-  projectType: string;
-  projectPurpose: string;
-  costExpectations: string;
-  projectDeadline: string;
-  hasDesign: boolean;
-  projectDetails: string;
-  questions: string;
-  projectTypeOther?: string;
-}
+type FormData = z.infer<typeof projectInquirySchema>;
 
 interface ProjectInquiryFormProps {
   formData: FormData;
@@ -39,27 +27,86 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
   isSubmitting = false,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string[] | undefined>>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleInputChange = (
     field: keyof FormData,
     value: string | boolean,
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    validate({ ...formData, [field]: value });
   };
 
   const handleCheckboxChange = (field: keyof FormData, value: string) => {
+    const newValues =
+      Array.isArray(formData[field]) && formData[field].includes(value)
+        ? (formData[field] as string[]).filter((item: string) => item !== value)
+        : [...(formData[field] as string[]), value];
+
     setFormData((prev) => ({
       ...prev,
-      [field]:
-        Array.isArray(prev[field]) && prev[field].includes(value)
-          ? (prev[field] as string[]).filter((item: string) => item !== value)
-          : [...(prev[field] as string[]), value],
+      [field]: newValues,
     }));
+    validate({ ...formData, [field]: newValues });
+  };
+
+  const validate = (data: FormData) => {
+    console.log("Validating data:", data);
+    const result = projectInquirySchema.safeParse(data);
+    console.log("Validation result:", result);
+    if (!result.success) {
+      setErrors(result.error.flatten().fieldErrors ?? {});
+    } else {
+      setErrors({});
+    }
+    return result.success;
+  };
+
+  const handleSubmit = async () => {
+    console.log("Submitting form...");
+    const isValid = validate(formData);
+    console.log("Is form valid?", isValid);
+    if (isValid) {
+      setIsLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      onSubmit();
+      setIsLoading(false);
+      setIsSubmitted(true);
+      setFormData({
+        fullName: "",
+        whatsappNumber: "",
+        email: "",
+        company: "",
+        isAcademic: false,
+        hearAbout: [],
+        othersSpecify: "",
+        projectType: "",
+        projectPurpose: "",
+        costExpectations: "",
+        projectDeadline: "",
+        hasDesign: false,
+        projectDetails: "",
+        questions: "",
+        projectTypeOther: "",
+      });
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 5000);
+    } else {
+      toast.error("Please fill out all required fields correctly.");
+    }
   };
 
   return (
     <div className="p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6]">
       <div className="space-y-8 bg-[#201C1D] rounded-lg p-4 sm:p-6 lg:p-8">
+        {isSubmitted && (
+          <div className="bg-green-500/20 text-green-300 p-4 rounded-lg text-center">
+            Form submitted successfully! We will get back to you soon.
+          </div>
+        )}
         {/* Client Information Section */}
         <div className="space-y-6">
           <div className="flex items-center gap-2 sm:gap-3 mb-6">
@@ -94,36 +141,35 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
               ["Whatsapp Number", "whatsappNumber", "08123456789", "tel"],
               ["Email Address", "email", "john@example.com", "email"],
               ["Company", "company", "John Company", "text"],
-            ].map(([label, key, placeholder, type]) => {
-              const hasError = validationErrors[key as keyof typeof validationErrors];
-              return (
-                <div key={key} className="space-y-2">
-                  <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
-                    {label}
-                  </label>
-                  <div className={`p-[1px] rounded-lg mt-2 sm:mt-3 lg:mt-4 ${
-                    hasError
-                      ? "bg-red-500"
-                      : "bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6]"
-                  }`}>
-                    <input
-                      type={type}
-                      placeholder={placeholder}
-                      value={(formData as any)[key]}
-                      onChange={(e) =>
-                        handleInputChange(key as keyof FormData, e.target.value)
-                      }
-                      className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
-                    />
-                  </div>
-                  {hasError && (
-                    <p className="text-red-500 text-sm sm:text-base mt-1">
-                      {hasError}
-                    </p>
-                  )}
+            ].map(([label, key, placeholder, type]) => (
+              <div key={key} className="space-y-2">
+                <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
+                  {label}
+                </label>
+                <div
+                  className={`p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4 ${
+                    errors[key as keyof FormData]
+                      ? "border border-red-500"
+                      : ""
+                  }`}
+                >
+                  <input
+                    type={type}
+                    placeholder={placeholder}
+                    value={(formData as any)[key]}
+                    onChange={(e) =>
+                      handleInputChange(key as keyof FormData, e.target.value)
+                    }
+                    className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
+                  />
                 </div>
-              );
-            })}
+                {errors[key as keyof FormData] && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors[key as keyof FormData]}
+                  </p>
+                )}
+              </div>
+            ))}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 md:gap-4 mt-6">
@@ -168,7 +214,10 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                       <div className="inline-flex p-[1px] bg-gradient-to-r from-[#7E67C1] to-[#BBE4F6] shrink-0">
                         <input
                           type="checkbox"
-                          checked={formData.hearAbout.includes(option)}
+                          checked={
+                            Array.isArray(formData.hearAbout) &&
+                            formData.hearAbout.includes(option)
+                          }
                           onChange={() =>
                             handleCheckboxChange("hearAbout", option)
                           }
@@ -189,7 +238,10 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                   <div className="inline-flex p-[1px] bg-gradient-to-r from-[#7E67C1] to-[#BBE4F6] shrink-0">
                     <input
                       type="checkbox"
-                      checked={formData.hearAbout.includes("Others")}
+                      checked={
+                        Array.isArray(formData.hearAbout) &&
+                        formData.hearAbout.includes("Others")
+                      }
                       onChange={() =>
                         handleCheckboxChange("hearAbout", "Others")
                       }
@@ -203,20 +255,26 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                     Others
                   </span>
                 </label>
-
-                {formData.hearAbout.includes("Others") && (
-                  <div className="p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4">
-                    <input
-                      type="text"
-                      placeholder="Specify here"
-                      value={formData.othersSpecify}
-                      onChange={(e) =>
-                        handleInputChange("othersSpecify", e.target.value)
-                      }
-                      className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
-                    />
-                  </div>
+                {errors.hearAbout && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.hearAbout}
+                  </p>
                 )}
+
+                {Array.isArray(formData.hearAbout) &&
+                  formData.hearAbout.includes("Others") && (
+                    <div className="p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4">
+                      <input
+                        type="text"
+                        placeholder="Specify here"
+                        value={formData.othersSpecify}
+                        onChange={(e) =>
+                          handleInputChange("othersSpecify", e.target.value)
+                        }
+                        className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
+                      />
+                    </div>
+                  )}
               </div>
             </div>
           </div>
@@ -247,7 +305,11 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                   See IIT Services
                 </span>
               </label>
-              <div className="p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4 relative">
+              <div
+                className={`p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4 relative ${
+                  errors.projectType ? "border border-red-500" : ""
+                }`}
+              >
                 <button
                   type="button"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -293,9 +355,18 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                   </div>
                 )}
               </div>
+              {errors.projectType && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.projectType}
+                </p>
+              )}
 
               {formData.projectType === "Others" && (
-                <div className="p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4">
+                <div
+                  className={`p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4 ${
+                    errors.projectTypeOther ? "border border-red-500" : ""
+                  }`}
+                >
                   <input
                     type="text"
                     placeholder="Specify project type"
@@ -307,13 +378,22 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                   />
                 </div>
               )}
+              {errors.projectTypeOther && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.projectTypeOther}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
               <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
                 Project Creation Purpose
               </label>
-              <div className="p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4">
+              <div
+                className={`p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4 ${
+                  errors.projectPurpose ? "border border-red-500" : ""
+                }`}
+              >
                 <input
                   type="text"
                   placeholder="Describe the project purpose..."
@@ -324,13 +404,22 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                   className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
                 />
               </div>
+              {errors.projectPurpose && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.projectPurpose}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
               <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
                 Cost Expectations
               </label>
-              <div className="p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4">
+              <div
+                className={`p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4 ${
+                  errors.costExpectations ? "border border-red-500" : ""
+                }`}
+              >
                 <input
                   type="text"
                   placeholder="Cost in Rupiah, e.g. 3,000,000"
@@ -341,13 +430,22 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                   className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
                 />
               </div>
+              {errors.costExpectations && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.costExpectations}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
               <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
                 Project Deadline
               </label>
-              <div className="p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4">
+              <div
+                className={`p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4 ${
+                  errors.projectDeadline ? "border border-red-500" : ""
+                }`}
+              >
                 <input
                   type="text"
                   placeholder="Deadline in days, e.g. 60 days"
@@ -358,6 +456,11 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                   className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
                 />
               </div>
+              {errors.projectDeadline && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.projectDeadline}
+                </p>
+              )}
             </div>
           </div>
 
@@ -391,7 +494,11 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
             <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
               Project Details
             </label>
-            <div className="p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4">
+            <div
+              className={`p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4 ${
+                errors.projectDetails ? "border border-red-500" : ""
+              }`}
+            >
               <textarea
                 placeholder="Tell us about your project, requirements, timeline, or anything else..."
                 value={formData.projectDetails}
@@ -402,6 +509,11 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                 className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all resize-none block"
               />
             </div>
+            {errors.projectDetails && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.projectDetails}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -422,11 +534,11 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
 
         <button
           type="button"
-          onClick={onSubmit}
-          disabled={isSubmitting}
+          onClick={handleSubmit}
+          disabled={isLoading}
           className="w-full py-4 sm:py-5 bg-gradient-to-r from-[#7E67C1] to-[#BBE4F6] text-black text-xl sm:text-2xl lg:text-3xl font-semibold rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Sending..." : "Send Message"}
+          {isLoading ? "Submitting..." : "Send Message"}
           <Send className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
       </div>

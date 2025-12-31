@@ -1,5 +1,7 @@
 import React from "react";
 import { CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import { categoryOptions } from "@/app/portfolio/portfolio-page-client";
 
 export interface ServiceCardProps {
   icon: React.ReactNode;
@@ -8,6 +10,7 @@ export interface ServiceCardProps {
   features: string[];
   image: React.ReactNode;
   gradient?: string;
+  category?: (typeof categoryOptions)[number];
 }
 
 export const ServiceCard: React.FC<ServiceCardProps> = ({
@@ -16,9 +19,11 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   description,
   features,
   image,
+  category,
 }) => {
   return (
-    <div
+    <Link
+      href={`/portfolio?category=${category}`}
       className="group relative overflow-hidden  rounded-xl p-4 sm:p-6 md:p-8 border border-zinc-700/50 hover:border-zinc-600/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10 h-full flex flex-col bg-gradient-to-br from-zinc-900 to-zinc-800"
       style={{
         border: "1px solid transparent",
@@ -61,6 +66,6 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
       <div className="absolute right-0 bottom-4 md:bottom-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 opacity-80 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none select-none">
         {image}
       </div>
-    </div>
+    </Link>
   );
 };
