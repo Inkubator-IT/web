@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import Image from "next/image";
+import ExportedImage from "next-image-export-optimizer";
 import Navbar from "@/components/navbar";
 import { Providers } from "./providers";
 
@@ -53,7 +53,7 @@ export default function RootLayout({
         className={`${montserrat.variable} antialiased bg-[#0C0C0C] font-sans`}
       >
         <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-          <Image
+          <ExportedImage
             src="/Wave.svg"
             alt="bg-wave"
             fill

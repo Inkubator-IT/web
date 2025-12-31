@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import ExportedImage from "next-image-export-optimizer";
 import { Menu, X, SendHorizontal } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -21,19 +21,15 @@ const Navbar = () => {
     <nav className="fixed top-6 z-50 w-full px-3 md:top-12 md:px-12">
       <div className="mx-auto flex max-w-[1600px] items-center justify-between rounded-2xl bg-white/5 p-4 backdrop-blur-md md:px-8 md:py-4">
         {/* Logo */}
-        <div className="flex h-[30px] w-auto items-center rounded-xl bg-black/0 p-2 md:h-[60px]">
-          {" "}
-          {/* rada jelek sih kalo ad bg buat logo, naikin opacity kalau perlu aj*/}
-          <Link href="/" className="h-full w-auto">
-            <Image
-              src="/logo-iit.svg"
-              alt="InkubatorIT"
-              width={40}
-              height={40}
-              className="h-full w-auto object-contain"
-            />
-          </Link>
-        </div>
+        <Link href="/" className="flex items-center gap-2">
+          <ExportedImage
+            src="/logo-iit.svg"
+            alt="InkubatorIT"
+            width={40}
+            height={40}
+            className="h-[30px] w-auto md:h-[60px]"
+          />
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-8 rounded-xl border border-white/20 bg-black/40 px-10 py-3 md:flex">

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import ExportedImage from "next-image-export-optimizer";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -28,7 +28,7 @@ export default function ProjectCard({ project, className }: ProjectCardProps) {
       )}
     >
       <div className="relative h-[180px] w-full flex-shrink-0 overflow-hidden md:h-[240px] lg:h-[339px]">
-        <Image
+        <ExportedImage
           src={project.thumbnail}
           alt={project.title}
           fill
