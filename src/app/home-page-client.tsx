@@ -156,7 +156,7 @@ export default function HomePageClient({
       if (emblaApi.canScrollPrev()) {
         emblaApi.scrollPrev();
       }
-    }, 5000);
+    }, 50000);
 
     return () => clearInterval(intervalId);
   }, [emblaApi]);
@@ -211,7 +211,7 @@ export default function HomePageClient({
             variants={FADE_UP_VARIANTS}
             transition={{ delay: 0.4, duration: 0.8 }}
             style={GPU_ACCELERATION}
-            className="bg-linear-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-center text-2xl font-semibold text-transparent md:text-6xl"
+            className="bg-linear-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-center text-3xl font-semibold text-transparent sm:text-5xl md:text-6xl"
           >
             Trusted Digital Solutions by ITB&apos;s Brightest Tech Talents
           </motion.h1>
@@ -253,7 +253,7 @@ export default function HomePageClient({
         </motion.div>
       </section>
 
-      <section className="relative flex h-[500px] w-full max-w-[1600px] flex-col items-center justify-center px-5 md:h-[1200px]">
+      <section className="relative flex h-fit w-full max-w-[1600px] flex-col items-center justify-center px-5">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -287,14 +287,14 @@ export default function HomePageClient({
               {showcaseItems.map((project) => (
                 <div
                   key={project.id}
-                  className="flex min-w-0 flex-[0_0_100%] justify-center"
+                  className="flex h-[400px] min-w-0 flex-[0_0_100%] justify-center md:h-[800px]"
                 >
                   <ExportedImage
                     src={project.image}
                     alt={project.title}
                     width={2000}
                     height={2000}
-                    className="relative z-10 h-auto max-h-[400px] w-full object-contain md:max-h-[800px]"
+                    className="relative z-10 w-full object-cover"
                   />
                 </div>
               ))}
@@ -302,7 +302,7 @@ export default function HomePageClient({
           </div>
         </motion.div>
 
-        <div className="z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 px-0 md:gap-[40px] md:px-20">
+        <div className="z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 px-0 py-5 md:gap-10 md:px-20">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -312,7 +312,7 @@ export default function HomePageClient({
           >
             PROJECT SHOWCASE
           </motion.p>
-          <div className="flex w-full max-w-[1600px] flex-row items-center justify-between gap-5 px-0 md:gap-10 md:px-20">
+          <div className="flex w-full max-w-[1600px] flex-row items-start justify-between gap-5 px-0 md:gap-10 md:px-20">
             {showcaseItems.length > 1 && (
               <button
                 onClick={scrollPrev}
@@ -329,7 +329,7 @@ export default function HomePageClient({
               style={GPU_ACCELERATION}
               className="flex flex-col items-center justify-center gap-3 md:gap-4"
             >
-              <p className="text-center text-2xl font-medium text-white uppercase md:text-6xl">
+              <p className="text-center text-xl font-medium text-white uppercase sm:text-2xl md:text-4xl">
                 {currentProject.title}
               </p>
               <p className="text-center text-xs text-white/60 md:text-[20px]">
@@ -421,7 +421,7 @@ export default function HomePageClient({
               OUR SERVICES
             </span>
           </div>
-          <span className="bg-linear-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-6xl">
+          <span className="bg-linear-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-2xl text-transparent sm:text-4xl md:text-5xl">
             Complete Digital Solutions for Your Project
           </span>
           <p className="px-0 text-center text-sm text-white/80 md:px-25 md:text-2xl">
@@ -546,7 +546,7 @@ export default function HomePageClient({
               HOW WE WORK
             </span>
           </div>
-          <span className="bg-linear-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-6xl">
+          <span className="bg-linear-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-2xl text-transparent sm:text-4xl md:text-5xl">
             Building Together, Step by Step
           </span>
           <p className="text-center text-sm text-white/80 md:text-2xl">
@@ -762,7 +762,7 @@ export default function HomePageClient({
           whileInView="show"
           viewport={{ once: true }}
           style={GPU_ACCELERATION}
-          className="text-center text-xl leading-12 text-white drop-shadow-white md:text-3xl"
+          className="text-center text-lg leading-12 text-white drop-shadow-white md:text-2xl"
         >
           We make{" "}
           <span className="inline-block rounded-full border border-white/12 bg-white/12 px-6 py-1 text-xs whitespace-nowrap md:text-xl">
@@ -950,7 +950,7 @@ export default function HomePageClient({
           whileInView="show"
           viewport={{ once: true }}
           style={GPU_ACCELERATION}
-          className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text p-4 text-center text-2xl font-semibold text-transparent md:text-6xl"
+          className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text p-4 text-center text-2xl font-semibold text-transparent sm:text-4xl md:text-5xl"
         >
           Ready to Bring Your Ideas to Life?
         </motion.span>
