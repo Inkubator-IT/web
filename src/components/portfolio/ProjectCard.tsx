@@ -74,14 +74,17 @@ function DeviceMockupWrapper({
 }
 
 export default function ProjectCard({ project, className }: ProjectCardProps) {
-  const [isLoading, setIsLoading] = useState(true);
+   const [isLoading, setIsLoading] = useState(true);
 
-  const getDeviceType = () => {
-    const category = project.category.toLowerCase();
-    if (category === "app" || category === "mobile") return "phone";
-    if (category === "games") return "laptop";
-    return "laptop";
-  };
+   // Handle null or missing thumbnail
+   const thumbnail = project.thumbnail || "/portfolio/image.png";
+
+   const getDeviceType = () => {
+     const category = project.category.toLowerCase();
+     if (category === "app" || category === "mobile") return "phone";
+     if (category === "games") return "laptop";
+     return "laptop";
+   };
 
   return (
     <Link
@@ -102,7 +105,7 @@ export default function ProjectCard({ project, className }: ProjectCardProps) {
         <div className={cn("relative h-full w-full", isLoading ? "invisible" : "visible")}>
           <DeviceMockupWrapper deviceType={getDeviceType()}>
             <ExportedImage
-              src={project.thumbnail}
+              src={thumbnail}
               alt={project.title}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -118,7 +121,7 @@ export default function ProjectCard({ project, className }: ProjectCardProps) {
           <div className="rounded-[40px] bg-gradient-to-r from-[#7E67C1]/70 via-[#D2CEDD]/70 to-[#FFB051]/70 p-[2px] md:p-[3px]">
             <div className="flex items-center rounded-[37px] bg-gradient-to-r from-[#D2CEDD]/40 via-[#201C1D]/40 to-[#201C1D]/40 px-3 py-0.5 shadow-[0px_2px_4px_0px_rgba(0,0,0,0.25)] backdrop-blur-xl md:px-4 md:py-1">
               <span className="text-sm font-semibold whitespace-nowrap text-white md:text-xl lg:text-2xl">
-                {project.category}
+                {project.category.toUpperCase() === "AI" ? "AI" : project.category.charAt(0).toUpperCase() + project.category.slice(1)}
               </span>
             </div>
           </div>
@@ -126,10 +129,10 @@ export default function ProjectCard({ project, className }: ProjectCardProps) {
       </div>
 
       <div className="flex h-auto flex-1 flex-col gap-2 px-4 pt-4 pb-4 backdrop-blur md:gap-3 md:px-6 md:pt-6 md:pb-0">
-        <h3 className="line-clamp-1 text-lg leading-tight font-bold tracking-tight text-white md:text-2xl lg:text-5xl">
+        <h3 className="line-clamp-1 text-xl leading-tight font-semibold tracking-tight text-white md:text-2xl lg:text-3xl">
           {project.title}
         </h3>
-        <p className="line-clamp-3 text-xs leading-relaxed tracking-tight text-white/90 md:line-clamp-4 md:text-sm lg:text-xl">
+        <p className="line-clamp-3 text-sm leading-relaxed tracking-tight text-white md:line-clamp-4 md:text-lg lg:text-xl font-extralight">
           {project.description}
         </p>
       </div>
