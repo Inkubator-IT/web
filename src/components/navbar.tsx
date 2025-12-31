@@ -21,31 +21,47 @@ const Navbar = () => {
     <nav className="fixed top-6 z-50 w-full px-3 md:top-12 md:px-12">
       <div className="mx-auto flex max-w-[1600px] items-center justify-between rounded-2xl bg-white/5 p-4 backdrop-blur-md md:px-8 md:py-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/logo-iit.svg"
-            alt="InkubatorIT"
-            width={40}
-            height={40}
-            className="h-[30px] w-auto md:h-[60px]"
-          />
-        </Link>
+        <div className="flex h-[30px] w-auto items-center rounded-xl bg-black/0 p-2 md:h-[60px]">
+          {" "}
+          {/* rada jelek sih kalo ad bg buat logo, naikin opacity kalau perlu aj*/}
+          <Link href="/" className="h-full w-auto">
+            <Image
+              src="/logo-iit.svg"
+              alt="InkubatorIT"
+              width={40}
+              height={40}
+              className="h-full w-auto object-contain"
+            />
+          </Link>
+        </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden items-center gap-8 rounded-xl border border-white/20 bg-white/10 px-10 py-3 md:flex">
+        <div className="hidden items-center gap-8 rounded-xl border border-white/20 bg-black/40 px-10 py-3 md:flex">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-base transition-all duration-300 ${
-                  isActive
-                    ? "bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text font-bold text-transparent"
-                    : "text-white/80 hover:bg-gradient-to-r hover:from-[#7E67C1] hover:to-[#FFB051] hover:bg-clip-text hover:font-bold hover:text-transparent"
-                }`}
+                className="group relative flex flex-col items-center justify-center"
               >
-                {link.label}
+                <span
+                  className={`text-base transition-colors duration-300 ${
+                    isActive
+                      ? "font-medium text-white"
+                      : "text-white/90 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </span>
+
+                <span
+                  className={`absolute -bottom-1 h-[2px] w-full rounded-full bg-gradient-to-r from-[#7E67C1] to-[#FFB051] transition-all duration-300 ${
+                    isActive
+                      ? "scale-x-100 opacity-100"
+                      : "scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100"
+                  }`}
+                />
               </Link>
             );
           })}
@@ -54,7 +70,8 @@ const Navbar = () => {
         <Link
           key="/contact"
           href="/contact"
-          className="hidden items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#564292] to-[#A77741] px-8 py-4 text-base text-white/80 transition-colors duration-200 hover:text-white md:flex"
+          // Corrected bg-linier to bg-gradient
+          className="hidden items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#564292] to-[#A77741] px-8 py-4 text-base text-white/90 transition-all duration-200 hover:scale-105 hover:text-white hover:shadow-lg hover:shadow-purple-500/20 md:flex"
         >
           Let’s Collaborate <SendHorizontal height={15} />
         </Link>
@@ -72,20 +89,20 @@ const Navbar = () => {
       {/* Mobile Navigation Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 top-0 z-40 bg-black/50 md:hidden"
+          className="fixed inset-0 top-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* Mobile Navigation Sidebar */}
       <div
-        className={`fixed top-0 right-0 z-50 h-full w-[280px] transform bg-[#0C0C0C]/95 backdrop-blur-md transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed top-0 right-0 z-50 h-full w-[280px] transform bg-[#0C0C0C] shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex h-full flex-col items-center justify-center px-6 py-6">
           {/* Nav links */}
-          <div className="flex flex-col space-y-6">
+          <div className="flex flex-col space-y-8">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -95,8 +112,8 @@ const Navbar = () => {
                   onClick={() => setIsOpen(false)}
                   className={`text-center text-2xl transition-all duration-300 ${
                     isActive
-                      ? "bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text font-bold text-transparent"
-                      : "text-white/80 hover:bg-gradient-to-r hover:from-[#7E67C1] hover:to-[#FFB051] hover:bg-clip-text hover:font-bold hover:text-transparent"
+                      ? "font-bold text-white"
+                      : "text-white/50 hover:text-white"
                   }`}
                 >
                   {link.label}
@@ -108,7 +125,7 @@ const Navbar = () => {
             <Link
               href="/contact"
               onClick={() => setIsOpen(false)}
-              className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#564292] to-[#A77741] px-4 py-2 text-xl text-white/80 transition-colors duration-200 hover:text-white"
+              className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#564292] to-[#A77741] px-4 py-3 text-xl text-white transition-transform active:scale-95"
             >
               Let's Collaborate <SendHorizontal height={15} />
             </Link>

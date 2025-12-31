@@ -19,7 +19,7 @@ interface HomePageClientProps {
 }
 
 const BRANDS_AND_PARTNERS = [
-  { id: 1, image: "/assets/landing/brands/pertamina.svg", title: "Pertamina" },
+  { id: 1, image: "/assets/landing/brands/pertamina.png", title: "Pertamina" },
   { id: 2, image: "/assets/landing/brands/harisenin.svg", title: "Harisenin" },
   { id: 3, image: "/assets/landing/brands/bi.svg", title: "Bi" },
   { id: 4, image: "/assets/landing/brands/paragon.svg", title: "Paragon" },
@@ -30,7 +30,7 @@ const BRANDS_AND_PARTNERS = [
   },
   { id: 6, image: "/assets/landing/brands/serenic.svg", title: "Serenic" },
   { id: 7, image: "/assets/landing/brands/tiga_roda.svg", title: "Tiga Roda" },
-  { id: 8, image: "/assets/landing/brands/99.svg", title: "99" },
+  { id: 8, image: "/assets/landing/brands/99.png", title: "99" },
   { id: 9, image: "/assets/landing/brands/radya.svg", title: "Radya" },
   { id: 10, image: "/assets/landing/brands/imk.svg", title: "Imk" },
   { id: 11, image: "/assets/landing/brands/aiesec.svg", title: "Aiesec" },
@@ -92,7 +92,11 @@ export default function HomePageClient({
     return projectShowcase.length > 0 ? projectShowcase : FALLBACK_SHOWCASE;
   }, [projectShowcase]);
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    startIndex: showcaseItems.length - 1,
+  });
+
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const scrollPrev = useCallback(() => {
@@ -117,6 +121,18 @@ export default function HomePageClient({
 
   useEffect(() => {
     if (!emblaApi) return;
+
+    const intervalId = setInterval(() => {
+      if (emblaApi.canScrollPrev()) {
+        emblaApi.scrollPrev();
+      }
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
     onSelect();
     emblaApi.on("select", onSelect);
     return () => {
@@ -124,6 +140,7 @@ export default function HomePageClient({
     };
   }, [emblaApi, onSelect]);
 
+  // Keep selectedIndex in bounds just in case
   useEffect(() => {
     setSelectedIndex((current) =>
       Math.min(current, Math.max(0, showcaseItems.length - 1)),
@@ -182,7 +199,7 @@ export default function HomePageClient({
         />
 
         <div
-          className="flex w-full shrink-0 overflow-hidden justify-center"
+          className="flex w-full shrink-0 justify-center overflow-hidden"
           ref={emblaRef}
         >
           <div className="flex">
