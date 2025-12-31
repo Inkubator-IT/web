@@ -38,7 +38,12 @@ const ProjectInquiryPage: React.FC = () => {
   const handleSubmit = async () => {
     setValidationErrors({});
 
-    const errors = validateFormData(formData);
+    const errors = validateFormData({
+      ...formData,
+      company: formData.company || "",
+      othersSpecify: formData.othersSpecify || "",
+      questions: formData.questions || "",
+    });
     if (Object.keys(errors).length > 0) {
       setValidationErrors(errors);
       toast.error("Please fix validation errors", {
@@ -49,7 +54,13 @@ const ProjectInquiryPage: React.FC = () => {
 
     setIsSubmitting(true);
     try {
-      await submitContactForm(formData);
+      await submitContactForm({
+        ...formData,
+        company: formData.company || "",
+        othersSpecify: formData.othersSpecify || "",
+        questions: formData.questions || "",
+        projectTypeOther: formData.projectTypeOther || "",
+      });
 
       toast.success("Thank you for your inquiry!", {
         description: "We'll get back to you within 24 hours. Redirecting...",
