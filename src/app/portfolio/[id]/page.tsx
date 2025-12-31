@@ -76,12 +76,12 @@ export default async function ProjectDetailPage({
                   <h1 className="text-3xl md:text-5xl lg:text-7xl">
                     {project.title}
                   </h1>
-                  <p className="mt-1 md:mt-4 text-base text-white/60 md:text-2xl">
+                  <p className="mt-3 md:mt-6 text-base text-white/60 md:text-2xl">
                     {project.owner}
                   </p>
                 </div>
 
-                <div>
+                <div className="mt-4 md:mt-8 mb-6 md:mb-10">
                   <p className="text-sm leading-relaxed text-white/80 md:text-xl md:leading-7">
                     {project.description}
                   </p>
