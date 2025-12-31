@@ -34,6 +34,7 @@ const OurServicesPage: React.FC = () => {
           className="w-24 h-24"
         />
       ),
+      category: "all",
     },
     {
       icon: (
@@ -63,6 +64,7 @@ const OurServicesPage: React.FC = () => {
           className="w-32 h-24 rounded-xl"
         />
       ),
+      category: "web",
     },
     {
       icon: (
@@ -92,6 +94,7 @@ const OurServicesPage: React.FC = () => {
           className="w-32 h-24 rounded-xl"
         />
       ),
+      category: "app",
     },
     {
       icon: (
@@ -121,6 +124,7 @@ const OurServicesPage: React.FC = () => {
           className="w-32 h-24 rounded-xl"
         />
       ),
+      category: "app",
     },
     {
       icon: (
@@ -150,6 +154,7 @@ const OurServicesPage: React.FC = () => {
           className="w-32 h-24"
         />
       ),
+      category: "ai",
     },
     {
       icon: (
@@ -179,6 +184,7 @@ const OurServicesPage: React.FC = () => {
           className="w-32 h-24"
         />
       ),
+      category: "all",
     },
     {
       icon: (
@@ -208,6 +214,7 @@ const OurServicesPage: React.FC = () => {
           className="w-32 h-24 rounded-xl"
         />
       ),
+      category: "all",
     },
     {
       icon: (
@@ -236,6 +243,7 @@ const OurServicesPage: React.FC = () => {
           className="w-24 h-24 rounded-xl"
         />
       ),
+      category: "games",
     },
   ];
 

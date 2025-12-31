@@ -10,17 +10,21 @@ import {
 } from "lucide-react";
 import ProjectCard from "@/components/portfolio/ProjectCard";
 import type { Project } from "@/types/project";
+import { useSearchParams } from "next/navigation";
 
 interface PortfolioPageClientProps {
   projects: Project[];
 }
 
 const scopeOptions = ["All", "External", "Internal"] as const;
-const categoryOptions = ["all", "web", "app", "games", "ai"] as const;
+export const categoryOptions = ["all", "web", "app", "games", "ai"] as const;
 
 export default function PortfolioPageClient({
   projects,
 }: PortfolioPageClientProps) {
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category");
+
   const [activeScope, setActiveScope] =
     useState<(typeof scopeOptions)[number]>("All");
   const [activeCategory, setActiveCategory] =
@@ -28,6 +32,14 @@ export default function PortfolioPageClient({
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
+  useEffect(() => {
+    if (
+      category &&
+      categoryOptions.includes(category as (typeof categoryOptions)[number])
+    ) {
+      setActiveCategory(category as (typeof categoryOptions)[number]);
+    }
+  }, [category]);
   const projectsPerPage = 6;
 
   const featuredProjects = useMemo(
