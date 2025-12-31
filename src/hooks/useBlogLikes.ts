@@ -32,29 +32,43 @@ function extractData<T>(response: T | ApiResponse<T>): T {
 
 export function useBlogLikes(blogId: number) {
   const queryClient = useQueryClient();
-  const userIdentifier = getUserIdentifier();
+  const userIdentifier = typeof window !== "undefined" ? getUserIdentifier() : '';
 
-  const { data: likeInfo, isLoading } = useQuery({
+  const { data: likeInfo, isLoading, error } = useQuery({
     queryKey: [...blogKeys.detail(blogId), "likes"],
     queryFn: async () => {
-      const response = await apiClient.get<LikeInfo | ApiResponse<LikeInfo>>(
-        `/blogs/${blogId}/likes`,
-        {
-          headers: {
-            "X-User-Identifier": userIdentifier,
+      if (!userIdentifier) {
+        return { count: 0, liked: false };
+      }
+      
+      try {
+        const response = await apiClient.get<LikeInfo | ApiResponse<LikeInfo>>(
+          `/blogs/${blogId}/likes`,
+          {
+            headers: {
+              "X-User-Identifier": userIdentifier,
+            },
           },
-        },
-      );
-      return extractData(response);
+        );
+        return extractData(response);
+      } catch (error) {
+        console.error("Error fetching like info:", error);
+        return { count: 0, liked: false };
+      } 
     },
-    enabled: !!blogId && blogId > 0 && !!userIdentifier,
+    enabled: !!blogId && blogId > 0,
+    retry: 1,
   });
 
   const toggleLikeMutation = useMutation({
     mutationFn: async () => {
+      if (!userIdentifier) {
+        throw new Error("User identifier is required");
+      }
+
       const response = await apiClient.post<LikeInfo | ApiResponse<LikeInfo>>(
         `/blogs/${blogId}/likes`,
-        { userIdentifier: userIdentifier },
+        { user_identifier: userIdentifier },
         {
           headers: {
             "X-User-Identifier": userIdentifier,
@@ -84,6 +98,14 @@ export function useBlogLikes(blogId: number) {
             liked: !previousLikeInfo.liked,
           },
         );
+      } else {
+        queryClient.setQueryData<LikeInfo>(
+          [...blogKeys.detail(blogId), "likes"],
+          {
+            count: 1,
+            liked: true,
+          },
+        );
       }
 
       return { previousLikeInfo };
@@ -102,9 +124,6 @@ export function useBlogLikes(blogId: number) {
       queryClient.invalidateQueries({
         queryKey: [...blogKeys.detail(blogId), "likes"],
       });
-      queryClient.invalidateQueries({
-        queryKey: blogKeys.detail(blogId),
-      });
     },
   });
 
@@ -112,7 +131,14 @@ export function useBlogLikes(blogId: number) {
     likeCount: likeInfo?.count ?? 0,
     isLiked: likeInfo?.liked ?? false,
     isLoading,
-    toggleLike: toggleLikeMutation.mutate,
+    toggleLike: () => {
+      if (!userIdentifier) {
+        console.warn("Cannot like: user identifier not available");
+        return;
+      } 
+      toggleLikeMutation.mutate();
+    },
     isToggling: toggleLikeMutation.isPending,
+    error: error || toggleLikeMutation.error,
   };
 }

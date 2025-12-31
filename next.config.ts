@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
     ],
   },
   env: {
-    nextImageExportOptimizer_imageRawSrc: "public",
+    nextImageExportOptimizer_imageFolderPath: "public",
     nextImageExportOptimizer_exportFolderPath: "out",
     nextImageExportOptimizer_quality: "75",
     nextImageExportOptimizer_storePicturesInWEBP: "true",

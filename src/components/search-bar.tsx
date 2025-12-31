@@ -59,11 +59,11 @@ export default function SearchBar({
       <div className="absolute -inset-0.5 sm:-inset-0.5 bg-gradient-to-r from-[#7E67C1] via-[#FFB051]/20 to-[#FFB051] animate-pulse rounded-full blur-sm" />
 
       {/* Search Bar */}
-      <div className="relative flex items-center justify-between bg-black rounded-full px-4 z-10">
+      <div className="relative flex items-center justify-between bg-black rounded-full px-4 py-1 z-10">
         <Search
-          size={12}
+          size={16}
           color="white"
-          className="flex-shrink-0 sm:w-3.5 sm:h-3.5"
+          className="flex-shrink-0 sm:w-3.5 sm:h-3.5 ml-2"
         />
 
         <div className="flex items-center gap-0.5 sm:gap-2 flex-1 min-w-0">
@@ -76,7 +76,7 @@ export default function SearchBar({
             disabled={disabled}
             className={cn(
               "flex-1 pl-1 sm:pl-4 md:pl-10 pr-1 sm:pr-4 py-1.5 sm:py-3 border border-gray-200 rounded-full outline-none placeholder:font-light",
-              "border-none focus:ring-0 placeholder:text-white/40 text-white text-xs sm:text-sm bg-transparent",
+              "border-none focus:ring-0 placeholder:text-white/40 placeholder:text-base text-white text-xs sm:text-sm bg-transparent",
             )}
           />
 
