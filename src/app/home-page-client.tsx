@@ -160,7 +160,7 @@ export default function HomePageClient({
             </p>
             <div className="mt-2 h-[1px] bg-gradient-to-r from-white/0 via-white to-white/0"></div>
           </div>
-          <h1 className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-center text-2xl font-semibold text-transparent md:text-6xl">
+          <h1 className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-center text-3xl font-semibold text-transparent sm:text-5xl md:text-6xl">
             Trusted Digital Solutions by ITB&apos;s Brightest Tech Talents
           </h1>
           <p className="text-center text-base font-normal text-white/80 md:text-2xl">
@@ -300,7 +300,7 @@ export default function HomePageClient({
               OUR SERVICES
             </span>
           </div>
-          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-6xl">
+          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent sm:text-4xl md:text-5xl">
             Complete Digital Solutions for Your Project
           </span>
           <p className="px-0 text-center text-sm text-white/80 md:px-25 md:text-2xl">
@@ -376,7 +376,7 @@ export default function HomePageClient({
               HOW WE WORK
             </span>
           </div>
-          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-6xl">
+          <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent sm:text-4xl md:text-5xl">
             Building Together, Step by Step
           </span>
           <p className="text-center text-sm text-white/80 md:text-2xl">
@@ -693,14 +693,14 @@ export default function HomePageClient({
             }}
           />
         </div>
-        <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text p-4 text-center text-2xl font-semibold text-transparent md:text-6xl">
+        <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text p-4 text-center text-3xl font-semibold text-transparent sm:text-4xl md:text-5xl">
           Ready to Bring Your Ideas to Life?
         </span>
-        <p className="text-center text-base text-white md:text-3xl">
+        <p className="text-center text-base text-white sm:text-xl md:text-2xl">
           Let’s turn your vision into reality with the right digital solutions.
         </p>
         <Link href="/contact" className="rounded-full">
-          <span className="my-10 flex flex-row items-center gap-4 rounded-full bg-gradient-to-r from-[#564292] to-[#A77741] px-5 py-2 text-xl text-white md:my-15 md:px-10 md:py-4 md:text-4xl">
+          <span className="my-10 flex flex-row items-center gap-4 rounded-full bg-gradient-to-r from-[#564292] to-[#A77741] px-5 py-2 text-xl text-white sm:text-2xl md:my-15 md:px-10 md:py-4 md:text-3xl">
             Let’s Collaborate{" "}
             <Sparkles className="h-4 w-4 text-white md:h-10 md:w-10" />
           </span>

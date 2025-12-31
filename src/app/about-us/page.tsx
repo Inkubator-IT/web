@@ -12,7 +12,7 @@ const page = () => {
             OUR VISION
           </span>
         </div>
-        <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-2xl text-transparent italic md:text-5xl">
+        <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-2xl text-transparent italic sm:text-3xl md:text-4xl">
           “The formation of an IT community as a platform for the professional
           actualization of HMIF members”
         </span>
@@ -82,7 +82,7 @@ const page = () => {
             OUR STORY
           </span>
         </div>
-        <span className="z-10 text-center text-2xl leading-9 text-white drop-shadow-white md:text-4xl md:leading-12">
+        <span className="z-10 text-center text-2xl leading-9 text-white drop-shadow-white md:text-3xl md:leading-12">
           InkubatorIT was founded under{" "}
           <span className="inline-block rounded-full border border-white/12 bg-white/12 px-6 py-1 text-xs whitespace-nowrap md:text-xl">
             <span className="flex items-center gap-2 bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
@@ -111,7 +111,7 @@ const page = () => {
 
       {/* CORE VALUES */}
       <section className="md:mb-[16 0px] mb-[80px] flex w-full max-w-[1400px] flex-col items-center justify-center gap-6 md:gap-12">
-        <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-2xl text-transparent md:text-5xl">
+        <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-2xl text-transparent sm:text-4xl md:text-5xl">
           We Believe In Three Core Values
         </span>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-12">
