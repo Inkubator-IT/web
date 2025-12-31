@@ -11,12 +11,20 @@ interface ProjectInquiryFormProps {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   onSubmit: () => void;
+  validationErrors?: {
+    fullName?: string;
+    email?: string;
+    whatsappNumber?: string;
+  };
+  isSubmitting?: boolean;
 }
 
 const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
   formData,
   setFormData,
   onSubmit,
+  validationErrors = {},
+  isSubmitting = false,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [errors, setErrors] = useState<z.ZodError["formErrors"]["fieldErrors"]>(
