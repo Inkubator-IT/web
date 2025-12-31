@@ -1,5 +1,5 @@
 import { CalendarDays, Clock, User } from "lucide-react";
-import Image from "next/image";
+import ExportedImage from "next-image-export-optimizer";
 import Link from "next/link";
 
 interface BlogCardProps {
@@ -68,7 +68,7 @@ export default function BlogCard({
 
             {/* Image Blog - Desktop */}
             <div className="relative h-[200px] w-[360px] overflow-hidden rounded-lg">
-              <Image
+              <ExportedImage
                 src={image}
                 alt={title}
                 fill
@@ -83,7 +83,7 @@ export default function BlogCard({
           <div className="flex flex-col gap-4 xl:hidden">
             {/* Image Blog */}
             <div className="relative aspect-video w-full overflow-hidden rounded-lg">
-              <Image
+              <ExportedImage
                 src={image}
                 alt={title}
                 fill

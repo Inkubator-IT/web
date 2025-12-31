@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import ExportedImage from "next-image-export-optimizer";
 import { Menu, X, SendHorizontal } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -22,7 +22,7 @@ const Navbar = () => {
       <div className="mx-auto flex max-w-[1600px] items-center justify-between rounded-2xl bg-white/5 p-4 backdrop-blur-md md:px-8 md:py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <Image
+          <ExportedImage
             src="/logo-iit.svg"
             alt="InkubatorIT"
             width={40}
