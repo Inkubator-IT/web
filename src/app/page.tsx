@@ -24,9 +24,10 @@ const FALLBACK_SHOWCASE: ShowcaseItem[] = [
   },
   {
     id: "fallback-3",
-    title: "Project 3",
-    description: "Sample description for project 3.",
-    image: "/assets/landing/project_highlights.png",
+    title: "Legali – AI-Powered Legal Assistance & Case Management Platform",
+    description:
+      "Legali is an AI-powered web platform designed to bridge the justice gap for individuals whose legal cases are too complex for small claims courts yet too minor to justify hiring traditional law firms. The platform provides structured legal guidance, case and timeline management, automated red flag detection, AI-assisted legal document generation, and comprehensive legal dossiers. Users can organize files, collaborate on cases, participate in legal discussions, and access an attorney marketplace offering affordable professional services. Legali integrates third-party LLM APIs for legal analysis, supports subscription-based access with payment gateway integration, and includes a full admin panel for user, knowledge, pricing, and content management—delivering actionable legal insights in an accessible and scalable digital solution.",
+    image: "/assets/landing/test.png",
   },
 ];
 

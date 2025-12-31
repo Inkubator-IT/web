@@ -156,7 +156,7 @@ export default function HomePageClient({
       if (emblaApi.canScrollPrev()) {
         emblaApi.scrollPrev();
       }
-    }, 5000);
+    }, 50000);
 
     return () => clearInterval(intervalId);
   }, [emblaApi]);
@@ -182,7 +182,9 @@ export default function HomePageClient({
   }, [showcaseItems.length]);
 
   const currentProject =
-    showcaseItems[selectedIndex] ?? showcaseItems[showcaseItems.length - 1] ?? showcaseItems[0];
+    showcaseItems[selectedIndex] ??
+    showcaseItems[showcaseItems.length - 1] ??
+    showcaseItems[0];
 
   return (
     <main className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden py-[50px]">
@@ -209,7 +211,7 @@ export default function HomePageClient({
             variants={FADE_UP_VARIANTS}
             transition={{ delay: 0.4, duration: 0.8 }}
             style={GPU_ACCELERATION}
-            className="bg-linear-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-center text-2xl font-semibold text-transparent md:text-6xl"
+            className="bg-linear-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-center text-3xl font-semibold text-transparent sm:text-5xl md:text-6xl"
           >
             Trusted Digital Solutions by ITB&apos;s Brightest Tech Talents
           </motion.h1>
@@ -251,14 +253,14 @@ export default function HomePageClient({
         </motion.div>
       </section>
 
-      <section className="relative flex h-[500px] w-full max-w-[1600px] flex-col items-center justify-center px-5 md:h-[1200px]">
+      <section className="relative flex h-fit w-full max-w-[1600px] flex-col items-center justify-center px-5">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
           style={{ transform: "translateZ(0)", willChange: "opacity" }}
-          className="absolute inset-0 z-0 pointer-events-none"
+          className="pointer-events-none absolute inset-0 z-0"
         >
           <ExportedImage
             src="/assets/landing/techstack_ellipse.png"
@@ -277,19 +279,22 @@ export default function HomePageClient({
           style={GPU_ACCELERATION}
           className="flex w-full shrink-0 justify-center overflow-hidden"
         >
-          <div className="flex w-full shrink-0 justify-center overflow-hidden" ref={emblaRef}>
+          <div
+            className="flex w-full shrink-0 justify-center overflow-hidden"
+            ref={emblaRef}
+          >
             <div className="flex">
               {showcaseItems.map((project) => (
                 <div
                   key={project.id}
-                  className="flex min-w-0 flex-[0_0_100%] justify-center"
+                  className="flex h-[400px] min-w-0 flex-[0_0_100%] justify-center md:h-[800px]"
                 >
                   <ExportedImage
                     src={project.image}
                     alt={project.title}
                     width={2000}
                     height={2000}
-                    className="relative z-10 h-auto max-h-[400px] w-full object-contain md:max-h-[800px]"
+                    className="relative z-10 w-full object-cover"
                   />
                 </div>
               ))}
@@ -297,7 +302,7 @@ export default function HomePageClient({
           </div>
         </motion.div>
 
-        <div className="z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 px-0 md:gap-[40px] md:px-20">
+        <div className="z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 px-0 py-5 md:gap-10 md:px-20">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -307,7 +312,7 @@ export default function HomePageClient({
           >
             PROJECT SHOWCASE
           </motion.p>
-          <div className="flex w-full max-w-[1600px] flex-row items-center justify-between gap-5 px-0 md:gap-10 md:px-20">
+          <div className="flex w-full max-w-[1600px] flex-row items-start justify-between gap-5 px-0 md:gap-10 md:px-20">
             {showcaseItems.length > 1 && (
               <button
                 onClick={scrollPrev}
@@ -324,7 +329,7 @@ export default function HomePageClient({
               style={GPU_ACCELERATION}
               className="flex flex-col items-center justify-center gap-3 md:gap-4"
             >
-              <p className="text-center text-2xl font-medium text-white uppercase md:text-6xl">
+              <p className="text-center text-xl font-medium text-white uppercase sm:text-2xl md:text-4xl">
                 {currentProject.title}
               </p>
               <p className="text-center text-xs text-white/60 md:text-[20px]">
@@ -416,7 +421,7 @@ export default function HomePageClient({
               OUR SERVICES
             </span>
           </div>
-          <span className="bg-linear-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-6xl">
+          <span className="bg-linear-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-2xl text-transparent sm:text-4xl md:text-5xl">
             Complete Digital Solutions for Your Project
           </span>
           <p className="px-0 text-center text-sm text-white/80 md:px-25 md:text-2xl">
@@ -443,7 +448,7 @@ export default function HomePageClient({
               className={`${service.id % 2 === 0 ? "w-full md:w-[40%]" : "w-full md:w-[55%]"}`}
             >
               <GradientBorderDiv
-                className="overflow-hidden rounded-xl p-px w-full"
+                className="w-full overflow-hidden rounded-xl p-px"
                 gradientClassName="p-[2px] rounded-[14px]"
                 contentClassName="p-2 backdrop-blur-sm rounded-[14px]"
               >
@@ -541,7 +546,7 @@ export default function HomePageClient({
               HOW WE WORK
             </span>
           </div>
-          <span className="bg-linear-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-3xl text-transparent md:text-6xl">
+          <span className="bg-linear-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-2xl text-transparent sm:text-4xl md:text-5xl">
             Building Together, Step by Step
           </span>
           <p className="text-center text-sm text-white/80 md:text-2xl">
@@ -563,7 +568,7 @@ export default function HomePageClient({
                 backgroundImage:
                   "linear-gradient(to right, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
               }}
-              className="absolute inset-0 h-[2px] -translate-y-[3px] blur-md origin-left"
+              className="absolute inset-0 h-[2px] origin-left -translate-y-[3px] blur-md"
             />
             <motion.div
               initial={{ scaleX: 0 }}
@@ -645,7 +650,7 @@ export default function HomePageClient({
                 backgroundImage:
                   "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
               }}
-              className="absolute inset-0 blur-md origin-top"
+              className="absolute inset-0 origin-top blur-md"
             />
             <motion.div
               initial={{ scaleY: 0 }}
@@ -658,7 +663,7 @@ export default function HomePageClient({
                 backgroundImage:
                   "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
               }}
-              className="absolute top-0 bottom-0 left-1/2 w-[2px] -translate-x-1/2 origin-top"
+              className="absolute top-0 bottom-0 left-1/2 w-[2px] origin-top -translate-x-1/2"
             />
           </div>
           <motion.div
@@ -736,7 +741,7 @@ export default function HomePageClient({
             alt="bubble"
             width={2000}
             height={2000}
-            className="w-full h-auto"
+            className="h-auto w-full"
           />
         </motion.div>
         <motion.div
@@ -757,7 +762,7 @@ export default function HomePageClient({
           whileInView="show"
           viewport={{ once: true }}
           style={GPU_ACCELERATION}
-          className="text-center text-xl leading-12 text-white drop-shadow-white md:text-3xl"
+          className="text-center text-lg leading-12 text-white drop-shadow-white md:text-2xl"
         >
           We make{" "}
           <span className="inline-block rounded-full border border-white/12 bg-white/12 px-6 py-1 text-xs whitespace-nowrap md:text-xl">
@@ -796,7 +801,7 @@ export default function HomePageClient({
             alt="who we are img"
             width={2000}
             height={2000}
-            className="w-full h-auto object-contain"
+            className="h-auto w-full object-contain"
           />
         </motion.div>
         <motion.div
@@ -910,7 +915,10 @@ export default function HomePageClient({
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          style={{ transform: "translateZ(0)", willChange: "transform, opacity" }}
+          style={{
+            transform: "translateZ(0)",
+            willChange: "transform, opacity",
+          }}
           className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-full max-w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 md:scale-100"
         >
           <ExportedImage
@@ -918,7 +926,7 @@ export default function HomePageClient({
             alt="bubble"
             width={2000}
             height={2000}
-            className="w-full h-auto"
+            className="h-auto w-full"
           />
         </motion.div>
         <div className="flex w-full justify-center px-10">
@@ -942,7 +950,7 @@ export default function HomePageClient({
           whileInView="show"
           viewport={{ once: true }}
           style={GPU_ACCELERATION}
-          className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text p-4 text-center text-2xl font-semibold text-transparent md:text-6xl"
+          className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text p-4 text-center text-2xl font-semibold text-transparent sm:text-4xl md:text-5xl"
         >
           Ready to Bring Your Ideas to Life?
         </motion.span>
@@ -968,7 +976,7 @@ export default function HomePageClient({
             <motion.span
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="my-10 flex flex-row items-center gap-4 rounded-full bg-linear-to-r from-[#564292] to-[#A77741] px-5 py-2 text-xl text-white md:my-15 md:px-10 md:py-4 md:text-4xl shadow-lg hover:shadow-purple-500/20 transition-shadow"
+              className="my-10 flex flex-row items-center gap-4 rounded-full bg-linear-to-r from-[#564292] to-[#A77741] px-5 py-2 text-xl text-white shadow-lg transition-shadow hover:shadow-purple-500/20 md:my-15 md:px-10 md:py-4 md:text-4xl"
             >
               Let’s Collaborate{" "}
               <Sparkles className="h-4 w-4 text-white md:h-10 md:w-10" />
