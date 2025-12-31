@@ -44,4 +44,4 @@ next-env.d.ts
 
 # next-image-export-optimizer
 /remoteImagesForOptimization
-/public/nextImageExportOptimizer
+**/nextImageExportOptimizer
