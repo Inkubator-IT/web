@@ -1,5 +1,5 @@
 import { ArrowLeft, CalendarDays, Clock, User } from "lucide-react";
-import Image from "next/image";
+import ExportedImage from "next-image-export-optimizer";
 import Link from "next/link";
 import Script from "next/script";
 import { notFound } from "next/navigation";
@@ -131,7 +131,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         <div className="mt-8 flex flex-col sm:mt-10">
           <BlogActions blogId={blog.id} />
           <div className="relative mt-4 aspect-video w-full overflow-hidden rounded-lg sm:mt-6">
-            <Image
+            <ExportedImage
               src={blog.thumbnail}
               alt={blog.title}
               fill

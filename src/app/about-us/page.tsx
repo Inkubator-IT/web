@@ -1,5 +1,5 @@
 import GradientBorderDiv from "@/components/div-gradient-border";
-import Image from "next/image";
+import ExportedImage from "next-image-export-optimizer";
 import React from "react";
 
 const page = () => {
@@ -70,7 +70,7 @@ const page = () => {
 
       {/* OUR STORY */}
       <section className="relative my-[130px] flex w-full max-w-[1200px] flex-col items-center justify-center gap-6 md:my-[300px] md:gap-12">
-        <Image
+        <ExportedImage
           src="/assets/about-us/techstack_ellipse.png"
           alt="techstack ellipse"
           width={2000}
@@ -86,7 +86,7 @@ const page = () => {
           InkubatorIT was founded under{" "}
           <span className="inline-block rounded-full border border-white/12 bg-white/12 px-6 py-1 text-xs whitespace-nowrap md:text-xl">
             <span className="flex items-center gap-2 bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
-              <Image
+              <ExportedImage
                 src="/assets/about-us/hmif.png"
                 alt="HMIF ITB"
                 width={20}

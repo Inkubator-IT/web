@@ -1,6 +1,6 @@
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { fetchProjectById, fetchProjects } from "@/lib/api";
-import Image from "next/image";
+import ExportedImage from "next-image-export-optimizer";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ImageCarousel from "./image-carousel";
@@ -50,7 +50,7 @@ export default async function ProjectDetailPage({
             <div className="flex flex-col items-center justify-center gap-6 md:flex-row md:gap-0">
               <div className="flex w-full justify-center md:hidden md:w-1/2">
                 <div className="relative w-full max-w-[500px]">
-                  <Image
+                  <ExportedImage
                     src={project.thumbnail || "/portfolio/image.png"}
                     alt={project.title}
                     width={600}
@@ -90,7 +90,7 @@ export default async function ProjectDetailPage({
 
               <div className="hidden w-1/2 justify-center md:flex">
                 <div className="relative max-w-[700px]">
-                  <Image
+                  <ExportedImage
                     src={project.thumbnail || "/portfolio/image.png"}
                     alt={project.title}
                     width={600}
@@ -117,7 +117,7 @@ export default async function ProjectDetailPage({
               <div className="mt-6 mb-10 flex gap-3 md:mb-16 md:gap-4">
                 {project.tech_stacks.map((techStack) => (
                   <div key={techStack.tech_stack_id} className="group relative">
-                    <Image
+                    <ExportedImage
                       src={techStack.icon_url || "/portfolio/default-tech.svg"}
                       alt={techStack.tech_stack_name}
                       width={40}
