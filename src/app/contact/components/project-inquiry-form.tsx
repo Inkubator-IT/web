@@ -27,9 +27,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
   isSubmitting = false,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [errors, setErrors] = useState<z.ZodError["formErrors"]["fieldErrors"]>(
-    {},
-  );
+  const [errors, setErrors] = useState<Record<string, string[] | undefined>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
