@@ -25,7 +25,7 @@ export default function BlogCard({
 }: BlogCardProps) {
   return (
     <>
-      <div className="flex w-full flex-col items-start gap-4">
+      <div className="flex w-full flex-col items-start gap-4 p-4 rounded-lg hover:bg-white/5 transition-all duration-300">
         {/* Category */}
         <div className="rounded-lg border border-white/20 bg-linear-to-r from-[#7E67C1]/40 to-[#FFB051]/40 px-4 py-1 backdrop-blur-xl">
           <p className="text-sm text-white">{category}</p>
@@ -33,7 +33,7 @@ export default function BlogCard({
 
         <Link
           href={`/blog/${id}`}
-          className="block w-full duration-300 hover:-translate-x-1.5"
+          className="block w-full"
         >
           {/* Desktop Layout */}
           <div className="hidden w-full gap-14 xl:flex">
