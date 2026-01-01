@@ -1,10 +1,23 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import BlogPageClient from "./blog-page-client";
 import BlogCardSkeleton from "@/components/blogs/blog-card-skeleton";
 import { fetchBlogs, fetchTags } from "@/lib/api";
+import { SITE_CONFIG } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "Discover articles and resources designed to inspire, educate, and guide businesses in embracing digital transformation.",
+  openGraph: {
+    title: `Blog | ${SITE_CONFIG.name}`,
+    description:
+      "Discover articles and resources designed to inspire, educate, and guide businesses in embracing digital transformation.",
+  },
+};
 
 async function BlogContent() {
-  await new Promise(resolve => setTimeout(resolve, 2000)); // delay
+  await new Promise((resolve) => setTimeout(resolve, 2000)); // delay
   const [blogs, tags] = await Promise.all([fetchBlogs(), fetchTags()]);
   return <BlogPageClient blogs={blogs} tags={tags} isLoading={false} />;
 }
