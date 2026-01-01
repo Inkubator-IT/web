@@ -73,7 +73,7 @@ export default async function ProjectDetailPage({
 
   return (
     <div
-      className="min-h-screen bg-black leading-7 tracking-[-0.06em] text-white"
+      className="min-h-screen leading-7 tracking-[-0.06em] text-white"
       style={{ fontFamily: "Montserrat, sans-serif" }}
     >
       <div className="mx-auto max-w-[1540px] px-4 pb-12 md:px-6 md:pb-24">

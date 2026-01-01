@@ -103,29 +103,29 @@ const ProjectInquiryPage: React.FC = () => {
   return (
     <>
       <LoadingOverlay isLoading={isSubmitting} />
-      <div className="min-h-screen bg-black text-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold bg-gradient-to-r from-[#7E67C1] to-blue-300 bg-clip-text text-transparent pb-4 sm:pb-8">
+      <div className="min-h-screen px-4 py-12 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12 text-center">
+            <h1 className="bg-gradient-to-r from-[#7E67C1] to-blue-300 bg-clip-text pb-4 text-4xl font-semibold text-transparent sm:pb-8 sm:text-5xl md:text-6xl">
               Let's Build Something
               <br />
               Amazing Together
             </h1>
-            <p className="text-gray-100 text-base sm:text-lg font-light max-w-4xl mx-auto">
+            <p className="mx-auto max-w-4xl text-base font-light text-gray-100 sm:text-lg">
               Have an idea or a project in mind? We'd love to hear from you.
             </p>
 
-            <div className="mb-8 mt-8 sm:mt-12 lg:mt-16">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-5">
+            <div className="mt-8 mb-8 sm:mt-12 lg:mt-16">
+              <h2 className="mb-3 text-3xl sm:mb-5 sm:text-4xl md:text-5xl">
                 Project Inquiry
               </h2>
-              <p className="text-gray-300 text-sm sm:text-md lg:text-2xl">
+              <p className="sm:text-md text-sm text-gray-300 lg:text-2xl">
                 Tell us about your project and we'll get back to you within 24
                 hours.
               </p>
             </div>
           </div>
-          <div className="bg-[#201C1D] rounded-xl p-4 sm:p-6 lg:p-8 backdrop-blur-sm">
+          <div className="rounded-xl bg-[#201C1D] p-4 backdrop-blur-sm sm:p-6 lg:p-8">
             <ProjectInquiryForm
               formData={formData}
               setFormData={setFormData}

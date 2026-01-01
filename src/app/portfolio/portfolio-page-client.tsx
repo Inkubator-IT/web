@@ -101,7 +101,7 @@ export default function PortfolioPageClient({
 
   return (
     <div
-      className="min-h-screen bg-black"
+      className="min-h-screen"
       style={{ fontFamily: "Montserrat, sans-serif" }}
     >
       <section className="relative px-4 py-12 sm:px-6 md:py-20 lg:px-8">
@@ -119,13 +119,17 @@ export default function PortfolioPageClient({
         <div
           className="mx-auto overflow-hidden"
           onMouseEnter={(e) => {
-            const scrollElement = e.currentTarget.querySelector(".animate-scroll-left");
+            const scrollElement = e.currentTarget.querySelector(
+              ".animate-scroll-left",
+            );
             if (scrollElement && scrollElement instanceof HTMLElement) {
               scrollElement.style.animationPlayState = "paused";
             }
           }}
           onMouseLeave={(e) => {
-            const scrollElement = e.currentTarget.querySelector(".animate-scroll-left");
+            const scrollElement = e.currentTarget.querySelector(
+              ".animate-scroll-left",
+            );
             if (scrollElement && scrollElement instanceof HTMLElement) {
               scrollElement.style.animationPlayState = "running";
             }
@@ -232,7 +236,10 @@ export default function PortfolioPageClient({
                               : "bg-black text-[#777777]"
                           }`}
                         >
-                          {category.toUpperCase() === "AI" ? "AI" : category.charAt(0).toUpperCase() + category.slice(1)}
+                          {category.toUpperCase() === "AI"
+                            ? "AI"
+                            : category.charAt(0).toUpperCase() +
+                              category.slice(1)}
                         </button>
                       ))}
                     </div>
