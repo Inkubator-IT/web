@@ -1,0 +1,33 @@
+export interface Tag {
+  tag_id: number;
+  tag_name: string;
+  tag_description: string;
+}
+
+// export type ContentBlockType = "paragraph" | "header" | "quote";
+
+// export interface ContentBlock {
+//   type: ContentBlockType;
+//   text: string;
+// }
+export interface TipTapJSON {
+  type: "doc";
+  content: Array<any>;
+}
+
+export interface Blog {
+  id: number;
+  title: string;
+  author: string;
+  slug: string;
+  excerpt: string | null;
+  thumbnail: string | null;
+  content: TipTapJSON;
+  time_read: string;
+  tag_id: number;
+  like_count?: number;
+  is_liked?: boolean;
+  tag?: Tag;
+  created_at: string;
+  updated_at: string;
+}
