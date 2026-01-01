@@ -285,7 +285,7 @@ const OurServicesPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="bg-gradient-to-b from-black via-zinc-900 to-black px-4 py-8 sm:px-6 md:py-12">
+      <section className="px-4 py-8 sm:px-6 md:py-12">
         <div className="mx-auto max-w-7xl text-center">
           <h2 className="mb-4 text-xl leading-snug font-bold sm:text-2xl md:text-3xl md:leading-tight lg:text-4xl">
             Ready to bring your{" "}
