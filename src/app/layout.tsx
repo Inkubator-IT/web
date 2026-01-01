@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import ExportedImage from "next-image-export-optimizer";
 import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 import { Providers } from "./providers";
 import { Toaster } from "sonner";
 import { SITE_CONFIG, DEFAULT_SEO } from "@/lib/seo";
@@ -53,6 +54,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           <div className="pt-[120px]">{children}</div>
+          <Footer />
           <Toaster position="bottom-center" theme="dark" />
         </Providers>
       </body>
