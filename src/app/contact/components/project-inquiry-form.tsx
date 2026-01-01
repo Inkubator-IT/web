@@ -130,7 +130,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                 </linearGradient>
               </defs>
             </svg>
-            <h2 className="text-xl sm:text-3xl lg:text-4xl font-semibold bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] bg-clip-text text-transparent tracking-tight">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-semibold bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] bg-clip-text text-transparent tracking-tight">
               Client Information
             </h2>
           </div>
@@ -143,7 +143,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
               ["Company", "company", "John Company", "text"],
             ].map(([label, key, placeholder, type]) => (
               <div key={key} className="space-y-2">
-                <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
+                <label className="text-sm sm:text-base lg:text-lg text-gray-300">
                   {label}
                 </label>
                 <div
@@ -160,7 +160,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                     onChange={(e) =>
                       handleInputChange(key as keyof FormData, e.target.value)
                     }
-                    className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
+                    className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-sm sm:text-md lg:text-xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
                   />
                 </div>
                 {errors[key as keyof FormData] && (
@@ -174,7 +174,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 md:gap-4 mt-6">
             <div className="space-y-2">
-              <label className="text-base sm:text-lg lg:text-2xl text-gray-300 block">
+              <label className="text-sm sm:text-base lg:text-lg text-gray-300 block">
                 Are you an academic at ITB?
               </label>
 
@@ -187,7 +187,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                       onClick={() =>
                         handleInputChange("isAcademic", val === "Yes")
                       }
-                      className={`flex-1 sm:flex-none sm:w-32 md:w-36 lg:w-44 h-12 sm:h-14 lg:h-16 text-base sm:text-lg lg:text-2xl flex items-center justify-center font-medium transition-all ${
+                      className={`flex-1 sm:flex-none sm:w-32 md:w-36 lg:w-44 h-12 sm:h-14 lg:h-16 text-sm sm:text-base lg:text-lg flex items-center justify-center font-medium transition-all ${
                         formData.isAcademic === (val === "Yes")
                           ? "bg-gradient-to-r from-[#7E67C1] to-[#BBE4F6] text-black"
                           : "text-gray-400"
@@ -201,7 +201,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
             </div>
 
             <div className="space-y-2">
-              <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
+              <label className="text-sm sm:text-base lg:text-lg text-gray-300">
                 How do you hear about Inkubator IT?
               </label>
               <div className="space-y-2">
@@ -289,14 +289,14 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                 stroke: "url(#grad-user)",
               }}
             />
-            <h2 className="text-xl sm:text-3xl lg:text-4xl font-semibold bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] bg-clip-text text-transparent tracking-tight">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-semibold bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] bg-clip-text text-transparent tracking-tight">
               About the Project
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2 relative">
-              <label className="text-base sm:text-lg lg:text-2xl text-gray-300 flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-1 sm:gap-2">
+              <label className="text-sm sm:text-base lg:text-lg text-gray-300 flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-1 sm:gap-2">
                 <span>Project Type</span>
                 <span
                   className="text-[#b29bf8] text-sm sm:text-base lg:text-xl hover:underline cursor-pointer"
@@ -313,7 +313,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 pr-10 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 transition-all text-left"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 pr-10 bg-[#201C1D] rounded-lg text-white text-sm sm:text-base lg:text-lg focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 transition-all text-left"
                 >
                   <span
                     className={
@@ -386,7 +386,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
             </div>
 
             <div className="space-y-2">
-              <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
+              <label className="text-sm sm:text-base lg:text-lg text-gray-300">
                 Project Creation Purpose
               </label>
               <div
@@ -401,7 +401,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                   onChange={(e) =>
                     handleInputChange("projectPurpose", e.target.value)
                   }
-                  className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-sm sm:text-base lg:text-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
                 />
               </div>
               {errors.projectPurpose && (
@@ -412,7 +412,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
             </div>
 
             <div className="space-y-2">
-              <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
+              <label className="text-sm sm:text-base lg:text-lg text-gray-300">
                 Cost Expectations
               </label>
               <div
@@ -427,7 +427,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                   onChange={(e) =>
                     handleInputChange("costExpectations", e.target.value)
                   }
-                  className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-sm sm:text-base lg:text-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
                 />
               </div>
               {errors.costExpectations && (
@@ -438,7 +438,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
             </div>
 
             <div className="space-y-2">
-              <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
+              <label className="text-sm sm:text-base lg:text-lg text-gray-300">
                 Project Deadline
               </label>
               <div
@@ -453,7 +453,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                   onChange={(e) =>
                     handleInputChange("projectDeadline", e.target.value)
                   }
-                  className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-sm sm:text-base lg:text-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all"
                 />
               </div>
               {errors.projectDeadline && (
@@ -465,7 +465,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
           </div>
 
           <div className="space-y-2">
-            <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
+            <label className="text-sm sm:text-base lg:text-lg text-gray-300">
               Already Have a Design?
             </label>
             <div className="mt-2 sm:mt-3 lg:mt-4 rounded-lg p-[2px] bg-gradient-to-r from-[#7E67C1] to-[#BBE4F6] w-full sm:w-fit">
@@ -479,8 +479,8 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                     }
                     className={`flex-1 sm:flex-none sm:w-32 md:w-36 lg:w-44 h-12 sm:h-14 lg:h-16 flex items-center justify-center font-medium transition-all ${
                       formData.hasDesign === (val === "Yes")
-                        ? "bg-gradient-to-r from-[#7E67C1] to-[#BBE4F6] text-black text-base sm:text-lg lg:text-2xl"
-                        : "text-gray-400 text-base sm:text-lg lg:text-2xl"
+                        ? "bg-gradient-to-r from-[#7E67C1] to-[#BBE4F6] text-black text-sm sm:text-base lg:text-lg"
+                        : "text-gray-400 text-sm sm:text-base lg:text-lg"
                     }`}
                   >
                     {val}
@@ -491,7 +491,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
           </div>
 
           <div className="space-y-2">
-            <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
+            <label className="text-sm sm:text-base lg:text-lg text-gray-300">
               Project Details
             </label>
             <div
@@ -506,7 +506,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                   handleInputChange("projectDetails", e.target.value)
                 }
                 rows={6}
-                className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all resize-none block"
+                className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-sm sm:text-base lg:text-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all resize-none block"
               />
             </div>
             {errors.projectDetails && (
@@ -517,7 +517,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
           </div>
 
           <div className="space-y-2">
-            <label className="text-base sm:text-lg lg:text-2xl text-gray-300">
+            <label className="text-sm sm:text-base lg:text-lg text-gray-300">
               Questions for the Project
             </label>
             <div className="p-[1px] rounded-lg bg-gradient-to-br from-[#7E67C1] to-[#BBE4F6] mt-2 sm:mt-3 lg:mt-4">
@@ -526,7 +526,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
                 value={formData.questions}
                 onChange={(e) => handleInputChange("questions", e.target.value)}
                 rows={6}
-                className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-base sm:text-lg lg:text-2xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all resize-none block"
+                className="w-full px-3 py-3 sm:px-4 sm:py-4 lg:py-5 bg-[#201C1D] rounded-lg text-white text-sm sm:text-base lg:text-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7E67C1]/50 focus:border-transparent transition-all resize-none block"
               />
             </div>
           </div>
@@ -536,7 +536,7 @@ const ProjectInquiryForm: React.FC<ProjectInquiryFormProps> = ({
           type="button"
           onClick={handleSubmit}
           disabled={isLoading}
-          className="w-full py-4 sm:py-5 bg-gradient-to-r from-[#7E67C1] to-[#BBE4F6] text-black text-xl sm:text-2xl lg:text-3xl font-semibold rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-4 sm:py-5 bg-gradient-to-r from-[#7E67C1] to-[#BBE4F6] text-black text-lg sm:text-xl lg:text-2xl font-semibold rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? "Submitting..." : "Send Message"}
           <Send className="w-5 h-5 sm:w-6 sm:h-6" />

@@ -249,15 +249,15 @@ const OurServicesPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <section className="pt-24 md:pt-32 pb-12 md:pb-16 px-4 md:px-6">
+      <section className="pt-4 md:pt-12 pb-12 md:pb-16 px-4 md:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-6 leading-tight">
             Our{" "}
             <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-transparent">
               Services
             </span>
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl leading-relaxed opacity-80">
+          <p className="text-base sm:text-lg font-light leading-relaxed opacity-80">
             Explore our tailored IT solutions designed to empower businesses,
             optimize operations, and drive innovation through technology.
           </p>
@@ -285,9 +285,9 @@ const OurServicesPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 py-12 md:py-16 bg-gradient-to-b from-black via-zinc-900 to-black">
+      <section className="px-4 sm:px-6 py-8 md:py-12 bg-gradient-to-b from-black via-zinc-900 to-black">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-snug md:leading-tight">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 leading-snug md:leading-tight">
             Ready to bring your{" "}
             <span className="bg-gradient-to-r from-[#ad96f1] to-[#FFB051] bg-clip-text text-transparent">
               ideas
@@ -305,7 +305,7 @@ const OurServicesPage: React.FC = () => {
           </h2>
 
           <button
-            className="mt-6 sm:mt-8 px-6 sm:px-8 md:px-12 py-3 sm:py-4 md:py-5 bg-gradient-to-r from-purple-600/20 to-orange-500/20 border border-purple-500/50 rounded-sm text-base sm:text-lg md:text-xl lg:text-2xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 group"
+            className="mt-4 sm:mt-6 px-6 sm:px-8 md:px-12 py-3 sm:py-4 md:py-5 bg-gradient-to-r from-purple-600/20 to-orange-500/20 border border-purple-500/50 rounded-sm text-sm sm:text-base md:text-lg lg:text-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 group"
             onClick={() => (window.location.href = "/contact")}
           >
             Start Your Project Today
