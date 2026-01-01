@@ -5,6 +5,7 @@ import ExportedImage from "next-image-export-optimizer";
 import Navbar from "@/components/navbar";
 import { Providers } from "./providers";
 import { Toaster } from "sonner";
+import { SITE_CONFIG, DEFAULT_SEO } from "@/lib/seo";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -13,32 +14,19 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Inkubator IT | Digital Product Studio",
-  description:
-    "Trusted ITB engineers crafting websites, mobile apps, and AI solutions for ambitious brands.",
-  openGraph: {
-    type: "website",
-    siteName: "Inkubator IT",
-    title: "Inkubator IT — Trusted Digital Solutions",
-    description:
-      "See how Inkubator IT ships production-grade software for top Indonesian brands.",
-    images: [
-      {
-        url: "https://assets.inkubatorit.com/uploads/dark-mode-03b32b09-5ac2-4785-ba3f-7a52b4d314c8.png",
-        width: 735,
-        height: 521,
-        alt: "Inkubator IT showcase preview",
-      },
-    ],
+  metadataBase: new URL(SITE_CONFIG.url),
+  title: {
+    default: `${SITE_CONFIG.name} | ${SITE_CONFIG.tagline}`,
+    template: `%s | ${SITE_CONFIG.name}`,
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Inkubator IT — Trusted Digital Solutions",
-    description:
-      "Web, mobile, and AI products built by ITB's top engineers for leading brands.",
-    images: [
-      "https://assets.inkubatorit.com/uploads/dark-mode-03b32b09-5ac2-4785-ba3f-7a52b4d314c8.png",
-    ],
+  description: SITE_CONFIG.description,
+  icons: {
+    icon: "/favicon.ico",
+  },
+  openGraph: DEFAULT_SEO.openGraph,
+  twitter: DEFAULT_SEO.twitter,
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
 };
 
@@ -51,7 +39,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body
         suppressHydrationWarning // no way i found this bug while using grammarly
-        className={`${montserrat.variable} antialiased bg-[#0C0C0C] font-sans`}
+        className={`${montserrat.variable} bg-[#0C0C0C] font-sans antialiased`}
       >
         <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
           <ExportedImage

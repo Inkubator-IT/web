@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ArrowLeft, CalendarDays, Clock, User } from "lucide-react";
 import ExportedImage from "next-image-export-optimizer";
@@ -8,11 +9,61 @@ import { fetchBlogBySlug, fetchBlogs } from "@/lib/api";
 import { renderTipTapContent } from "@/utils/renderTipTapContent";
 import { BlogActions } from "@/components/blogs/blog-actions";
 import BlogDetailSkeleton from "@/components/blogs/blog-detail-skeleton";
+import { SITE_CONFIG } from "@/lib/seo";
 
 interface BlogDetailPageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+export async function generateMetadata({
+  params,
+}: BlogDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const blog = await fetchBlogBySlug(slug);
+
+  if (!blog) {
+    return {
+      title: "Blog Post Not Found",
+    };
+  }
+
+  const categoryName = blog.tag?.tag_name || "Uncategorized";
+
+  return {
+    title: blog.title,
+    description:
+      blog.excerpt ||
+      `Read about ${blog.title} by ${blog.author} on ${categoryName}`,
+    openGraph: {
+      title: blog.title,
+      description:
+        blog.excerpt ||
+        `Read about ${blog.title} by ${blog.author} on ${categoryName}`,
+      type: "article",
+      publishedTime: blog.created_at,
+      authors: [blog.author],
+      images: blog.thumbnail
+        ? [
+            {
+              url: blog.thumbnail,
+              width: 1200,
+              height: 630,
+              alt: blog.title,
+            },
+          ]
+        : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.title,
+      description:
+        blog.excerpt ||
+        `Read about ${blog.title} by ${blog.author} on ${categoryName}`,
+      images: blog.thumbnail ? [blog.thumbnail] : [],
+    },
+  };
 }
 
 export async function generateStaticParams() {
@@ -28,7 +79,7 @@ export async function generateStaticParams() {
 }
 
 async function BlogDetailContent({ slug }: { slug: string }) {
-  await new Promise(resolve => setTimeout(resolve, 2000)); // delay
+  await new Promise((resolve) => setTimeout(resolve, 2000)); // delay
   const blog = await fetchBlogBySlug(slug);
 
   if (!blog) {
@@ -79,7 +130,7 @@ async function BlogDetailContent({ slug }: { slug: string }) {
         />
       )}
 
-      <div className="fixed inset-0 bg-black/8wqk0 -z-10" />
+      <div className="bg-black/8wqk0 fixed inset-0 -z-10" />
 
       <div className="relative min-h-screen px-4 py-8 sm:px-8 sm:py-12 md:px-16 lg:px-22">
         <div className="mb-6 items-start sm:mb-8">

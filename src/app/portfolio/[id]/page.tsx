@@ -1,9 +1,51 @@
+import type { Metadata } from "next";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { fetchProjectById, fetchProjects } from "@/lib/api";
 import ExportedImage from "next-image-export-optimizer";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ImageCarousel from "./image-carousel";
+import { SITE_CONFIG } from "@/lib/seo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const project = await fetchProjectById(id);
+
+  if (!project) {
+    return {
+      title: "Project Not Found",
+    };
+  }
+
+  return {
+    title: project.title,
+    description: project.description,
+    openGraph: {
+      title: project.title,
+      description: project.description,
+      images: project.thumbnail
+        ? [
+            {
+              url: project.thumbnail,
+              width: 1200,
+              height: 630,
+              alt: project.title,
+            },
+          ]
+        : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: project.description,
+      images: project.thumbnail ? [project.thumbnail] : [],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   try {
@@ -71,17 +113,17 @@ export default async function ProjectDetailPage({
                 </div>
               </div>
 
-              <div className="flex w-full flex-col gap-2 md:gap-4 md:mr-5 md:w-1/2">
+              <div className="flex w-full flex-col gap-2 md:mr-5 md:w-1/2 md:gap-4">
                 <div className="leading-tight font-semibold md:leading-16">
                   <h1 className="text-3xl md:text-5xl lg:text-7xl">
                     {project.title}
                   </h1>
-                  <p className="mt-3 md:mt-6 text-base text-white/60 md:text-2xl">
+                  <p className="mt-3 text-base text-white/60 md:mt-6 md:text-2xl">
                     {project.owner}
                   </p>
                 </div>
 
-                <div className="mt-4 md:mt-8 mb-6 md:mb-10">
+                <div className="mt-4 mb-6 md:mt-8 md:mb-10">
                   <p className="text-sm leading-relaxed text-white/80 md:text-xl md:leading-7">
                     {project.description}
                   </p>
@@ -114,7 +156,7 @@ export default async function ProjectDetailPage({
 
             {/* Tech Stack Icons */}
             {project.tech_stacks && project.tech_stacks.length > 0 && (
-              <div className="mt-8 md:mt-16 mb-8 md:mb-20 flex gap-3 md:gap-4">
+              <div className="mt-8 mb-8 flex gap-3 md:mt-16 md:mb-20 md:gap-4">
                 {project.tech_stacks.map((techStack) => (
                   <div key={techStack.tech_stack_id} className="group relative">
                     <ExportedImage
@@ -134,7 +176,7 @@ export default async function ProjectDetailPage({
 
             <ImageCarousel images={project.images} />
 
-            <div className="mt-8 md:mt-10 mb-8 md:mb-10 space-y-4 md:space-y-6">
+            <div className="mt-8 mb-8 space-y-4 md:mt-10 md:mb-10 md:space-y-6">
               <h3 className="text-2xl font-semibold text-white md:text-3xl">
                 Tags
               </h3>
@@ -153,7 +195,7 @@ export default async function ProjectDetailPage({
                 </span>
               </div>
             </div>
-            <div className="mt-8 md:mt-10 mb-8 md:mb-10 space-y-4 md:space-y-6">
+            <div className="mt-8 mb-8 space-y-4 md:mt-10 md:mb-10 md:space-y-6">
               <h3 className="text-2xl font-semibold text-white md:text-3xl">
                 Testimonial
               </h3>
