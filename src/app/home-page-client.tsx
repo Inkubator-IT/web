@@ -894,7 +894,7 @@ export default function HomePageClient({
           className="w-full overflow-hidden"
         >
           <ExportedImage
-            src={"/assets/landing/Testimonials.svg"}
+            src={"/assets/landing/Testimonials.png"}
             alt="testimonial img"
             width={2000}
             height={2000}
