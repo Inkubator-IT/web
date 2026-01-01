@@ -20,7 +20,7 @@ const Footer = () => {
 
           <div className="flex flex-col items-start justify-between">
             <div className="flex w-full items-center justify-between gap-4 mb-12 md:mb-0">
-              <h3 className="text-xl">
+              <h3 className="md:text-xl text-base">
                 Himpunan Mahasiswa Informatika
                 <br />
                 Institut Teknologi Bandung
@@ -35,7 +35,7 @@ const Footer = () => {
                 />
               </div>
             </div>
-            <p className="leading-relaxed text-white/80 text-base">
+            <p className="leading-relaxed text-white/80 md:text-base text-sm">
               Sekretariat HMIF Gedung Benny Subianto (Labtek V), Institut
               Teknologi Bandung, Jl. Ganesa No.10, Lb. Siliwangi, Kecamatan
               Coblong, Kota Bandung, Jawa Barat 40132
@@ -55,7 +55,7 @@ const Footer = () => {
                 className="flex items-center gap-3 text-white/80 transition-colors hover:text-white"
               >
                 <Mail className="h-5 w-5" />
-                <span className="text-xl">
+                <span className="md:text-xl text-base ">
                   inkubatorit.hmif.itb@gmail.com
                 </span>
               </a>
@@ -73,7 +73,7 @@ const Footer = () => {
                   height={20}
                   className="h-5 w-5"
                 />
-                <span className="text-xl">(+62) 85121047144</span>
+                <span className="md:text-xl text-base">(+62) 85121047144</span>
               </a>
 
               <a
@@ -83,7 +83,7 @@ const Footer = () => {
                 className="flex items-center gap-3 text-white/80 transition-colors hover:text-white"
               >
                 <Instagram className="h-5 w-5" />
-                <span className="text-xl">@inkubatorit</span>
+                <span className="md:text-xl text-base">@inkubatorit</span>
               </a>
 
               <a
@@ -99,7 +99,7 @@ const Footer = () => {
                   height={20}
                   className="h-5 w-5"
                 />
-                <span className="text-xl">Inkubator IT</span>
+                <span className="md:text-xl text-base">Inkubator IT</span>
               </a>
             </div>
           </div>
