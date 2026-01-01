@@ -13,7 +13,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-6 h-6"
+          className="h-6 w-6"
         />
       ),
       title: "Design Prototype",
@@ -31,7 +31,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-24 h-24"
+          className="h-24 w-24"
         />
       ),
       category: "all",
@@ -43,7 +43,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-6 h-6 rounded-xl"
+          className="h-6 w-6 rounded-xl"
         />
       ),
       title: "Website Development",
@@ -61,7 +61,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-32 h-24 rounded-xl"
+          className="h-24 w-32 rounded-xl"
         />
       ),
       category: "web",
@@ -73,7 +73,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-6 h-6"
+          className="h-6 w-6"
         />
       ),
       title: "Mobile Applications",
@@ -91,7 +91,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-32 h-24 rounded-xl"
+          className="h-24 w-32 rounded-xl"
         />
       ),
       category: "app",
@@ -103,7 +103,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-6 h-6"
+          className="h-6 w-6"
         />
       ),
       title: "Desktop Applications",
@@ -121,7 +121,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-32 h-24 rounded-xl"
+          className="h-24 w-32 rounded-xl"
         />
       ),
       category: "app",
@@ -133,7 +133,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-6 h-6"
+          className="h-6 w-6"
         />
       ),
       title: "AI/ML Solutions",
@@ -151,7 +151,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-32 h-24"
+          className="h-24 w-32"
         />
       ),
       category: "ai",
@@ -163,7 +163,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-6 h-6"
+          className="h-6 w-6"
         />
       ),
       title: "AR/VR Solutions",
@@ -181,7 +181,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-32 h-24"
+          className="h-24 w-32"
         />
       ),
       category: "all",
@@ -193,7 +193,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-6 h-6"
+          className="h-6 w-6"
         />
       ),
       title: "IoT Solutions",
@@ -211,7 +211,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-32 h-24 rounded-xl"
+          className="h-24 w-32 rounded-xl"
         />
       ),
       category: "all",
@@ -223,7 +223,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-6 h-6"
+          className="h-6 w-6"
         />
       ),
       title: "Games Development",
@@ -240,7 +240,7 @@ const OurServicesPage: React.FC = () => {
           alt="Palette Icon"
           width={24}
           height={24}
-          className="w-24 h-24 rounded-xl"
+          className="h-24 w-24 rounded-xl"
         />
       ),
       category: "games",
@@ -248,16 +248,16 @@ const OurServicesPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <section className="pt-4 md:pt-12 pb-12 md:pb-16 px-4 md:px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-6 leading-tight">
+    <div className="min-h-screen text-white">
+      <section className="px-4 pt-4 pb-12 md:px-6 md:pt-12 md:pb-16">
+        <div className="mx-auto max-w-4xl text-center">
+          <h1 className="mb-6 text-4xl leading-tight font-semibold sm:text-5xl md:text-6xl">
             Our{" "}
             <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-transparent">
               Services
             </span>
           </h1>
-          <p className="text-base sm:text-lg font-light leading-relaxed opacity-80">
+          <p className="text-base leading-relaxed font-light opacity-80 sm:text-lg">
             Explore our tailored IT solutions designed to empower businesses,
             optimize operations, and drive innovation through technology.
           </p>
@@ -265,8 +265,8 @@ const OurServicesPage: React.FC = () => {
       </section>
 
       <section className="px-4 sm:px-6 md:pb-12">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {services.slice(0, 6).map((service, index) => (
               <ServiceCard key={index} {...service} />
             ))}
@@ -285,9 +285,9 @@ const OurServicesPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 py-8 md:py-12 bg-gradient-to-b from-black via-zinc-900 to-black">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 leading-snug md:leading-tight">
+      <section className="bg-gradient-to-b from-black via-zinc-900 to-black px-4 py-8 sm:px-6 md:py-12">
+        <div className="mx-auto max-w-7xl text-center">
+          <h2 className="mb-4 text-xl leading-snug font-bold sm:text-2xl md:text-3xl md:leading-tight lg:text-4xl">
             Ready to bring your{" "}
             <span className="bg-gradient-to-r from-[#ad96f1] to-[#FFB051] bg-clip-text text-transparent">
               ideas
@@ -305,7 +305,7 @@ const OurServicesPage: React.FC = () => {
           </h2>
 
           <button
-            className="mt-4 sm:mt-6 px-6 sm:px-8 md:px-12 py-3 sm:py-4 md:py-5 bg-gradient-to-r from-purple-600/20 to-orange-500/20 border border-purple-500/50 rounded-sm text-sm sm:text-base md:text-lg lg:text-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 group"
+            className="group mt-4 rounded-sm border border-purple-500/50 bg-gradient-to-r from-purple-600/20 to-orange-500/20 px-6 py-3 text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/30 sm:mt-6 sm:px-8 sm:py-4 sm:text-base md:px-12 md:py-5 md:text-lg lg:text-xl"
             onClick={() => (window.location.href = "/contact")}
           >
             Start Your Project Today
@@ -315,7 +315,7 @@ const OurServicesPage: React.FC = () => {
                 alt="Arrow Right"
                 width={16}
                 height={16}
-                className="w-5 h-5 sm:w-6 sm:h-6 inline-block ml-2 transform group-hover:translate-x-1 transition-transform duration-300"
+                className="ml-2 inline-block h-5 w-5 transform transition-transform duration-300 group-hover:translate-x-1 sm:h-6 sm:w-6"
               />
             </span>
           </button>

@@ -130,8 +130,6 @@ async function BlogDetailContent({ slug }: { slug: string }) {
         />
       )}
 
-      <div className="bg-black/8wqk0 fixed inset-0 -z-10" />
-
       <div className="relative min-h-screen px-4 py-8 sm:px-8 sm:py-12 md:px-16 lg:px-22">
         <div className="mb-6 items-start sm:mb-8">
           <Link
