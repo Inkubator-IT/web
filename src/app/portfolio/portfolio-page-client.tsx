@@ -12,6 +12,7 @@ import {
 import ProjectCard from "@/components/portfolio/ProjectCard";
 import type { Project } from "@/types/project";
 import { useSearchParams } from "next/navigation";
+import ExportedImage from "next-image-export-optimizer";
 
 interface PortfolioPageClientProps {
   projects: Project[];
@@ -149,9 +150,11 @@ export default function PortfolioPageClient({
                   >
                     <Link href={`/portfolio/${project.id}`}>
                       <div className="group relative h-[175px] w-full cursor-pointer overflow-hidden rounded-xl md:h-[270px]">
-                        <img
+                        <ExportedImage
                           src={project.thumbnail || "/portfolio/image.png"}
                           alt={project.title}
+                          width={432}
+                          height={270}
                           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       </div>
