@@ -19,7 +19,7 @@ const page = () => {
   return (
     <main className="flex h-full min-h-screen w-full flex-col items-center justify-center overflow-hidden px-5">
       {/* Our Vision */}
-      <section className="my-[80px] flex w-full max-w-[1200px] flex-col items-center justify-center md:my-[160px]">
+      <section className="my-[80px] flex w-full flex-col items-center justify-center md:my-[160px] md:w-[75%]">
         <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs md:text-xl">
           <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
             OUR VISION
@@ -32,7 +32,7 @@ const page = () => {
       </section>
 
       {/* OUR MISSION */}
-      <section className="md:mb-[16 0px] mb-[80px] flex w-full max-w-[1400px] flex-col items-center justify-center gap-6 md:gap-12">
+      <section className="md:mb-[16 0px] mb-[80px] flex w-full flex-col items-center justify-center gap-6 md:w-[75%] md:gap-12">
         <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs md:text-xl">
           <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
             OUR MISSION
@@ -82,7 +82,7 @@ const page = () => {
       </section>
 
       {/* OUR STORY */}
-      <section className="relative my-[130px] flex w-full max-w-[1200px] flex-col items-center justify-center gap-6 md:my-[300px] md:gap-12">
+      <section className="relative my-[130px] flex w-full flex-col items-center justify-center gap-6 md:my-[300px] md:w-[75%] md:gap-12">
         <ExportedImage
           src="/assets/about-us/techstack_ellipse.png"
           alt="techstack ellipse"
@@ -123,7 +123,7 @@ const page = () => {
       </section>
 
       {/* CORE VALUES */}
-      <section className="md:mb-[16 0px] mb-[80px] flex w-full max-w-[1400px] flex-col items-center justify-center gap-6 md:gap-12">
+      <section className="md:mb-[16 0px] mb-[80px] flex w-full flex-col items-center justify-center gap-6 md:w-[75%] md:gap-12">
         <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-2xl text-transparent sm:text-4xl md:text-5xl">
           We Believe In Three Core Values
         </span>

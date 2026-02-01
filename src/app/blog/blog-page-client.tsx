@@ -169,8 +169,8 @@ export default function BlogPageClient({ blogs, tags, isLoading }: BlogPageClien
   const goLast = () => setCurrentPage(totalPages);
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden px-4 py-8 sm:px-8 sm:py-12 md:px-16 lg:px-22">
-      <div className="flex flex-col items-center gap-6 sm:gap-8">
+    <div className="relative min-h-screen overflow-x-hidden px-4 py-8 sm:px-8 sm:py-12">
+      <div className="mx-auto flex w-full flex-col items-center gap-6 sm:gap-8 md:w-[75%]">
         <div className="flex flex-col items-center gap-2">
           <h1 className="word-spacing-tight bg-linear-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text p-2 text-4xl font-semibold text-transparent sm:text-5xl md:text-6xl">
             Blog

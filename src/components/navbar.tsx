@@ -45,7 +45,7 @@ const Navbar = () => {
          We made the outer <nav> a standard HTML element (not motion).
          It handles the fixed positioning only. 
       */}
-      <nav className="pointer-events-none fixed top-6 z-40 w-full px-3 md:top-12 md:px-12">
+      <nav className="pointer-events-none fixed top-6 z-40 w-full px-3 md:top-12 md:px-[12.5%]">
         {/* 2. ANIMATED INNER ELEMENT:
            We applied the motion, the style, and the blur all to THIS element.
            This ensures the 'transform' and 'backdrop-filter' exist on the same node,
@@ -57,7 +57,7 @@ const Navbar = () => {
           animate="show"
           // We apply the blur manually in style to force it if Tailwind fails
           style={GPU_ACCELERATION}
-          className="pointer-events-auto mx-auto flex max-w-[1600px] items-center justify-between rounded-2xl border border-white/20 bg-white/10 p-4 shadow-xl backdrop-blur-2xl md:px-8 md:py-4"
+          className="pointer-events-auto mx-auto flex w-full items-center justify-between rounded-2xl border border-white/20 bg-white/10 p-4 shadow-xl backdrop-blur-2xl md:px-8 md:py-4"
         >
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
