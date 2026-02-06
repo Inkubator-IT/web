@@ -6,7 +6,7 @@ import { Mail, Instagram } from "lucide-react";
 const Footer = () => {
   return (
     <footer className="w-full px-4 py-12 md:py-16">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto w-full md:w-[75%]">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-[auto_auto_auto] md:gap-[150px]">
           <div className="flex items-start justify-start">
             <ExportedImage

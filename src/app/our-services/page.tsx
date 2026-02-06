@@ -250,7 +250,7 @@ const OurServicesPage: React.FC = () => {
   return (
     <div className="min-h-screen text-white">
       <section className="px-4 pt-4 pb-12 md:px-6 md:pt-12 md:pb-16">
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="mx-auto w-full text-center md:w-[75%]">
           <h1 className="mb-6 text-4xl leading-tight font-semibold sm:text-5xl md:text-6xl">
             Our{" "}
             <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-transparent">
@@ -265,7 +265,7 @@ const OurServicesPage: React.FC = () => {
       </section>
 
       <section className="px-4 sm:px-6 md:pb-12">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto w-full md:w-[75%]">
           <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {services.slice(0, 6).map((service, index) => (
               <ServiceCard key={index} {...service} />
@@ -286,7 +286,7 @@ const OurServicesPage: React.FC = () => {
       </section>
 
       <section className="px-4 py-8 sm:px-6 md:py-12 md:mb-10">
-        <div className="mx-auto max-w-7xl text-center">
+        <div className="mx-auto w-full text-center md:w-[75%]">
           <h2 className="mb-4 text-xl leading-snug font-bold sm:text-2xl md:text-3xl md:leading-tight lg:text-4xl">
             Ready to bring your{" "}
             <span className="bg-gradient-to-r from-[#ad96f1] to-[#FFB051] bg-clip-text text-transparent">
