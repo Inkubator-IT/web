@@ -1,9 +1,9 @@
 export const SITE_CONFIG = {
   name: "Inkubator IT",
   tagline: "Digital Product Studio",
-  url: "https://inkubatorit.com",
+  url: "https://inkubatorit.id",
   defaultOgImage:
-    "https://assets.inkubatorit.com/uploads/dark-mode-03b32b09-5ac2-4785-ba3f-7a52b4d314c8.png",
+    "https://assets.inkubatorit.id/uploads/dark-mode-03b32b09-5ac2-4785-ba3f-7a52b4d314c8.png",
   description:
     "Trusted ITB engineers crafting websites, mobile apps, and AI solutions for ambitious brands.",
 } as const;
