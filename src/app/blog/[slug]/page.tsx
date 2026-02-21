@@ -129,6 +129,21 @@ async function BlogDetailContent({ slug }: { slug: string }) {
           }}
         />
       )}
+      <Script
+        id="blog-breadcrumb-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: SITE_CONFIG.url },
+              { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_CONFIG.url}/blog` },
+              { "@type": "ListItem", position: 3, name: blog.title, item: `${SITE_CONFIG.url}/blog/${slug}` },
+            ],
+          }),
+        }}
+      />
 
       <div className="relative mx-auto min-h-screen w-full px-4 py-8 sm:px-8 sm:py-12 md:w-[75%]">
         <div className="mb-6 items-start sm:mb-8">
