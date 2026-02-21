@@ -88,7 +88,7 @@ async function BlogDetailContent({ slug }: { slug: string }) {
 
   if (!blog.thumbnail) {
     return (
-      <div className="relative min-h-screen px-4 py-8 sm:px-8 sm:py-12 md:px-16 lg:px-22">
+      <div className="relative mx-auto min-h-screen w-full px-4 py-8 sm:px-8 sm:py-12 md:w-[75%]">
         <div className="mb-6 items-start sm:mb-8">
           <Link
             href="/blog"
@@ -130,7 +130,7 @@ async function BlogDetailContent({ slug }: { slug: string }) {
         />
       )}
 
-      <div className="relative min-h-screen px-4 py-8 sm:px-8 sm:py-12 md:px-16 lg:px-22">
+      <div className="relative mx-auto min-h-screen w-full px-4 py-8 sm:px-8 sm:py-12 md:w-[75%]">
         <div className="mb-6 items-start sm:mb-8">
           <Link
             href="/blog"

@@ -12,6 +12,7 @@ import {
 import ProjectCard from "@/components/portfolio/ProjectCard";
 import type { Project } from "@/types/project";
 import { useSearchParams } from "next/navigation";
+import ExportedImage from "next-image-export-optimizer";
 
 interface PortfolioPageClientProps {
   projects: Project[];
@@ -105,7 +106,7 @@ export default function PortfolioPageClient({
       style={{ fontFamily: "Montserrat, sans-serif" }}
     >
       <section className="relative px-4 py-12 sm:px-6 md:py-20 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="mx-auto w-full text-center md:w-[75%]">
           <h1 className="word-spacing-tight bg-linear-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text p-2 text-4xl font-semibold text-transparent sm:text-5xl md:text-6xl">
             Portfolio
           </h1>
@@ -149,9 +150,11 @@ export default function PortfolioPageClient({
                   >
                     <Link href={`/portfolio/${project.id}`}>
                       <div className="group relative h-[175px] w-full cursor-pointer overflow-hidden rounded-xl md:h-[270px]">
-                        <img
+                        <ExportedImage
                           src={project.thumbnail || "/portfolio/image.png"}
                           alt={project.title}
+                          width={432}
+                          height={270}
                           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       </div>
@@ -168,7 +171,7 @@ export default function PortfolioPageClient({
         id="projects-section"
         className="px-4 py-8 sm:px-6 md:py-12 lg:px-8"
       >
-        <div className="mx-auto max-w-[1540px]">
+        <div className="mx-auto w-full md:w-[75%]">
           <div className="mb-8 text-center md:mb-12">
             <h2 className="text-2xl font-semibold text-white sm:text-3xl md:text-4xl">
               Featured Project
@@ -178,7 +181,7 @@ export default function PortfolioPageClient({
             </p>
           </div>
 
-          <div className="mx-auto mb-8 max-w-4xl md:mb-10">
+          <div className="mx-auto mb-8 w-full md:mb-10">
             <div className="relative">
               <div className="h-12 w-full rounded-3xl bg-gradient-to-r from-[#7E67C1] via-black to-[#FFB051] p-0.5 shadow-[0_0_20px_rgba(126,103,193,0.5),0_0_40px_rgba(255,176,81,0.3)] md:h-16 md:rounded-4xl">
                 <div className="flex h-full w-full items-center rounded-3xl bg-black px-4 md:rounded-4xl md:px-8">
@@ -195,7 +198,7 @@ export default function PortfolioPageClient({
             </div>
           </div>
 
-          <div className="mx-auto mb-8 max-w-[1280px] md:mb-10">
+          <div className="mx-auto mb-8 w-full md:mb-10">
             <div className="relative mb-6 flex md:mb-10">
               <div className="absolute right-0 bottom-0 left-0 h-[2px] bg-gray-800"></div>
 

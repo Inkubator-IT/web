@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function BlogDetailSkeleton() {
   return (
-    <div className="relative min-h-screen px-4 py-8 sm:px-8 sm:py-12 md:px-16 lg:px-22">
+    <div className="relative mx-auto min-h-screen w-full px-4 py-8 sm:px-8 sm:py-12 md:w-[75%]">
       <div className="mb-6 items-start sm:mb-8">
         <Skeleton className="h-6 w-16 bg-white/10" />
       </div>
@@ -23,15 +23,15 @@ export default function BlogDetailSkeleton() {
         <Skeleton className="mt-4 aspect-video w-full rounded-lg sm:mt-6 bg-white/10" />
       </div>
       
-      <div className="mt-8 max-w-none space-y-10 sm:mt-10">
-        <Skeleton className="h-6 w-full bg-white/10" />
-        <Skeleton className="h-6 w-full bg-white/10" />
-        <Skeleton className="h-6 w-5/6 bg-white/10" />
-        <Skeleton className="h-6 w-full bg-white/10" />
-        <Skeleton className="h-6 w-4/5 bg-white/10" />
-        <Skeleton className="h-6 w-full bg-white/10" />
-        <Skeleton className="h-6 w-full bg-white/10" />
-        <Skeleton className="h-6 w-3/4 bg-white/10" />
+      <div className="mt-8 max-w-none space-y-4 sm:mt-10">
+        <Skeleton className="h-5 w-full bg-white/10" />
+        <Skeleton className="h-5 w-full bg-white/10" />
+        <Skeleton className="h-5 w-5/6 bg-white/10" />
+        <Skeleton className="mt-4 h-5 w-full bg-white/10" />
+        <Skeleton className="h-5 w-4/5 bg-white/10" />
+        <Skeleton className="mt-4 h-5 w-full bg-white/10" />
+        <Skeleton className="h-5 w-full bg-white/10" />
+        <Skeleton className="h-5 w-3/4 bg-white/10" />
       </div>
     </div>
   );

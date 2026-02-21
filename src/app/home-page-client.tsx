@@ -188,7 +188,7 @@ export default function HomePageClient({
 
   return (
     <main className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden py-[50px]">
-      <section className="flex w-full max-w-[1200px] flex-col items-center justify-center gap-[48px] px-5 py-[50px] md:gap-[96px]">
+      <section className="flex w-full flex-col items-center justify-center gap-[48px] px-5 py-[50px] md:w-[75%] md:gap-[96px]">
         <motion.div
           variants={FADE_UP_VARIANTS}
           initial="hidden"
@@ -253,7 +253,7 @@ export default function HomePageClient({
         </motion.div>
       </section>
 
-      <section className="relative flex h-fit w-full max-w-[1600px] flex-col items-center justify-center px-5">
+      <section className="relative flex h-fit w-full flex-col items-center justify-center px-5 md:w-[75%]">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -363,7 +363,7 @@ export default function HomePageClient({
         </div>
       </section>
 
-      <section className="mt-[80px] flex w-full max-w-[1200px] flex-col items-center justify-center px-5 md:mt-[160px]">
+      <section className="mt-[80px] flex w-full flex-col items-center justify-center px-5 md:mt-[160px] md:w-[75%]">
         <motion.p
           variants={FADE_UP_VARIANTS}
           initial="hidden"
@@ -407,7 +407,7 @@ export default function HomePageClient({
         </div>
       </section>
 
-      <section className="mt-[80px] flex w-full max-w-[1600px] flex-col items-center justify-center gap-20 px-5 md:mt-[160px]">
+      <section className="mt-[80px] flex w-full flex-col items-center justify-center gap-20 px-5 md:mt-[160px] md:w-[75%]">
         <motion.div
           variants={FADE_UP_VARIANTS}
           initial="hidden"
@@ -490,7 +490,7 @@ export default function HomePageClient({
       </section>
 
       {/*How We Work Section*/}
-      <section className="relative mt-[80px] flex w-full max-w-[1600px] flex-col items-center justify-center gap-20 px-5 md:mt-[160px]">
+      <section className="relative mt-[80px] flex w-full flex-col items-center justify-center gap-20 px-5 md:mt-[160px] md:w-[75%]">
         <motion.div
           animate={{
             x: [0, 10, 0],
@@ -723,7 +723,7 @@ export default function HomePageClient({
       </section>
 
       {/*Who We Are Section*/}
-      <section className="relative mt-[80px] flex w-full flex-col items-center justify-center gap-20 px-5 md:mt-[160px]">
+      <section className="relative mt-[80px] flex w-full flex-col items-center justify-center gap-20 px-5 md:mt-[160px] md:w-[75%]">
         <motion.div
           animate={{
             rotate: [0, 360],
@@ -854,8 +854,8 @@ export default function HomePageClient({
       </section>
 
       {/*What Our Clients Say Section*/}
-      <section className="mt-[80px] flex w-full flex-col items-center justify-center gap-20 px-5 md:mt-[160px]">
-        <div className="flex w-full items-center justify-start gap-5 md:gap-10">
+      <section className="mt-[80px] flex w-full flex-col items-center justify-center gap-20 md:mt-[160px]">
+        <div className="flex w-full items-center justify-start gap-5 px-5 md:w-[75%] md:gap-10">
           <motion.span
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -880,7 +880,7 @@ export default function HomePageClient({
               </span>
             </div>
             <p className="max-w-[200px] text-xs text-white md:max-w-none md:text-2xl">
-              Don’t just take our word for it, hear what our clients say about
+              Don't just take our word for it, hear what our clients say about
               working with us.
             </p>
           </motion.div>
@@ -904,7 +904,7 @@ export default function HomePageClient({
       </section>
 
       {/*Last Section*/}
-      <section className="relative my-[80px] flex w-full flex-col items-center justify-center gap-5 px-5 md:my-[160px] md:gap-10">
+      <section className="relative my-[80px] flex w-full flex-col items-center justify-center gap-5 px-5 md:my-[160px] md:w-[75%] md:gap-10">
         <motion.div
           animate={{
             scale: [1, 1.1, 1],
