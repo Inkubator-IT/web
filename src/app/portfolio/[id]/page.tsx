@@ -3,6 +3,7 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import { fetchProjectById, fetchProjects } from "@/lib/api";
 import ExportedImage from "next-image-export-optimizer";
 import Link from "next/link";
+import Script from "next/script";
 import { notFound } from "next/navigation";
 import ImageCarousel from "./image-carousel";
 import { SITE_CONFIG } from "@/lib/seo";
@@ -72,10 +73,26 @@ export default async function ProjectDetailPage({
   }
 
   return (
-    <div
-      className="min-h-screen leading-7 tracking-[-0.06em] text-white"
-      style={{ fontFamily: "Montserrat, sans-serif" }}
-    >
+    <>
+      <Script
+        id="portfolio-breadcrumb-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: SITE_CONFIG.url },
+              { "@type": "ListItem", position: 2, name: "Portfolio", item: `${SITE_CONFIG.url}/portfolio` },
+              { "@type": "ListItem", position: 3, name: project.title, item: `${SITE_CONFIG.url}/portfolio/${id}` },
+            ],
+          }),
+        }}
+      />
+      <div
+        className="min-h-screen leading-7 tracking-[-0.06em] text-white"
+        style={{ fontFamily: "Montserrat, sans-serif" }}
+      >
       <div className="mx-auto max-w-[1540px] px-4 pb-12 md:px-6 md:pb-24">
         <div className="py-6 md:py-8">
           <Link
@@ -207,5 +224,6 @@ export default async function ProjectDetailPage({
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -38,6 +38,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <link rel="preconnect" href="https://assets.inkubatorit.id" />
+      </head>
       <body
         suppressHydrationWarning // no way i found this bug while using grammarly
         className={`${montserrat.variable} bg-[#0C0C0C] font-sans antialiased`}
