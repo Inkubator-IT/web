@@ -1,5 +1,17 @@
+import type { Metadata } from "next";
+import Script from "next/script";
 import HomePageClient from "./home-page-client";
 import { fetchProjects } from "@/lib/api";
+import { SITE_CONFIG } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: `${SITE_CONFIG.name} — ${SITE_CONFIG.tagline}`,
+  description: SITE_CONFIG.description,
+  openGraph: {
+    title: `${SITE_CONFIG.name} — ${SITE_CONFIG.tagline}`,
+    description: SITE_CONFIG.description,
+  },
+};
 
 type ShowcaseItem = {
   id: number | string;
@@ -42,8 +54,24 @@ export default async function HomePage() {
   }));
 
   return (
-    <HomePageClient
-      projectShowcase={showcase.length > 0 ? showcase : [...FALLBACK_SHOWCASE]}
-    />
+    <>
+      <Script
+        id="org-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: SITE_CONFIG.name,
+            url: SITE_CONFIG.url,
+            logo: SITE_CONFIG.defaultOgImage,
+            description: SITE_CONFIG.description,
+          }),
+        }}
+      />
+      <HomePageClient
+        projectShowcase={showcase.length > 0 ? showcase : [...FALLBACK_SHOWCASE]}
+      />
+    </>
   );
 }
