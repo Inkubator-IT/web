@@ -15,6 +15,86 @@ export const metadata: Metadata = {
   },
 };
 
+const DIVISIONS = [
+  {
+    id: "ceo",
+    label: "CEO Office",
+    labelGradient: "bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C]",
+    description: "Setting the strategic vision and connecting ideas to drive real impact.",
+    icon: "/assets/about-us/ceo.png",
+    iconAlt: "CEO Office Icon",
+    members: [
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+    ],
+  },
+  {
+    id: "hrd",
+    label: "Human Resources Development",
+    labelGradient: "bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C]",
+    description: "Empowering talents to reach their full potential through learning and a supportive community.",
+    icon: "/assets/about-us/hrd.png",
+    iconAlt: "HRD Icon",
+    members: [
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+    ],
+  },
+  {
+    id: "finance",
+    label: "Finance",
+    labelGradient: "bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C]",
+    description: "Ensuring financial health through strategic budgeting, forecasting, and strict compliance.",
+    icon: "/assets/about-us/finance.png",
+    iconAlt: "Finance Icon",
+    members: [
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+    ],
+  },
+  {
+    id: "technology",
+    label: "Technology",
+    labelGradient: "bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C]",
+    description: "Transforming ideas into reality through smart solutions and robust system management.",
+    icon: "/assets/about-us/technology.png",
+    iconAlt: "Technology Icon",
+    members: [
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+    ],
+  },
+  {
+    id: "growth",
+    label: "Growth Office",
+    labelGradient: "bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C]",
+    description: "Turning potential into impact through strategic partnerships and collaborative growth.",
+    icon: "/assets/about-us/growth-office.png",
+    iconAlt: "Growth Office Icon",
+    members: [
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+    ],
+  },
+  {
+    id: "operational",
+    label: "Operational",
+    labelGradient: "bg-gradient-to-r from-[#7E67C1] to-[#FFBC6C]",
+    description: "Delivering end-to-end IT projects by seamlessly bridging clients and development teams.",
+    icon: "/assets/about-us/operational.png",
+    iconAlt: "Operational Icon",
+    members: [
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+      { name: "Naomi Tanjung", role: "Executive Officer", photo: "/assets/about-us/placeholder.jpg" },
+    ],
+  },
+];
+
 const page = () => {
   return (
     <main className="flex h-full min-h-screen w-full flex-col items-center justify-center overflow-hidden px-5">
@@ -26,8 +106,8 @@ const page = () => {
           </span>
         </div>
         <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-2xl text-transparent italic sm:text-3xl md:text-4xl">
-          “The formation of an IT community as a platform for the professional
-          actualization of HMIF members”
+          "The formation of an IT community as a platform for the professional
+          actualization of HMIF members"
         </span>
       </section>
 
@@ -164,6 +244,65 @@ const page = () => {
               Constantly learning, innovating, and adapting to new tech trends.
             </p>
           </GradientBorderDiv>
+        </div>
+      </section>
+
+      {/* ORGANIGRAM */}
+      <section className="mb-[80px] flex w-full flex-col items-center justify-center gap-6 md:w-[75%] md:gap-12">
+        <span className="bg-gradient-to-r from-white/20 via-white to-white/20 bg-clip-text p-3 text-center text-2xl text-transparent sm:text-4xl md:text-5xl">
+          Key Business Divisions
+        </span>
+        <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3">
+          {DIVISIONS.map((division) => (
+            <GradientBorderDiv
+              key={division.id}
+              className="flex w-full items-center justify-center overflow-hidden rounded-sm p-[1px]"
+              gradientClassName="p-[2px] rounded-[14px]"
+              contentClassName="flex flex-col w-full h-full p-6 backdrop-blur-sm rounded-[14px] gap-4"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex flex-col gap-3">
+                  <span
+                    className={`inline-block self-start rounded-md bg-gradient-to-r px-3 py-1 text-base font-bold text-white md:text-xl ${division.labelGradient}`}
+                  >
+                    {division.label}
+                  </span>
+                  <p className="text-base font-light leading-relaxed text-white/60 md:text-xl">
+                    {division.description}
+                  </p>
+                </div>
+                <ExportedImage
+                  src={division.icon}
+                  alt={division.iconAlt}
+                  width={64}
+                  height={64}
+                  className="h-14 w-14 flex-shrink-0 opacity-80"
+                />
+              </div>
+
+              <div className="h-px w-full bg-white/10" />
+
+              <div className="flex flex-col gap-3">
+                {division.members.map((member, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <ExportedImage
+                      src={member.photo}
+                      alt={member.name}
+                      width={48}
+                      height={48}
+                      className="h-12 w-12 flex-shrink-0 rounded-xl object-cover"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-base font-semibold leading-tight text-white md:text-xl">
+                        {member.name}
+                      </span>
+                      <span className="text-base font-light text-white/50 md:text-xl">{member.role}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </GradientBorderDiv>
+          ))}
         </div>
       </section>
     </main>
