@@ -188,13 +188,13 @@ export default function HomePageClient({
 
   return (
     <main className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden py-[50px]">
-      <section className="flex w-full flex-col items-center justify-center gap-[48px] px-5 py-[50px] md:w-[75%] md:gap-[96px]">
+      <section className="flex w-full flex-col items-center justify-center gap-[48px] px-5 py-[50px] md:w-[90%] md:gap-[96px] lg:w-[75%]">
         <motion.div
           variants={FADE_UP_VARIANTS}
           initial="hidden"
           animate="show"
           style={GPU_ACCELERATION}
-          className="flex w-full flex-col items-center justify-center gap-[24px] md:gap-[48px]"
+          className="flex w-full flex-col items-center justify-center gap-[20px] md:gap-[30px]"
         >
           <motion.div
             variants={FADE_UP_VARIANTS}
@@ -202,16 +202,16 @@ export default function HomePageClient({
             style={GPU_ACCELERATION}
             className="flex w-fit flex-col"
           >
-            <p className="text-xs font-medium text-white italic md:text-xl">
+            <p className="text-xs font-medium text-white italic md:text-base">
               InkubatorIT&apos;s Present
             </p>
-            <div className="mt-2 h-px bg-linear-to-r from-white/0 via-white to-white/0"></div>
+            <div className="mt-1 h-px bg-linear-to-r from-white/0 via-white to-white/0"></div>
           </motion.div>
           <motion.h1
             variants={FADE_UP_VARIANTS}
             transition={{ delay: 0.4, duration: 0.8 }}
             style={GPU_ACCELERATION}
-            className="bg-linear-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-center text-3xl font-semibold text-transparent sm:text-5xl md:text-6xl"
+            className="bg-linear-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-center text-3xl leading-tight font-semibold text-transparent sm:text-5xl md:text-6xl"
           >
             Trusted Digital Solutions by ITB&apos;s Brightest Tech Talents
           </motion.h1>
@@ -219,7 +219,7 @@ export default function HomePageClient({
             variants={FADE_UP_VARIANTS}
             transition={{ delay: 0.6, duration: 0.8 }}
             style={GPU_ACCELERATION}
-            className="text-center text-base font-normal text-white/80 md:text-2xl"
+            className="text-center text-sm font-normal text-white/80 sm:text-base md:text-lg lg:w-[80%]"
           >
             We build high-quality software with integrity, collaboration, and
             innovation. From websites to mobile apps and beyond, Inkubator IT
@@ -236,14 +236,14 @@ export default function HomePageClient({
         >
           <Link
             href="/portfolio"
-            className="z-10 flex flex-row items-center gap-4 rounded-[6px] border border-white/12 bg-white/2 px-2 py-1 text-xs text-white duration-200 hover:bg-white/20 md:rounded-[12px] md:px-5 md:py-3 md:text-2xl"
+            className="z-10 flex flex-row items-center gap-4 rounded-[6px] border border-white/12 bg-white/2 px-6 py-2 text-sm text-white duration-200 hover:bg-white/20 md:rounded-[12px] md:px-10 md:py-3 md:text-lg"
           >
             See Our Portfolio{" "}
             <BriefcaseBusiness className="h-4 w-4 md:h-5 md:w-5" />
           </Link>
           <Link
             href="/contact"
-            className="z-10 rounded-[6px] bg-[#121212CC] px-2 py-1 text-xs transition-colors duration-200 hover:bg-[#1A1A1ACC] md:rounded-[12px] md:px-5 md:py-3 md:text-2xl"
+            className="z-10 rounded-[6px] bg-[#121212]/80 px-6 py-2 text-sm transition-colors duration-200 hover:bg-[#1A1A1ACC] md:rounded-[12px] md:px-10 md:py-3 md:text-lg"
           >
             <span className="flex flex-row items-center gap-4 bg-linear-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-transparent">
               Start Your Project{" "}
@@ -253,14 +253,14 @@ export default function HomePageClient({
         </motion.div>
       </section>
 
-      <section className="relative flex h-fit w-full flex-col items-center justify-center px-5 md:w-[75%]">
+      <section className="relative flex h-fit w-full flex-col items-center justify-center px-5 md:w-[90%] lg:w-[75%]">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
           style={{ transform: "translateZ(0)", willChange: "opacity" }}
-          className="pointer-events-none absolute inset-0 z-0"
+          className="pointer-events-none absolute inset-0 -z-10"
         >
           <ExportedImage
             src="/assets/landing/techstack_ellipse.png"
@@ -302,49 +302,55 @@ export default function HomePageClient({
           </div>
         </motion.div>
 
-        <div className="z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 px-0 py-5 md:gap-10 md:px-20">
+        <div className="z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 px-0 py-5 md:mt-4 md:gap-6 md:px-6 lg:mt-8">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             style={{ transform: "translateZ(0)", willChange: "opacity" }}
-            className="text-center text-base font-medium text-white/48 md:text-2xl"
+            className="text-center text-xs font-normal tracking-widest text-white/48 md:text-base"
           >
             PROJECT SHOWCASE
           </motion.p>
-          <div className="flex w-full max-w-[1600px] flex-row items-start justify-between gap-5 px-0 md:gap-10 md:px-20">
-            {showcaseItems.length > 1 && (
-              <button
-                onClick={scrollPrev}
-                aria-label="Previous project"
-                className="flex aspect-square h-[40px] shrink-0 items-center justify-center rounded-full bg-white/4 text-base text-white transition-colors duration-200 hover:bg-white/20 md:h-[70px] md:w-[70px] md:p-0 md:text-2xl"
+          <div className="flex w-full max-w-[1600px] flex-col items-center gap-3 md:gap-4">
+            <div className="flex w-full flex-row items-center justify-between gap-5 px-0 md:gap-10 md:px-6">
+              {showcaseItems.length > 1 && (
+                <button
+                  onClick={scrollPrev}
+                  aria-label="Previous project"
+                  className="flex aspect-square h-[40px] shrink-0 items-center justify-center rounded-full bg-white/4 text-base text-white transition-colors duration-200 hover:bg-white/20 md:h-[70px] md:w-[70px] md:p-0 md:text-2xl"
+                >
+                  ←
+                </button>
+              )}
+              <motion.p
+                key={selectedIndex}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                style={GPU_ACCELERATION}
+                className="text-center text-xl leading-tight font-medium text-white sm:text-2xl md:text-4xl"
               >
-                ←
-              </button>
-            )}
-            <motion.div
-              key={selectedIndex}
+                {currentProject.title}
+              </motion.p>
+              {showcaseItems.length > 1 && (
+                <button
+                  onClick={scrollNext}
+                  aria-label="Next project"
+                  className="flex aspect-square h-[40px] shrink-0 items-center justify-center rounded-full bg-white/4 text-base text-white transition-colors duration-200 hover:bg-white/20 md:h-[70px] md:w-[70px] md:p-0 md:text-2xl"
+                >
+                  →
+                </button>
+              )}
+            </div>
+            <motion.p
+              key={`${selectedIndex}-desc`}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               style={GPU_ACCELERATION}
-              className="flex flex-col items-center justify-center gap-3 md:gap-4"
+              className="w-full px-0 text-center text-xs text-white/60 md:px-6 md:text-[20px]"
             >
-              <p className="text-center text-xl font-medium text-white uppercase sm:text-2xl md:text-4xl">
-                {currentProject.title}
-              </p>
-              <p className="text-center text-xs text-white/60 md:text-[20px]">
-                {currentProject.description}
-              </p>
-            </motion.div>
-            {showcaseItems.length > 1 && (
-              <button
-                onClick={scrollNext}
-                aria-label="Next project"
-                className="flex aspect-square h-[40px] shrink-0 items-center justify-center rounded-full bg-white/4 text-base text-white transition-colors duration-200 hover:bg-white/20 md:h-[70px] md:w-[70px] md:p-0 md:text-2xl"
-              >
-                →
-              </button>
-            )}
+              {currentProject.description}
+            </motion.p>
           </div>
           <div className="flex flex-row items-center justify-center gap-2 md:gap-3">
             {showcaseItems.map((project, index) => (
