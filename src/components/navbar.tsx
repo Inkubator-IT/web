@@ -57,7 +57,7 @@ const Navbar = () => {
           animate="show"
           // We apply the blur manually in style to force it if Tailwind fails
           style={GPU_ACCELERATION}
-          className="pointer-events-auto mx-auto flex w-full items-center justify-between rounded-2xl border border-white/20 bg-white/10 p-4 shadow-xl backdrop-blur-2xl md:px-8 md:py-4"
+          className="pointer-events-auto mx-auto flex w-full items-center justify-between rounded-3xl bg-black/20 p-4 shadow-xl backdrop-blur-2xl md:px-2 md:py-2"
         >
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
@@ -66,12 +66,12 @@ const Navbar = () => {
               alt="InkubatorIT"
               width={40}
               height={40}
-              className="h-[30px] w-auto md:h-[60px]"
+              className="h-[30px] w-auto md:h-[40px] md:pl-[20px]"
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden items-center gap-8 rounded-xl border border-white/10 bg-black/20 px-10 py-3 md:flex">
+          <div className="hidden items-center gap-12 md:flex">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -81,7 +81,7 @@ const Navbar = () => {
                   className="group relative flex flex-col items-center justify-center"
                 >
                   <span
-                    className={`text-base transition-colors duration-300 ${
+                    className={`text-sm transition-colors duration-300 ${
                       isActive
                         ? "font-medium text-white"
                         : "text-white/80 hover:text-white"
