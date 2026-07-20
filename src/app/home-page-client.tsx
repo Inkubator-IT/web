@@ -280,29 +280,36 @@ export default function HomePageClient({
           className="flex w-full shrink-0 justify-center overflow-hidden"
         >
           <div
-            className="flex w-full shrink-0 justify-center overflow-hidden"
-            ref={emblaRef}
+            className="w-full rounded-[10px] p-[1px]"
+            style={{
+              backgroundImage: "linear-gradient(to top, #000000, #AB99E1)",
+            }}
           >
-            <div className="flex">
-              {showcaseItems.map((project) => (
-                <div
-                  key={project.id}
-                  className="flex h-[400px] min-w-0 flex-[0_0_100%] justify-center md:h-[800px]"
-                >
-                  <ExportedImage
-                    src={project.image}
-                    alt={project.title}
-                    width={2000}
-                    height={2000}
-                    className="relative z-10 w-full object-cover"
-                  />
-                </div>
-              ))}
+            <div
+              className="w-full overflow-hidden rounded-[9px]"
+              ref={emblaRef}
+            >
+              <div className="flex">
+                {showcaseItems.map((project) => (
+                  <div
+                    key={project.id}
+                    className="aspect-video min-w-0 flex-[0_0_100%]"
+                  >
+                    <ExportedImage
+                      src={project.image}
+                      alt={project.title}
+                      width={1920}
+                      height={1080}
+                      className="relative z-10 h-full w-full object-cover object-top"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>
 
-        <div className="z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 px-0 py-5 md:mt-4 md:gap-6 md:px-6 lg:mt-8">
+        <div className="z-10 flex w-full flex-1 flex-col items-center justify-center gap-6 px-0 py-5 md:mt-4 md:gap-6 lg:mt-8 lg:px-6">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -313,12 +320,12 @@ export default function HomePageClient({
             PROJECT SHOWCASE
           </motion.p>
           <div className="flex w-full max-w-[1600px] flex-col items-center gap-3 md:gap-4">
-            <div className="flex w-full flex-row items-center justify-between gap-5 px-0 md:gap-10 md:px-6">
+            <div className="flex w-full flex-row items-start justify-between gap-5 px-0 md:gap-10 lg:px-6">
               {showcaseItems.length > 1 && (
                 <button
                   onClick={scrollPrev}
                   aria-label="Previous project"
-                  className="flex aspect-square h-[40px] shrink-0 items-center justify-center rounded-full bg-white/4 text-base text-white transition-colors duration-200 hover:bg-white/20 md:h-[70px] md:w-[70px] md:p-0 md:text-2xl"
+                  className="flex aspect-square h-[40px] shrink-0 items-center justify-center rounded-full bg-white/4 text-base text-white transition-colors duration-200 hover:bg-white/20 md:h-[50px] md:w-[50px] md:p-0 md:text-lg"
                 >
                   ←
                 </button>
@@ -336,7 +343,7 @@ export default function HomePageClient({
                 <button
                   onClick={scrollNext}
                   aria-label="Next project"
-                  className="flex aspect-square h-[40px] shrink-0 items-center justify-center rounded-full bg-white/4 text-base text-white transition-colors duration-200 hover:bg-white/20 md:h-[70px] md:w-[70px] md:p-0 md:text-2xl"
+                  className="flex aspect-square h-[40px] shrink-0 items-center justify-center rounded-full bg-white/4 text-base text-white transition-colors duration-200 hover:bg-white/20 md:h-[50px] md:w-[50px] md:p-0 md:text-lg"
                 >
                   →
                 </button>
@@ -347,18 +354,18 @@ export default function HomePageClient({
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               style={GPU_ACCELERATION}
-              className="w-full px-0 text-center text-xs text-white/60 md:px-6 md:text-[20px]"
+              className="w-full px-0 text-center text-xs text-white/60 md:px-6 md:text-base"
             >
               {currentProject.description}
             </motion.p>
           </div>
-          <div className="flex flex-row items-center justify-center gap-2 md:gap-3">
+          <div className="mt-2 flex flex-row items-center justify-center gap-2 md:gap-3">
             {showcaseItems.map((project, index) => (
               <button
                 key={project.id}
                 onClick={() => scrollTo(index)}
                 aria-label={`Go to project ${index + 1}`}
-                className={`h-2 w-2 rounded-full transition-all duration-300 md:h-3 md:w-3 ${
+                className={`h-1 w-1 rounded-full transition-all duration-300 md:h-2 md:w-2 ${
                   index === selectedIndex
                     ? "w-8 bg-white"
                     : "bg-white/30 hover:bg-white/50"
@@ -369,14 +376,14 @@ export default function HomePageClient({
         </div>
       </section>
 
-      <section className="mt-[80px] flex w-full flex-col items-center justify-center px-5 md:mt-[160px] md:w-[75%]">
+      <section className="mt-[80px] flex w-full flex-col items-center justify-center px-5 md:mt-[160px] md:w-[90%] lg:w-[75%]">
         <motion.p
           variants={FADE_UP_VARIANTS}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
           style={GPU_ACCELERATION}
-          className="text-center text-base text-white/60 md:text-2xl"
+          className="text-center text-base font-light tracking-wider text-white/60 md:text-lg"
         >
           BUILDING TRUST WITH REMARKABLE BRANDS AND PARTNERS
         </motion.p>
