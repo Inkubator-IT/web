@@ -44,6 +44,7 @@ interface InteractiveObjectProps {
   /** Phase offset so the objects don't all breathe in unison. */
   phase: number;
   animate: boolean;
+  tier: "high" | "low";
   anyHovered: boolean;
 }
 
@@ -51,9 +52,10 @@ export function InteractiveObject({
   slot,
   phase,
   animate,
+  tier,
   anyHovered,
 }: InteractiveObjectProps) {
-  const { hoveredId, setHovered, setSelected } = useDesk();
+  const { hoveredId, setHovered, activate } = useDesk();
   const Object3D = DESK_OBJECTS[slot.id];
 
   const content = useRef<THREE.Group>(null);
@@ -84,9 +86,10 @@ export function InteractiveObject({
   const handleClick = useCallback(
     (event: ThreeEvent<MouseEvent>) => {
       event.stopPropagation();
-      setSelected(slot.id);
+      const pointerType = (event.nativeEvent as PointerEvent).pointerType;
+      activate(slot.id, pointerType === "touch");
     },
-    [setSelected, slot.id],
+    [activate, slot.id],
   );
 
   useFrame((state, delta) => {
@@ -125,7 +128,7 @@ export function InteractiveObject({
       onClick={handleClick}
     >
       <group ref={content} rotation={[0, slot.rotationY, 0]}>
-        <Object3D animate={animate} />
+        <Object3D animate={animate} tier={tier} />
       </group>
 
       {/* Pool of light on the desk, only while hovered */}

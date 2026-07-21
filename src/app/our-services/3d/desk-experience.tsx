@@ -41,6 +41,8 @@ export default function DeskExperience() {
     return () => {
       observer.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
+      // The scene sets this while hovering an object; never leave it behind.
+      document.body.style.cursor = "";
     };
   }, []);
 

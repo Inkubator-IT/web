@@ -7,26 +7,31 @@ import * as THREE from "three";
 import { BRAND } from "../../config";
 import { Emissive, Surface } from "./materials";
 
-const ORBIT_COUNT = 14;
-
 /** AI/ML Solutions — a processor hovering over a pedestal, ringed by data motes. */
-export function AiChip({ animate = true }: { animate?: boolean }) {
+export function AiChip({
+  animate = true,
+  tier = "high",
+}: {
+  animate?: boolean;
+  tier?: "high" | "low";
+}) {
   const chip = useRef<THREE.Group>(null);
   const motes = useRef<THREE.InstancedMesh>(null);
   const scratch = useMemo(() => new THREE.Object3D(), []);
+  const orbitCount = tier === "high" ? 14 : 7;
 
   // One instanced mesh for all the orbiting motes — 14 separate meshes would be
   // 14 draw calls for what is visually a single effect.
   const orbits = useMemo(
     () =>
-      Array.from({ length: ORBIT_COUNT }, (_, i) => ({
+      Array.from({ length: orbitCount }, (_, i) => ({
         radius: 0.13 + (i % 3) * 0.045,
         speed: 0.5 + (i % 4) * 0.22,
-        phase: (i / ORBIT_COUNT) * Math.PI * 2,
+        phase: (i / orbitCount) * Math.PI * 2,
         height: 0.17 + Math.sin(i * 2.4) * 0.05,
         tilt: (i % 2 === 0 ? 1 : -1) * 0.35,
       })),
-    [],
+    [orbitCount],
   );
 
   useFrame((state) => {
@@ -129,7 +134,8 @@ export function AiChip({ animate = true }: { animate?: boolean }) {
 
       <instancedMesh
         ref={motes}
-        args={[undefined, undefined, ORBIT_COUNT]}
+        key={orbitCount}
+        args={[undefined, undefined, orbitCount]}
         frustumCulled={false}
       >
         <sphereGeometry args={[0.014, 8, 8]} />

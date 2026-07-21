@@ -41,7 +41,7 @@ export function DeskScene({ tier, reducedMotion, pointer }: SceneProps) {
       <Lighting tier={tier} />
       <Desk layout={layout} tier={tier} />
       <Cables layout={layout} />
-      <DeskObjects layout={layout} animate={!reducedMotion} />
+      <DeskObjects layout={layout} animate={!reducedMotion} tier={tier} />
       <LabelTracker layout={layout} />
     </>
   );

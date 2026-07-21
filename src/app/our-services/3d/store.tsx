@@ -4,6 +4,7 @@ import {
   createContext,
   type ReactNode,
   type RefObject,
+  useCallback,
   useContext,
   useMemo,
   useRef,
@@ -15,6 +16,12 @@ interface DeskState {
   selectedId: string | null;
   setHovered: (id: string | null) => void;
   setSelected: (id: string | null) => void;
+  /**
+   * A user activating a service. On touch there is no hover, so the first tap
+   * previews the label and only the second opens the modal — otherwise touch
+   * users would never see the label at all.
+   */
+  activate: (id: string, isTouch: boolean) => void;
   /**
    * The single hover label element. It is positioned imperatively from inside
    * the Canvas every frame — going through React state at 60fps would re-render
@@ -32,6 +39,17 @@ export function DeskProvider({ children }: { children: ReactNode }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const hotspotsRef = useRef<HTMLDivElement>(null);
+  const touchPreview = useRef<string | null>(null);
+
+  const activate = useCallback((id: string, isTouch: boolean) => {
+    if (isTouch && touchPreview.current !== id) {
+      touchPreview.current = id;
+      setHoveredId(id);
+      return;
+    }
+    touchPreview.current = null;
+    setSelectedId(id);
+  }, []);
 
   const value = useMemo<DeskState>(
     () => ({
@@ -39,10 +57,11 @@ export function DeskProvider({ children }: { children: ReactNode }) {
       selectedId,
       setHovered: setHoveredId,
       setSelected: setSelectedId,
+      activate,
       labelRef,
       hotspotsRef,
     }),
-    [hoveredId, selectedId],
+    [hoveredId, selectedId, activate],
   );
 
   return <DeskContext.Provider value={value}>{children}</DeskContext.Provider>;

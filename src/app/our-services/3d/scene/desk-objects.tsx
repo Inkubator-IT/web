@@ -8,9 +8,11 @@ import { InteractiveObject } from "./interactive-object";
 export function DeskObjects({
   layout,
   animate,
+  tier,
 }: {
   layout: DeskLayout;
   animate: boolean;
+  tier: "high" | "low";
 }) {
   const { hoveredId } = useDesk();
 
@@ -22,6 +24,7 @@ export function DeskObjects({
           slot={slot}
           phase={index * 1.31}
           animate={animate}
+          tier={tier}
           anyHovered={hoveredId !== null}
         />
       ))}

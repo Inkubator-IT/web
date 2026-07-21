@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { services } from "../../data/services";
 import { useDesk } from "../store";
 
@@ -12,7 +13,9 @@ import { useDesk } from "../store";
  * as the camera drifts.
  */
 export function A11yHotspots() {
-  const { hotspotsRef, setHovered, setSelected } = useDesk();
+  const { hotspotsRef, setHovered, activate } = useDesk();
+  // React's synthetic click carries no pointerType, so remember the last one.
+  const lastPointerType = useRef<string>("mouse");
 
   return (
     <div
@@ -28,11 +31,16 @@ export function A11yHotspots() {
           // Centring lives in the inline transform written by HotspotTracker,
           // since that would otherwise overwrite a Tailwind translate.
           className="pointer-events-auto absolute top-0 left-0 h-8 w-8 cursor-pointer rounded-full opacity-0 outline-none will-change-transform focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-[#FFB051]"
+          onPointerDown={(event) => {
+            lastPointerType.current = event.pointerType;
+          }}
           onPointerEnter={() => setHovered(service.id)}
           onPointerLeave={() => setHovered(null)}
           onFocus={() => setHovered(service.id)}
           onBlur={() => setHovered(null)}
-          onClick={() => setSelected(service.id)}
+          onClick={() =>
+            activate(service.id, lastPointerType.current === "touch")
+          }
         />
       ))}
     </div>

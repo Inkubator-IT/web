@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import * as THREE from "three";
 import type { DeskLayout } from "../config";
 import { SURFACE } from "./objects/materials";
@@ -57,7 +57,15 @@ export function Cables({ layout }: { layout: DeskLayout }) {
     });
   }, [layout]);
 
-  // Geometries are rebuilt only when the layout changes, and disposed with it.
+  // These are built by hand rather than by JSX, so R3F will not dispose them
+  // for us when the layout changes or the scene unmounts.
+  useEffect(
+    () => () => {
+      for (const geometry of curves) geometry.dispose();
+    },
+    [curves],
+  );
+
   return (
     <group>
       {curves.map((geometry) => (

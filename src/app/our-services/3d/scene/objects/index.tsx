@@ -13,6 +13,8 @@ import { VrHeadset } from "./vr-headset";
 export interface DeskObjectProps {
   /** False under prefers-reduced-motion — objects should hold still. */
   animate?: boolean;
+  /** Constrained devices get cheaper versions of the busier objects. */
+  tier?: "high" | "low";
 }
 
 /** Maps a Service.id from ../../data/services to the thing on the desk. */
