@@ -29,6 +29,26 @@ export const FIT_MARGIN = 0.09;
 /** How far the camera drifts with the pointer, in world units. */
 export const PARALLAX_RANGE = { x: 0.55, y: 0.3 };
 
+/**
+ * Height above the desk at which each object's hotspot and label sit — roughly
+ * "just above the tallest part", so the marker never buries itself in geometry.
+ */
+export const ANCHOR_HEIGHT: Record<string, number> = {
+  "design-prototype": 0.14,
+  "website-development": 0.72,
+  "mobile-applications": 0.12,
+  "desktop-applications": 1.0,
+  "ai-ml": 0.44,
+  "ar-vr": 0.36,
+  iot: 0.2,
+  "games-development": 0.2,
+};
+
+/** Hover motion: how far an object lifts, and how much it leans. */
+export const HOVER_LIFT = 0.075;
+export const HOVER_TILT = 0.06;
+export const HOVER_SCALE = 1.045;
+
 export type ObjectSlot = {
   /** Matches a Service.id from ../data/services. */
   id: string;

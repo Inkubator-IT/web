@@ -7,6 +7,7 @@ import { Cables } from "./cables";
 import { CameraRig } from "./camera-rig";
 import { Desk } from "./desk";
 import { DeskObjects } from "./desk-objects";
+import { LabelTracker } from "./label-tracker";
 import { Lighting } from "./lighting";
 
 export interface SceneProps {
@@ -38,6 +39,7 @@ export function DeskScene({ tier, reducedMotion, pointer }: SceneProps) {
       <Desk layout={layout} tier={tier} />
       <Cables layout={layout} />
       <DeskObjects layout={layout} animate={!reducedMotion} />
+      <LabelTracker layout={layout} />
     </>
   );
 }

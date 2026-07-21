@@ -39,6 +39,8 @@ const normalizeRoute = (raw) => {
 
 const path = normalizeRoute(flag("path", "/our-services"));
 const state = flag("state", "idle");
+/** Which service's hotspot to hover or click, by Service.id. */
+const target = flag("target", "website-development");
 const outDir = join(HERE, ".shots", label);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -65,20 +67,21 @@ async function settle(page) {
 async function drive(page) {
   if (state === "idle") return;
 
-  const target = await page.$("[data-service-hotspot]");
-  if (!target) {
-    console.warn(`  ! no hotspot found, shooting idle instead`);
+  const selector = `[data-service-hotspot="${target}"]`;
+  const handle = await page.$(selector);
+  if (!handle) {
+    console.warn(`  ! no hotspot "${target}" found, shooting idle instead`);
     return;
   }
 
   if (state === "hover") {
-    await target.hover();
+    await handle.hover();
     await sleep(900);
     return;
   }
 
   if (state === "modal") {
-    await target.click();
+    await handle.click();
     await page
       .waitForSelector('[role="dialog"]', { timeout: 4000 })
       .catch(() => {

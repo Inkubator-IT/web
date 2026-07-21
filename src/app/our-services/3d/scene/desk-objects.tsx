@@ -1,9 +1,10 @@
 "use client";
 
 import type { DeskLayout } from "../config";
-import { DESK_OBJECTS } from "./objects";
+import { useDesk } from "../store";
+import { InteractiveObject } from "./interactive-object";
 
-/** Places each service's object in its slot for the current layout. */
+/** Places each service's object in its slot and makes it respond to the pointer. */
 export function DeskObjects({
   layout,
   animate,
@@ -11,22 +12,19 @@ export function DeskObjects({
   layout: DeskLayout;
   animate: boolean;
 }) {
+  const { hoveredId } = useDesk();
+
   return (
     <group>
-      {layout.slots.map((slot) => {
-        const Object3D = DESK_OBJECTS[slot.id];
-        if (!Object3D) return null;
-
-        return (
-          <group
-            key={slot.id}
-            position={slot.position}
-            rotation={[0, slot.rotationY, 0]}
-          >
-            <Object3D animate={animate} />
-          </group>
-        );
-      })}
+      {layout.slots.map((slot, index) => (
+        <InteractiveObject
+          key={slot.id}
+          slot={slot}
+          phase={index * 1.31}
+          animate={animate}
+          anyHovered={hoveredId !== null}
+        />
+      ))}
     </group>
   );
 }

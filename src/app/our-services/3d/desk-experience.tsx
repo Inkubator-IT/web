@@ -4,10 +4,14 @@ import { PerformanceMonitor } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ServicesCta } from "../components/services-cta";
+import { services } from "../data/services";
 import OurServicesClassic from "../our-services-classic";
 import { CAMERA_FOV } from "./config";
 import { useQualityTier } from "./hooks/use-quality-tier";
 import { DeskScene } from "./scene/desk-scene";
+import { DeskProvider, useDesk } from "./store";
+import { A11yHotspots } from "./ui/a11y-hotspots";
+import { HoverLabel } from "./ui/hover-label";
 import { SceneLoader } from "./ui/loader";
 
 export default function DeskExperience() {
@@ -67,39 +71,51 @@ export default function DeskExperience() {
   const tier = degraded ? "low" : profile.tier;
 
   return (
-    <div className="min-h-screen text-white">
-      <Hero />
+    <DeskProvider>
+      <div className="min-h-screen text-white">
+        <Hero />
 
-      <div
-        ref={stageRef}
-        onPointerMove={handlePointerMove}
-        onPointerLeave={handlePointerLeave}
-        className="relative h-[56vh] max-h-[760px] min-h-[380px] w-full md:h-[60vh]"
-      >
-        <Canvas
-          dpr={profile.dpr}
-          frameloop={visible ? "always" : "never"}
-          camera={{ fov: CAMERA_FOV, near: 0.1, far: 120 }}
-          gl={{
-            antialias: tier === "high",
-            powerPreference: "high-performance",
-          }}
+        <div
+          ref={stageRef}
+          onPointerMove={handlePointerMove}
+          onPointerLeave={handlePointerLeave}
+          className="relative h-[56vh] max-h-[760px] min-h-[380px] w-full md:h-[60vh]"
         >
-          <PerformanceMonitor
-            onDecline={() => setDegraded(true)}
-            flipflops={2}
-          />
-          <DeskScene
-            tier={tier}
-            reducedMotion={profile.reducedMotion}
-            pointer={pointer}
-          />
-        </Canvas>
-      </div>
+          <Canvas
+            dpr={profile.dpr}
+            frameloop={visible ? "always" : "never"}
+            camera={{ fov: CAMERA_FOV, near: 0.1, far: 120 }}
+            gl={{
+              antialias: tier === "high",
+              powerPreference: "high-performance",
+            }}
+          >
+            <PerformanceMonitor
+              onDecline={() => setDegraded(true)}
+              flipflops={2}
+            />
+            <DeskScene
+              tier={tier}
+              reducedMotion={profile.reducedMotion}
+              pointer={pointer}
+            />
+          </Canvas>
 
-      <ServicesCta />
-    </div>
+          <A11yHotspots />
+          <HoveredLabel />
+        </div>
+
+        <ServicesCta />
+      </div>
+    </DeskProvider>
   );
+}
+
+/** Resolves the hovered id to its service title for the overlay label. */
+function HoveredLabel() {
+  const { hoveredId } = useDesk();
+  const title = services.find((service) => service.id === hoveredId)?.title;
+  return <HoverLabel title={title ?? null} />;
 }
 
 function Hero() {
