@@ -39,7 +39,7 @@ export function renderTipTapContent(content: TipTapJSON | string) {
 
   const renderNode = (node: TipTapNode, index: number): React.ReactNode => {
     switch (node.type) {
-      case "paragraph":
+      case "paragraph": {
         const paragraphContent = node.content
           ? node.content.map((child, i) => renderNode(child, i))
           : "";
@@ -48,13 +48,23 @@ export function renderTipTapContent(content: TipTapJSON | string) {
             {paragraphContent}
           </p>
         );
+      }
 
-      case "heading":
+      case "heading": {
         const level = node.attrs?.level || 1;
         const headingContent = node.content
           ? node.content.map((child, i) => renderNode(child, i))
           : "";
-        const HeadingTag = `h${level}` as keyof React.JSX.IntrinsicElements;
+        // Narrowed to the heading tags rather than `keyof IntrinsicElements`:
+        // that union now also contains three.js elements, which collapses the
+        // shared prop types to `never`.
+        const HeadingTag = `h${Math.min(Math.max(level, 1), 6)}` as
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6";
         return (
           <HeadingTag
             key={index}
@@ -71,8 +81,9 @@ export function renderTipTapContent(content: TipTapJSON | string) {
             {headingContent}
           </HeadingTag>
         );
+      }
 
-      case "blockquote":
+      case "blockquote": {
         const quoteContent = node.content
           ? node.content.map((child, i) => renderNode(child, i))
           : "";
@@ -85,9 +96,10 @@ export function renderTipTapContent(content: TipTapJSON | string) {
             {quoteContent}
           </blockquote>
         );
+      }
 
       case "bulletList":
-      case "orderedList":
+      case "orderedList": {
         const listContent = node.content
           ? node.content.map((child, i) => renderNode(child, i))
           : "";
@@ -102,12 +114,14 @@ export function renderTipTapContent(content: TipTapJSON | string) {
             {listContent}
           </ListTag>
         );
+      }
 
-      case "listItem":
+      case "listItem": {
         const itemContent = node.content
           ? node.content.map((child, i) => renderNode(child, i))
           : "";
         return <li key={index}>{itemContent}</li>;
+      }
 
       case "image":
         return (
@@ -125,7 +139,7 @@ export function renderTipTapContent(content: TipTapJSON | string) {
       case "horizontalRule":
         return <hr key={index} className="my-8 border-t border-white/20" />;
 
-      case "text":
+      case "text": {
         let text: React.ReactNode = node.text || "";
         // Apply marks (bold, italic, etc.)
         if (node.marks) {
@@ -160,6 +174,7 @@ export function renderTipTapContent(content: TipTapJSON | string) {
           });
         }
         return <React.Fragment key={index}>{text}</React.Fragment>;
+      }
 
       default:
         // Fallback for unknown node types
