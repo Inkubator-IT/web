@@ -14,7 +14,10 @@ export const BRAND = {
   /** Matches the page background so the canvas blends into the layout. */
   backdrop: "#0C0C0C",
   deskTop: "#1a1a1f",
-  deskEdge: "#101014",
+  /** The slab's side. These faces point sideways and so catch far less light
+      than the top — the base colour is set well above the top's to compensate,
+      landing it just a step darker than the surface once lit. */
+  deskEdge: "#34343e",
   deskPad: "#232630",
 } as const;
 
@@ -24,7 +27,7 @@ export const CAMERA_TILT_DEG_PORTRAIT = 30;
 export const CAMERA_FOV = 35;
 
 /** Fraction of the frustum kept empty around the desk when fitting the camera. */
-export const FIT_MARGIN = 0.09;
+export const FIT_MARGIN = 0.045;
 
 /** How far the camera drifts with the pointer, in world units. */
 export const PARALLAX_RANGE = { x: 0.55, y: 0.3 };
@@ -42,6 +45,31 @@ export const ANCHOR_HEIGHT: Record<string, number> = {
   "ar-vr": 0.36,
   iot: 0.2,
   "games-development": 0.2,
+};
+
+/**
+ * Invisible convex box used for hover picking, per service.
+ *
+ * Raycasting the real geometry is both expensive and unreliable — an object
+ * made of a dozen meshes produces a stream of enter/leave events as the pointer
+ * crosses between its own parts. One generous box per object makes hover
+ * deterministic and gives a forgiving target.
+ *
+ * `size` is [width, height, depth]; `offset` shifts it from the slot origin.
+ */
+export const HITBOX: Record<
+  string,
+  { size: [number, number, number]; offset: [number, number, number] }
+> = {
+  "design-prototype": { size: [1.05, 0.24, 0.78], offset: [0, 0.1, 0.04] },
+  "website-development": { size: [1.06, 0.72, 0.84], offset: [0, 0.34, -0.06] },
+  "mobile-applications": { size: [0.46, 0.2, 0.74], offset: [0, 0.08, 0] },
+  // Wide enough to cover both the monitor and the tower beside it.
+  "desktop-applications": { size: [1.8, 1.0, 0.66], offset: [0.22, 0.48, 0] },
+  "ai-ml": { size: [0.56, 0.5, 0.56], offset: [0, 0.22, 0] },
+  "ar-vr": { size: [0.64, 0.46, 0.82], offset: [0, 0.16, -0.06] },
+  iot: { size: [0.76, 0.3, 0.82], offset: [0.02, 0.12, 0.06] },
+  "games-development": { size: [0.56, 0.28, 0.44], offset: [0, 0.1, 0.02] },
 };
 
 /** Hover motion: how far an object lifts, and how much it leans. */

@@ -14,7 +14,7 @@ export function DeskObjects({
   animate: boolean;
   tier: "high" | "low";
 }) {
-  const { hoveredId } = useDesk();
+  const { activeId } = useDesk();
 
   return (
     <group>
@@ -25,7 +25,7 @@ export function DeskObjects({
           phase={index * 1.31}
           animate={animate}
           tier={tier}
-          anyHovered={hoveredId !== null}
+          anyHovered={activeId !== null}
         />
       ))}
     </group>

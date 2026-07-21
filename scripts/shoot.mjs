@@ -53,8 +53,21 @@ async function settle(page) {
     .catch(() => false);
 
   if (hasCanvas) {
-    // Give R3F a beat to finish its first frames and the intro easing to land.
-    await sleep(2500);
+    // Wait for the scene to actually be driving the overlay rather than for a
+    // fixed delay: the hotspot buttons only get a transform once the tracker
+    // has run a frame, which is the real "scene is live" signal. Shader
+    // compilation (soft shadows, bloom) can push this out several seconds.
+    await page
+      .waitForFunction(
+        () =>
+          [...document.querySelectorAll("[data-service-hotspot]")].some(
+            (el) => (el as HTMLElement).style.transform !== "",
+          ),
+        { timeout: 30000 },
+      )
+      .catch(() => console.warn("  ! scene never became interactive"));
+    // Then let the intro easing settle.
+    await sleep(1800);
   } else {
     await sleep(600);
   }
@@ -67,21 +80,31 @@ async function settle(page) {
 async function drive(page) {
   if (state === "idle") return;
 
-  const selector = `[data-service-hotspot="${target}"]`;
-  const handle = await page.$(selector);
-  if (!handle) {
+  // The hotspot buttons track each object's on-screen centre, so their box
+  // gives us a point to aim the real mouse at. Driving the actual pointer
+  // exercises the same raycast path a user does, rather than a DOM shortcut.
+  const box = await page
+    .$(`[data-service-hotspot="${target}"]`)
+    .then((handle) => handle?.boundingBox() ?? null);
+
+  if (!box) {
     console.warn(`  ! no hotspot "${target}" found, shooting idle instead`);
     return;
   }
 
+  const cx = box.x + box.width / 2;
+  const cy = box.y + box.height / 2;
+
   if (state === "hover") {
-    await handle.hover();
+    await page.mouse.move(cx, cy);
     await sleep(900);
     return;
   }
 
   if (state === "modal") {
-    await handle.click();
+    await page.mouse.move(cx, cy);
+    await sleep(300);
+    await page.mouse.click(cx, cy);
     await page
       .waitForSelector('[role="dialog"]', { timeout: 4000 })
       .catch(() => {
@@ -127,8 +150,10 @@ for (const vp of VIEWPORTS) {
     hasTouch: vp.mobile,
   });
 
+  // Not networkidle: the dev server holds an HMR socket open, so the page can
+  // never go idle and the wait times out. settle() below is the real gate.
   const url = `${BASE}${path}`;
-  await page.goto(url, { waitUntil: "networkidle2", timeout: 60000 });
+  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
   await settle(page);
   await drive(page);
 

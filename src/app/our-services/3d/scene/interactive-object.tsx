@@ -1,11 +1,12 @@
 "use client";
 
-import { type ThreeEvent, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { useCallback, useRef } from "react";
 import type * as THREE from "three";
 import {
   ANCHOR_HEIGHT,
   BRAND,
+  HITBOX,
   HOVER_LIFT,
   HOVER_SCALE,
   HOVER_TILT,
@@ -55,41 +56,39 @@ export function InteractiveObject({
   tier,
   anyHovered,
 }: InteractiveObjectProps) {
-  const { hoveredId, setHovered, activate } = useDesk();
+  const { activeId, proxiesRef } = useDesk();
   const Object3D = DESK_OBJECTS[slot.id];
 
   const content = useRef<THREE.Group>(null);
   const lift = useRef(0);
   const dim = useRef(0);
 
-  const isHovered = hoveredId === slot.id;
+  const isHovered = activeId === slot.id;
   const anchorY = ANCHOR_HEIGHT[slot.id] ?? 0.3;
+  const hitbox = HITBOX[slot.id];
 
-  const handleOver = useCallback(
-    (event: ThreeEvent<PointerEvent>) => {
-      event.stopPropagation();
-      setHovered(slot.id);
-      document.body.style.cursor = "pointer";
-    },
-    [setHovered, slot.id],
-  );
+  // Objects are assembled from many small meshes, so shadow casting is applied
+  // once on mount by traversal rather than repeated on every primitive.
+  const enableShadows = useCallback((group: THREE.Group | null) => {
+    content.current = group;
+    if (!group) return;
+    group.traverse((node) => {
+      const mesh = node as THREE.Mesh;
+      if (mesh.isMesh) {
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+      }
+    });
+  }, []);
 
-  const handleOut = useCallback(
-    (event: ThreeEvent<PointerEvent>) => {
-      event.stopPropagation();
-      setHovered(null);
-      document.body.style.cursor = "";
+  // Register this object's pick proxy so HoverPicker can raycast against it.
+  const registerProxy = useCallback(
+    (mesh: THREE.Mesh | null) => {
+      const proxies = proxiesRef.current;
+      if (mesh) proxies.set(slot.id, mesh);
+      else proxies.delete(slot.id);
     },
-    [setHovered],
-  );
-
-  const handleClick = useCallback(
-    (event: ThreeEvent<MouseEvent>) => {
-      event.stopPropagation();
-      const pointerType = (event.nativeEvent as PointerEvent).pointerType;
-      activate(slot.id, pointerType === "touch");
-    },
-    [activate, slot.id],
+    [proxiesRef, slot.id],
   );
 
   useFrame((state, delta) => {
@@ -119,20 +118,30 @@ export function InteractiveObject({
   if (!Object3D) return null;
 
   return (
-    // <group> is a three.js object, not DOM; the rule misfires because R3F augments JSX.IntrinsicElements. Keyboard access comes from A11yHotspots.
-    // biome-ignore lint/a11y/noStaticElementInteractions: not a DOM element
-    <group
-      position={slot.position}
-      onPointerOver={handleOver}
-      onPointerOut={handleOut}
-      onClick={handleClick}
-    >
-      <group ref={content} rotation={[0, slot.rotationY, 0]}>
+    <group position={slot.position}>
+      <group ref={enableShadows} rotation={[0, slot.rotationY, 0]}>
         <Object3D animate={animate} tier={tier} />
       </group>
 
-      {/* Pool of light on the desk, only while hovered */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.006, 0]}>
+      {/* Hover pick proxy: no material output, but still raycastable. */}
+      {hitbox && (
+        <mesh
+          ref={registerProxy}
+          position={hitbox.offset}
+          userData={{ serviceId: slot.id }}
+        >
+          <boxGeometry args={hitbox.size} />
+          <meshBasicMaterial visible={false} />
+        </mesh>
+      )}
+
+      {/* Pool of light on the desk, only while hovered. Never raycast — an
+          invisible disc this wide would steal hover from its neighbours. */}
+      <mesh
+        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, 0.006, 0]}
+        raycast={() => null}
+      >
         <circleGeometry args={[0.42, 32]} />
         <meshBasicMaterial
           color={BRAND.orange}

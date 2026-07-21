@@ -89,6 +89,51 @@ export function IotBoard({ animate = true }: { animate?: boolean }) {
         }),
       )}
 
+      {/* Electrolytic capacitors */}
+      {[
+        [-0.2, -0.11],
+        [-0.15, -0.12],
+      ].map(([x, z]) => (
+        <mesh key={`${x}-${z}`} position={[x, 0.052, z]}>
+          <cylinderGeometry args={[0.018, 0.018, 0.042, 14]} />
+          <meshStandardMaterial
+            color="#2b2b38"
+            roughness={0.35}
+            metalness={0.75}
+          />
+        </mesh>
+      ))}
+
+      {/* Surface-mount resistors scattered across the board */}
+      {[
+        [0.02, 0.12],
+        [0.06, 0.13],
+        [0.1, 0.12],
+        [-0.02, -0.14],
+        [0.02, -0.14],
+        [0.2, -0.02],
+        [0.22, 0.02],
+      ].map(([x, z]) => (
+        <mesh key={`${x}-${z}`} position={[x, 0.034, z]}>
+          <boxGeometry args={[0.018, 0.008, 0.01]} />
+          <meshStandardMaterial
+            color="#3d3020"
+            roughness={0.6}
+            metalness={0.4}
+          />
+        </mesh>
+      ))}
+
+      {/* Crystal oscillator */}
+      <mesh position={[-0.19, 0.038, 0.05]}>
+        <boxGeometry args={[0.05, 0.016, 0.026]} />
+        <meshStandardMaterial
+          color="#6a6a78"
+          roughness={0.25}
+          metalness={0.95}
+        />
+      </mesh>
+
       {/* USB port */}
       <mesh position={[-W / 2 + 0.02, 0.04, 0.09]}>
         <boxGeometry args={[0.05, 0.026, 0.06]} />

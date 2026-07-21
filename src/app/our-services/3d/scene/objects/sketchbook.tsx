@@ -73,6 +73,43 @@ export function Sketchbook() {
         <Sketch y={0.06} w={0.006} h={0.06} tone={BRAND.purple} />
       </group>
 
+      {/* Spiral binding down the centre */}
+      {Array.from({ length: 13 }, (_, i) => {
+        const z = -PAGE_L / 2 + 0.03 + i * ((PAGE_L - 0.06) / 12);
+        return (
+          <mesh
+            key={z.toFixed(3)}
+            position={[0, 0.024, z]}
+            rotation={[0, 0, 0]}
+          >
+            <torusGeometry args={[0.014, 0.0035, 8, 20, Math.PI * 1.5]} />
+            <meshStandardMaterial
+              color="#8a8a96"
+              roughness={0.3}
+              metalness={0.92}
+            />
+          </mesh>
+        );
+      })}
+
+      {/* Stacked page edges, so the book has thickness rather than one sheet */}
+      {[-1, 1].map((side) =>
+        [0.0135, 0.0115].map((y) => (
+          <mesh
+            key={`${side}-${y}`}
+            rotation={[-Math.PI / 2, 0, 0]}
+            position={[(side * (PAGE_W + 0.02)) / 2 + side * 0.004, y, 0.004]}
+          >
+            <planeGeometry args={[PAGE_W, PAGE_L]} />
+            <meshStandardMaterial
+              color="#9a948c"
+              roughness={0.95}
+              metalness={0}
+            />
+          </mesh>
+        )),
+      )}
+
       {/* Pen resting across the lower edge */}
       <group
         position={[0.12, 0.028, PAGE_L / 2 + 0.05]}

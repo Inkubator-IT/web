@@ -8,6 +8,8 @@ import { Cables } from "./cables";
 import { CameraRig } from "./camera-rig";
 import { Desk } from "./desk";
 import { DeskObjects } from "./desk-objects";
+import { Effects } from "./effects";
+import { HoverPicker } from "./hover-picker";
 import { LabelTracker } from "./label-tracker";
 import { Lighting } from "./lighting";
 
@@ -15,6 +17,8 @@ export interface SceneProps {
   tier: "high" | "low";
   reducedMotion: boolean;
   pointer: React.RefObject<{ x: number; y: number }>;
+  /** Hover picking pauses while the modal is open. */
+  pickingEnabled: boolean;
 }
 
 /**
@@ -22,7 +26,12 @@ export interface SceneProps {
  * aspect rather than a CSS breakpoint, so the desk reflows against the space it
  * actually has.
  */
-export function DeskScene({ tier, reducedMotion, pointer }: SceneProps) {
+export function DeskScene({
+  tier,
+  reducedMotion,
+  pointer,
+  pickingEnabled,
+}: SceneProps) {
   const size = useThree((state) => state.size);
   const { selectedId } = useDesk();
   const layout = useMemo(
@@ -42,7 +51,9 @@ export function DeskScene({ tier, reducedMotion, pointer }: SceneProps) {
       <Desk layout={layout} tier={tier} />
       <Cables layout={layout} />
       <DeskObjects layout={layout} animate={!reducedMotion} tier={tier} />
+      <HoverPicker enabled={pickingEnabled} />
       <LabelTracker layout={layout} />
+      {tier === "high" && <Effects />}
     </>
   );
 }

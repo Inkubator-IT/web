@@ -12,6 +12,8 @@ import {
 
 /** Highest point we care about keeping in frame — the tallest desk object. */
 const CONTENT_HEIGHT = 1.0;
+/** Depth of top + apron, so the desk's thickness stays in frame. */
+const APRON_BOTTOM = 0.46;
 
 /**
  * Finds the camera distance at which the whole desk (plus the headroom the
@@ -34,9 +36,13 @@ function fitDistance(
   // The desk surface, plus headroom only along the back edge — that is where
   // the tall objects live. Claiming full height at all four corners would
   // reserve empty space the scene never occupies and shrink the desk in frame.
+  // The front edge reaches down to the bottom of the apron so the slab's
+  // thickness stays in shot; the legs below it are allowed to run off frame,
+  // the way a desk shot from above naturally would.
   const corners: THREE.Vector3[] = [];
   for (const x of [-halfW, halfW]) {
     corners.push(new THREE.Vector3(x, 0, halfD));
+    corners.push(new THREE.Vector3(x, -APRON_BOTTOM, halfD));
     corners.push(new THREE.Vector3(x, 0, -halfD));
     corners.push(new THREE.Vector3(x, CONTENT_HEIGHT, -halfD));
   }

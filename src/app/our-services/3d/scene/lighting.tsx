@@ -1,6 +1,6 @@
 "use client";
 
-import { Environment, Lightformer } from "@react-three/drei";
+import { Environment, Lightformer, SoftShadows } from "@react-three/drei";
 import { BRAND } from "../config";
 
 /**
@@ -13,13 +13,30 @@ import { BRAND } from "../config";
 export function Lighting({ tier }: { tier: "high" | "low" }) {
   return (
     <>
+      {/* Percentage-closer soft shadows. three's built-in "soft" map type uses a
+          small fixed kernel, which stair-steps along any edge that isn't axis
+          aligned; this samples a real penumbra instead. */}
+      {tier === "high" && <SoftShadows size={26} samples={10} focus={0.85} />}
+
       <ambientLight intensity={0.35} />
 
-      {/* Key light, warm, from the upper right — casts the contact shadows. */}
+      {/* Key light, warm, from the upper right. On the high tier this casts a
+          real shadow map — the directional shadows are what give the objects
+          weight; blurred contact shadows alone read as soft smudges. */}
       <directionalLight
         position={[3.5, 6, 2.5]}
         intensity={1.5}
         color="#fff3e2"
+        castShadow={tier === "high"}
+        shadow-mapSize={[2048, 2048]}
+        shadow-bias={-0.0009}
+        shadow-normalBias={0.02}
+        shadow-camera-near={2}
+        shadow-camera-far={14}
+        shadow-camera-left={-3.6}
+        shadow-camera-right={3.6}
+        shadow-camera-top={3.6}
+        shadow-camera-bottom={-3.6}
       />
       {/* Cool fill from the opposite side so shadowed faces keep some colour. */}
       <directionalLight

@@ -93,6 +93,21 @@ export function AiChip({
             metalness={0.72}
           />
         </RoundedBox>
+        {/* Heatsink fins across the package */}
+        {Array.from({ length: 7 }, (_, i) => {
+          const x = -0.072 + i * 0.024;
+          return (
+            <mesh key={x.toFixed(3)} position={[x, 0.03, 0]}>
+              <boxGeometry args={[0.008, 0.026, 0.15]} />
+              <meshStandardMaterial
+                color="#5a5a68"
+                roughness={0.24}
+                metalness={0.95}
+              />
+            </mesh>
+          );
+        })}
+
         {/* Die on top */}
         <mesh position={[0, 0.018, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={[0.1, 0.1]} />
