@@ -104,9 +104,28 @@ const Navbar = () => {
           <Link
             key="/contact"
             href="/contact"
-            className="hidden items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#564292] to-[#A77741] px-8 py-4 text-base text-white/90 transition-all duration-200 hover:scale-105 hover:text-white hover:shadow-lg hover:shadow-purple-500/20 md:flex"
+            className="group relative hidden items-center justify-center gap-2 overflow-hidden rounded-xl bg-linear-to-r from-[#564292] to-[#A77741] px-8 py-4 text-sm font-medium text-white/90 transition-all duration-200 hover:scale-105 hover:text-white hover:shadow-lg hover:shadow-purple-500/20 md:flex"
           >
-            Let’s Collaborate <SendHorizontal height={15} />
+            <span className="relative z-10 flex items-center gap-2">
+              Let’s Collaborate <SendHorizontal height={15} strokeWidth={2} />
+            </span>
+            <motion.span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(45deg, transparent 35%, rgba(255,255,255,0.65) 50%, transparent 65%)",
+                backgroundSize: "300% 300%",
+              }}
+              initial={{ backgroundPosition: "100% 0%" }}
+              animate={{ backgroundPosition: "0% 100%" }}
+              transition={{
+                duration: 2.2,
+                repeat: Infinity,
+                repeatDelay: 3,
+                ease: "linear",
+              }}
+            />
           </Link>
 
           {/* Mobile Menu Button */}
@@ -174,9 +193,28 @@ const Navbar = () => {
                     <Link
                       href="/contact"
                       onClick={() => setIsOpen(false)}
-                      className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#564292] to-[#A77741] px-4 py-3 text-xl text-white transition-transform active:scale-95"
+                      className="relative mt-4 flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-linear-to-r from-[#564292] to-[#A77741] px-4 py-3 text-xl text-white transition-transform active:scale-95"
                     >
-                      Let's Collaborate <SendHorizontal height={15} />
+                      <span className="relative z-10 flex items-center gap-2">
+                        Let&apos;s Collaborate <SendHorizontal height={15} />
+                      </span>
+                      <motion.span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                          background:
+                            "linear-gradient(45deg, transparent 35%, rgba(255,255,255,0.65) 50%, transparent 65%)",
+                          backgroundSize: "300% 300%",
+                        }}
+                        initial={{ backgroundPosition: "0% 100%" }}
+                        animate={{ backgroundPosition: "100% 0%" }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          repeatDelay: 2,
+                          ease: "easeInOut",
+                        }}
+                      />
                     </Link>
                   </motion.div>
                 </div>

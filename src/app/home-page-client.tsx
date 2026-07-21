@@ -137,6 +137,144 @@ const IMPACT_STATS = [
   },
 ] as const;
 
+interface Testimonial {
+  id: number;
+  author: string;
+  quote: string;
+}
+
+const TESTIMONIALS_ROW_1: Testimonial[] = [
+  {
+    id: 1,
+    author: "Dian Paskalis, Direktur Kava Suite",
+    quote:
+      "Meski timnya masih berstatus mahasiswa, diskusi dan delivery sangat baik. Kualitasnya sudah seperti profesional. Mantap.",
+  },
+  {
+    id: 2,
+    author: "Fidela Ivena Christiadi, CEO Douce Dame",
+    quote:
+      "Enak banget flow ngobrolnya dan mereka nerima inputnya dengan baik dan langsung di implementasiin.",
+  },
+  {
+    id: 3,
+    author: "CTO, Client C",
+    quote:
+      "Professional, skilled, and communicative. They exceeded our expectations.",
+  },
+  {
+    id: 4,
+    author: "Reza Pratama, Founder Rasa Kita",
+    quote:
+      "Timnya responsif dan selalu update progress. Hasil akhirnya sesuai ekspektasi, bahkan lebih.",
+  },
+];
+
+const TESTIMONIALS_ROW_2: Testimonial[] = [
+  {
+    id: 5,
+    author:
+      "Muhammad Abdurrachman Rizqi, Mahasiswa S2 Teknik Geodesi dan Geomatika ITB",
+    quote:
+      "Keren sih, bener-bener script langsung jadi dan praktis dipakainya, juga nggak perlu ubah-ubah lagi scriptnya, cuman ya mungkin agak mahal aja.",
+  },
+  {
+    id: 6,
+    author: "Dian Paskalis, Direktur PT Dominasi Pemasaran Digital",
+    quote:
+      "Tim memiliki komunikasi yang baik dan berusaha menyelesaikan semua masalah yang ada. Layanan diberikan dengan prinsip value for money yang sangat sesuai untuk inkubasi usaha rintisan.",
+  },
+  {
+    id: 7,
+    author: "Client A",
+    quote:
+      "Their team may be students, but their quality of delivery feels fully professional.",
+  },
+  {
+    id: 8,
+    author: "Head of Product, Client D",
+    quote:
+      "Great communication and fast iteration. They understood our needs quickly and delivered right on time.",
+  },
+];
+
+function TestimonialCard({ author, quote }: { author: string; quote: string }) {
+  return (
+    <div className="group relative w-[250px] shrink-0 cursor-default sm:w-[300px] md:w-[340px]">
+      {/* thick card behind: thin sliver at rest, grows thicker on hover instead of merging into the front card */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -translate-x-[5px] translate-y-[6px] rounded-2xl border border-white/15 bg-white/10 transition-transform duration-300 ease-out group-hover:-translate-x-[16px] group-hover:translate-y-[18px]"
+      >
+        <div
+          className="absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+          style={{
+            backgroundImage:
+              "linear-gradient(135deg, rgba(130,115,173,0.55), rgba(191,132,61,0.55))",
+          }}
+        />
+      </div>
+      <div className="relative rounded-2xl border border-white/15 bg-[#0c0c0c]/95 p-5 backdrop-blur-sm transition-transform duration-300 ease-out group-hover:-translate-y-1 group-hover:shadow-[0_20px_45px_-15px_rgba(173,153,231,0.5)] md:p-6">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+          style={{
+            backgroundImage:
+              "linear-gradient(135deg, rgba(173,153,231,0.35), rgba(255,176,81,0.35))",
+          }}
+        />
+        <p className="relative text-sm leading-snug font-semibold text-white md:text-base">
+          {author}
+        </p>
+        <p className="relative mt-3 text-xs leading-relaxed text-white/55 transition-colors duration-300 ease-out group-hover:text-white md:text-sm">
+          &ldquo;{quote}&rdquo;
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function TestimonialRow({
+  items,
+  duration,
+  reverse = false,
+}: {
+  items: Testimonial[];
+  duration: number;
+  reverse?: boolean;
+}) {
+  return (
+    <div
+      className="flex w-max gap-6 py-6 [transform-style:preserve-3d] md:gap-10 md:py-10"
+      style={{
+        animation: `scroll-left ${duration}s linear infinite${reverse ? " reverse" : ""}`,
+        willChange: "transform",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.animationPlayState = "paused";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.animationPlayState = "running";
+      }}
+    >
+      {[0, 1, 2].map((groupIndex) => (
+        <div
+          key={groupIndex}
+          className="flex shrink-0 items-center gap-6 [transform-style:preserve-3d] md:gap-10"
+        >
+          {items.map((testimonial) => (
+            <TestimonialCard
+              key={`${groupIndex}-${testimonial.id}`}
+              author={testimonial.author}
+              quote={testimonial.quote}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function StatNumber({
   value,
   decimals = 0,
@@ -270,6 +408,46 @@ export default function HomePageClient({
     showcaseItems[selectedIndex] ??
     showcaseItems[showcaseItems.length - 1] ??
     showcaseItems[0];
+
+  const marqueeGroupRef = useRef<HTMLDivElement>(null);
+  const marqueeSecondGroupRef = useRef<HTMLDivElement>(null);
+  const [marqueeDistance, setMarqueeDistance] = useState(0);
+
+  useEffect(() => {
+    const firstGroup = marqueeGroupRef.current;
+    const secondGroup = marqueeSecondGroupRef.current;
+    if (!firstGroup || !secondGroup) return;
+
+    // offsetLeft ignores any transform currently applied, so this stays
+    // accurate even while the marquee is mid-animation (e.g. on a late
+    // image load triggering a remeasure).
+    const measure = () => {
+      setMarqueeDistance(secondGroup.offsetLeft - firstGroup.offsetLeft);
+    };
+
+    measure();
+    const resizeObserver = new ResizeObserver(measure);
+    resizeObserver.observe(firstGroup);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  const loadedBrandLogosRef = useRef<Set<string>>(new Set());
+  const [allBrandLogosLoaded, setAllBrandLogosLoaded] = useState(false);
+
+  const handleBrandLogoLoad = useCallback((src: string) => {
+    loadedBrandLogosRef.current.add(src);
+    if (loadedBrandLogosRef.current.size >= BRANDS_AND_PARTNERS.length) {
+      setAllBrandLogosLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Safety net in case a logo never fires onLoad (e.g. broken asset).
+    const fallback = setTimeout(() => setAllBrandLogosLoaded(true), 5000);
+    return () => clearTimeout(fallback);
+  }, []);
+
+  const isMarqueeReady = marqueeDistance > 0 && allBrandLogosLoaded;
 
   return (
     <main className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden py-[50px]">
@@ -461,656 +639,710 @@ export default function HomePageClient({
         </div>
       </section>
 
-      <section className="mt-[80px] flex w-full flex-col items-center justify-center px-5 md:mt-[160px] md:w-[90%] lg:w-[75%]">
-        <motion.p
-          variants={FADE_UP_VARIANTS}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          style={GPU_ACCELERATION}
-          className="text-center text-base font-light tracking-wider text-white/60 md:text-lg"
-        >
-          BUILDING TRUST WITH REMARKABLE BRANDS AND PARTNERS
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          style={{
-            transform: "translateZ(0)",
-            willChange: "opacity",
-            maskImage:
-              "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
-            WebkitMaskImage:
-              "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
-          }}
-          className="mt-6 w-screen overflow-hidden py-2"
-        >
-          <div
-            className="animate-scroll-left-slow flex w-max items-center gap-10 md:gap-20"
-            style={{
-              transform: "translateZ(0)",
-              willChange: "transform",
-            }}
-          >
-            {[
-              ...BRANDS_AND_PARTNERS,
-              ...BRANDS_AND_PARTNERS,
-              ...BRANDS_AND_PARTNERS,
-            ].map((brand, index) => (
-              <motion.div
-                key={`${brand.id}-${index}`}
-                whileHover={{ scale: 1.15 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                style={GPU_ACCELERATION}
-                className="flex h-10 shrink-0 items-center justify-center p-2 md:h-18 md:p-3"
-              >
-                <ExportedImage
-                  src={brand.image}
-                  alt={brand.title}
-                  width={1000}
-                  height={1000}
-                  className="h-full w-auto object-contain opacity-90 grayscale-10 transition-opacity duration-200 hover:opacity-100"
-                />
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </section>
-
-      <section className="mt-[80px] flex w-full flex-col items-center justify-center gap-20 px-5 md:mt-[160px] md:w-[90%] lg:w-[75%]">
-        <motion.div
-          variants={FADE_UP_VARIANTS}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          style={GPU_ACCELERATION}
-          className="flex w-full flex-col items-center justify-center px-0 md:gap-4"
-        >
-          <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs font-medium tracking-wider md:text-sm">
-            <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
-              OUR SERVICES
-            </span>
-          </div>
-          <span className="bg-linear-to-r from-white/30 via-white to-white/30 bg-clip-text p-3 text-center text-2xl font-medium text-transparent sm:text-4xl md:text-5xl">
-            Complete Digital Solutions for Your Project
-          </span>
-          <p className="px-0 text-center text-sm font-normal text-white/80 md:text-xl xl:px-36">
-            We provide tailored software development services to help your
-            projects succeed, whether you’re a startup, business, or
-            organization.
-          </p>
-        </motion.div>
-
-        <motion.div
-          variants={STAGGER_CONTAINER_VARIANTS}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          style={{ transform: "translateZ(0)" }}
-          className="mx-auto flex w-full flex-wrap items-center justify-center gap-6"
-        >
-          {SERVICES.map((service) => (
-            <motion.div
-              key={service.id}
-              variants={FADE_UP_VARIANTS}
-              whileHover={{ y: -5 }}
-              style={GPU_ACCELERATION}
-              className={`${service.id % 2 === 0 ? "w-full md:w-[40%]" : "w-full md:w-[55%]"}`}
-            >
-              <GradientBorderDiv
-                className="w-full overflow-hidden rounded-xl p-px"
-                gradientClassName="p-[2px] rounded-[14px]"
-                contentClassName="p-4 backdrop-blur-sm rounded-[14px]"
-              >
-                <div
-                  className={`${service.id % 2 !== 0 ? "absolute top-0 left-0 hidden h-[150px] w-[150px] -translate-1/2 -translate-y-1/2 rounded-full border border-white/12 md:block" : ""}`}
-                ></div>
-                <div
-                  className={`${service.id % 2 !== 0 ? "absolute top-0 left-0 hidden h-[200px] w-[200px] -translate-1/2 -translate-y-1/2 rounded-full border border-white/12 md:block" : ""}`}
-                ></div>
-                <div
-                  className={`${service.id % 2 === 0 ? "absolute top-0 left-0 hidden h-[170px] w-[170px] -translate-1/2 -translate-y-1/2 rounded-lg border border-white/12 md:block" : ""}`}
-                ></div>
-                <div
-                  className={`${service.id % 2 === 0 ? "absolute right-0 bottom-0 hidden h-[250px] w-[250px] translate-1/2 translate-y-1/2 rounded-lg border border-white/12 md:block" : ""}`}
-                ></div>
-                <div className="flex h-[120px] w-full items-center justify-between gap-4 md:h-[200px]">
-                  <div className="flex h-full flex-1 flex-col justify-start md:justify-end">
-                    <span className="bg-linear-to-r from-white to-white/30 bg-clip-text text-xl font-medium text-transparent md:text-3xl">
-                      {service.title}
-                    </span>
-                    <p className="text-xs leading-tight font-light text-white/60 md:text-base">
-                      {service.desc}
-                    </p>
-                  </div>
-                  <div className="flex h-full w-[30%] shrink-0 items-center justify-center">
-                    <ExportedImage
-                      src={service.image}
-                      alt={service.title}
-                      width={2000}
-                      height={2000}
-                      className="h-full w-full object-contain"
-                    />
-                  </div>
-                </div>
-              </GradientBorderDiv>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-
-      {/*How We Work Section*/}
-      <section className="relative mt-[80px] flex w-full flex-col items-center justify-center gap-20 px-5 md:mt-[160px] md:w-[90%] lg:w-[75%]">
-        <motion.div
-          animate={{
-            x: [0, 10, 0],
-            y: [0, -10, 0],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          style={{ transform: "translateZ(0)", willChange: "transform" }}
-          className="pointer-events-none absolute top-1/2 left-0 z-0 hidden h-full -translate-x-[45%] -translate-y-1/2 scale-200 md:block"
-        >
-          <ExportedImage
-            src="/assets/landing/Bubble.svg"
-            alt="bubble"
-            width={2000}
-            height={2000}
-            className="h-full w-auto"
-          />
-        </motion.div>
-        <motion.div
-          animate={{
-            x: [0, -10, 0],
-            y: [0, 10, 0],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          style={{ transform: "translateZ(0)", willChange: "transform" }}
-          className="pointer-events-none absolute top-1/2 right-0 z-0 hidden h-full translate-x-[45%] -translate-y-1/2 scale-200 md:block"
-        >
-          <ExportedImage
-            src="/assets/landing/Bubble.svg"
-            alt="bubble"
-            width={2000}
-            height={2000}
-            className="h-full w-auto"
-          />
-        </motion.div>
-        <motion.div
-          variants={FADE_UP_VARIANTS}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          style={GPU_ACCELERATION}
-          className="flex w-full flex-col items-center justify-center px-0 md:gap-4"
-        >
-          <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs tracking-wider md:text-sm">
-            <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text font-medium text-transparent">
-              HOW WE WORK
-            </span>
-          </div>
-          <span className="bg-linear-to-r from-white/30 via-white to-white/30 bg-clip-text p-3 text-center text-2xl font-medium text-transparent sm:text-4xl md:text-5xl">
-            Building Together, Step by Step
-          </span>
-          <p className="px-0 text-center text-sm font-normal text-white/80 md:text-xl xl:px-36">
-            We make project development transparent and efficient, breaking down
-            complex work into simple, reliable steps.
-          </p>
-        </motion.div>
-        {/*DESKTOP*/}
-        <div className="hidden w-full flex-col items-center justify-center md:block">
-          <div className="relative w-full px-20">
-            <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, ease: "easeInOut" }}
-              style={{
-                transform: "translateZ(0)",
-                willChange: "transform",
-                backgroundImage:
-                  "linear-gradient(to right, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
-              }}
-              className="absolute inset-0 h-[2px] origin-left -translate-y-[3px] blur-md"
-            />
-            <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, ease: "easeInOut" }}
-              style={{
-                transform: "translateZ(0)",
-                willChange: "transform",
-                backgroundImage:
-                  "linear-gradient(to right, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
-              }}
-              className="relative h-[2px] w-full origin-left"
-            />
-          </div>
-          <motion.div
-            variants={STAGGER_CONTAINER_VARIANTS}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            style={{ transform: "translateZ(0)" }}
-            className="grid grid-cols-4"
-          >
-            {[
-              {
-                step: "STEP 1",
-                title: "Discover & Analysis",
-                desc: "We listen to your needs and goals",
-                colors: "from-[#AD99E7] to-white",
-              },
-              {
-                step: "STEP 2",
-                title: "Design & Development",
-                desc: "Delivering solutions with the right tech stack",
-                colors: "from-[#AD99E7] to-[#FFBC6C]",
-              },
-              {
-                step: "STEP 3",
-                title: "Testing & Launch",
-                desc: "Regular demos, feedback, and time delivery",
-                colors: "from-[#FFBC6C] to-white",
-              },
-            ].map((s, i) => (
-              <motion.div
-                key={i}
-                variants={FADE_UP_VARIANTS}
-                style={GPU_ACCELERATION}
-                className="relative flex translate-x-1/2 flex-col items-center justify-center p-10"
-              >
-                <div
-                  className={`absolute top-0 left-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-r ${s.colors}`}
-                ></div>
-                <div className="my-2 shrink-0 rounded-full border border-white/12 bg-[#171717] px-4 py-1 text-sm font-medium tracking-wider">
-                  <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
-                    {s.step}
-                  </span>
-                </div>
-                <div className="flex-1 flex-col items-center justify-center">
-                  <p className="text-center text-2xl font-medium text-[#D9D9D9]">
-                    {s.title}
-                  </p>
-                  <p className="text-center text-base font-light text-white/60">
-                    {s.desc}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-        {/*MOBILE*/}
-        <div className="relative block w-full flex-col items-center justify-center md:hidden">
-          <div className="absolute top-0 bottom-0 left-1/2 w-[3px] -translate-x-1/2">
-            <motion.div
-              initial={{ scaleY: 0 }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              style={{
-                transform: "translateZ(0)",
-                willChange: "transform",
-                backgroundImage:
-                  "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
-              }}
-              className="absolute inset-0 origin-top blur-md"
-            />
-            <motion.div
-              initial={{ scaleY: 0 }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              style={{
-                transform: "translateZ(0)",
-                willChange: "transform",
-                backgroundImage:
-                  "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
-              }}
-              className="absolute top-0 bottom-0 left-1/2 w-[2px] origin-top -translate-x-1/2"
-            />
-          </div>
-          <motion.div
-            variants={STAGGER_CONTAINER_VARIANTS}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            style={{ transform: "translateZ(0)" }}
-            className="relative grid grid-rows-3"
-          >
-            {[
-              {
-                step: "STEP 1",
-                title: "Discover & Analysis",
-                desc: "We listen to your needs and goals",
-                colors: "from-[#AD99E7] to-white",
-                align: "justify-self-start pr-5",
-                dot: "right-0 translate-x-1/2",
-              },
-              {
-                step: "STEP 2",
-                title: "Design & Development",
-                desc: "Delivering solutions with the right tech stack",
-                colors: "from-[#AD99E7] to-[#FFBC6C]",
-                align: "justify-self-end pl-5",
-                dot: "left-0 -translate-x-1/2",
-              },
-              {
-                step: "STEP 3",
-                title: "Testing & Launch",
-                desc: "Regular demos, feedback, and time delivery",
-                colors: "from-[#FFBC6C] to-white",
-                align: "justify-self-start pr-5",
-                dot: "right-0 translate-x-1/2",
-              },
-            ].map((s, i) => (
-              <motion.div
-                key={i}
-                variants={FADE_UP_VARIANTS}
-                style={GPU_ACCELERATION}
-                className={`relative flex w-[50%] flex-col items-center justify-center ${s.align}`}
-              >
-                <div
-                  className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-linear-to-r ${s.dot} ${s.colors}`}
-                ></div>
-                <div className="mb-2 rounded-full border border-white/12 bg-[#171717] px-4 py-1 text-xs">
-                  <span className="bg-linear-to-b from-[#7E67C1] to-[#FFBC6C] bg-clip-text font-medium tracking-wider text-transparent">
-                    {s.step}
-                  </span>
-                </div>
-                <p className="text-center text-base font-medium text-[#D9D9D9]">
-                  {s.title}
-                </p>
-                <p className="text-center text-xs font-light text-white/60">
-                  {s.desc}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/*Who We Are Section*/}
-      <section className="relative mt-[80px] flex w-full flex-col items-center justify-center gap-5 px-5 md:mt-[160px] md:w-[90%] md:gap-6 lg:w-[75%]">
-        <motion.div
-          animate={{
-            rotate: [0, 360],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          style={{ transform: "translateZ(0)", willChange: "transform" }}
-          className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-full -translate-x-1/2 -translate-y-1/2 opacity-50"
-        >
-          <ExportedImage
-            src="/assets/landing/Bubble.svg"
-            alt="bubble"
-            width={2000}
-            height={2000}
-            className="h-auto w-full"
-          />
-        </motion.div>
-        <motion.div
-          variants={FADE_UP_VARIANTS}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          style={GPU_ACCELERATION}
-          className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs font-medium tracking-wider md:text-sm"
-        >
-          <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
-            WHO WE ARE
-          </span>
-        </motion.div>
-        <motion.span
-          variants={FADE_UP_VARIANTS}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          style={GPU_ACCELERATION}
-          className="text-center text-lg leading-8 text-white drop-shadow-white md:text-xl"
-        >
-          We make{" "}
-          <span className="mx-1 inline-block rounded-full border border-white/12 bg-white/12 px-4 py-1 text-sm font-semibold whitespace-nowrap shadow-inner shadow-white/60 md:text-base">
-            <span className="bg-linear-to-r from-[#a28aeb] to-[#FFBC6C] bg-clip-text text-transparent">
-              <span className="text-white">💻 </span>
-              Project Development
-            </span>
-          </span>{" "}
-          transparent and efficient. InkubatorIT is the professionalism
-          department under HMIF ITB, where the best{" "}
-          <span className="mx-1 inline-block rounded-full border border-white/12 bg-white/12 px-4 py-1 text-sm font-semibold whitespace-nowrap shadow-inner shadow-white/60 md:text-base">
-            <span className="bg-linear-to-r from-[#a28aeb] to-[#FFBC6C] bg-clip-text text-transparent">
-              <span className="text-white">👨🏻‍💻 </span>
-              Informatics Talent
-            </span>
-          </span>{" "}
-          create digital solutions that{" "}
-          <span className="mx-1 inline-block rounded-full border border-white/12 bg-white/12 px-4 py-1 text-sm font-semibold whitespace-nowrap shadow-inner shadow-white/60 md:text-base">
-            <span className="bg-linear-to-r from-[#a28aeb] to-[#FFBC6C] bg-clip-text text-transparent">
-              Make an Impact
-              <span className="text-white"> ✨</span>
-            </span>
-          </span>
-          , breaking down complex work into simple, reliable steps.
-        </motion.span>
-        <motion.div
-          variants={FADE_UP_VARIANTS}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          style={GPU_ACCELERATION}
-          className="w-full max-w-[1000px]"
-        >
-          <ExportedImage
-            src="/assets/landing/who_we_are.png"
-            alt="who we are img"
-            width={2000}
-            height={2000}
-            className="h-auto w-full object-contain"
-          />
-        </motion.div>
-        <motion.div
-          variants={STAGGER_CONTAINER_VARIANTS}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          style={{ transform: "translateZ(0)" }}
-          className="flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-10 lg:flex-nowrap lg:justify-between lg:gap-x-0"
-        >
-          {IMPACT_STATS.map((stat, index) => (
-            <div
-              key={stat.label}
-              className="flex basis-[42%] items-center justify-center sm:basis-[30%] lg:basis-auto"
-            >
-              <motion.div
-                variants={FADE_UP_VARIANTS}
-                style={GPU_ACCELERATION}
-                className="flex flex-col items-center justify-center px-2"
-              >
-                <StatNumber
-                  value={stat.value}
-                  decimals={"decimals" in stat ? stat.decimals : 0}
-                  suffix={stat.suffix}
-                  color={stat.color}
-                />
-                <p className="text-center text-sm leading-tight text-white italic md:pt-1 md:text-lg">
-                  {stat.label}
-                </p>
-              </motion.div>
-              {index < IMPACT_STATS.length - 1 && (
-                <div
-                  aria-hidden="true"
-                  className="mx-2 hidden h-16 w-px shrink-0 self-center md:h-20 lg:mx-6 lg:block"
-                  style={{
-                    background:
-                      "linear-gradient(to bottom, transparent, rgba(255,255,255,0.7), transparent)",
-                  }}
-                />
-              )}
-            </div>
-          ))}
-        </motion.div>
-      </section>
-
-      {/*What Our Clients Say Section*/}
-      <section className="mt-[80px] flex w-full flex-col items-center justify-center gap-20 md:mt-[160px]">
-        <div className="flex w-full items-center justify-start gap-5 px-5 md:w-[75%] md:gap-10">
-          <motion.span
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            style={GPU_ACCELERATION}
-            className="max-w-[200px] flex-1 bg-linear-to-r from-white to-white/60 bg-clip-text text-xl font-medium text-transparent md:max-w-[500px] md:text-6xl"
-          >
-            What Our Clients Say
-          </motion.span>
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            style={GPU_ACCELERATION}
-            className="flex max-w-[500px] flex-col items-start justify-center gap-4"
-          >
-            <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs font-medium tracking-wider md:text-sm">
-              <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
-                TESTIMONIALS
-              </span>
-            </div>
-            <p className="max-w-[200px] text-xs text-white md:max-w-none md:text-2xl">
-              Don't just take our word for it, hear what our clients say about
-              working with us.
-            </p>
-          </motion.div>
-        </div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          style={GPU_ACCELERATION}
-          className="w-full overflow-hidden"
-        >
-          <ExportedImage
-            src={"/assets/landing/Testimonials.png"}
-            alt="testimonial img"
-            width={2000}
-            height={2000}
-            className="w-full min-w-[500px] -translate-y-[50px] scale-125 object-contain"
-          />
-        </motion.div>
-      </section>
-
-      {/*Last Section*/}
-      <section className="relative my-[80px] flex w-full flex-col items-center justify-center gap-5 px-5 md:my-[160px] md:w-[90%] md:gap-10 lg:w-[75%]">
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.5, 0.8, 0.5],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          style={{
-            transform: "translateZ(0)",
-            willChange: "transform, opacity",
-          }}
-          className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-full max-w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 md:scale-100"
-        >
-          <ExportedImage
-            src="/assets/landing/Bubble.svg"
-            alt="bubble"
-            width={2000}
-            height={2000}
-            className="h-auto w-full"
-          />
-        </motion.div>
-        <div className="flex w-full justify-center px-10">
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            style={{
-              ...GPU_ACCELERATION,
-              willChange: "transform",
-              backgroundImage:
-                "linear-gradient(to right, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
-            }}
-            className="h-px w-full max-w-[500px]"
-          />
-        </div>
-        <div className="flex flex-col">
-          <motion.span
-            variants={FADE_UP_VARIANTS}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            style={GPU_ACCELERATION}
-            className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text p-4 text-center text-2xl font-medium text-transparent sm:text-4xl md:text-5xl"
-          >
-            Ready to Bring Your Ideas to Life?
-          </motion.span>
+      <motion.div
+        layout
+        transition={{ layout: { duration: 0.5, ease: "easeInOut" } }}
+        className="flex w-full flex-col items-center"
+      >
+        <section className="mt-[80px] flex w-full flex-col items-center justify-center px-5 md:mt-[160px] md:w-[90%] lg:w-[75%]">
           <motion.p
             variants={FADE_UP_VARIANTS}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
             style={GPU_ACCELERATION}
-            className="text-center text-base text-white md:text-lg"
+            className="text-center text-base font-light tracking-wider text-white/60 md:text-lg"
           >
-            Let’s turn your vision into reality with the right digital
-            solutions.
+            BUILDING TRUST WITH REMARKABLE BRANDS AND PARTNERS
           </motion.p>
-        </div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          style={GPU_ACCELERATION}
-        >
-          <Link href="/contact" className="rounded-full">
-            <motion.span
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="relative my-10 block overflow-hidden rounded-full p-[1.5px] shadow-lg transition-shadow hover:shadow-purple-500/20 md:my-15 md:p-[2px]"
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            style={{
+              transform: "translateZ(0)",
+              willChange: "opacity",
+              maskImage:
+                "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+            }}
+            className="mt-6 w-screen overflow-hidden py-2"
+          >
+            <motion.div
+              className="flex w-max items-center gap-10 md:gap-20"
+              style={{
+                transform: "translateZ(0)",
+                willChange: "transform, opacity",
+              }}
+              initial={{ opacity: 0 }}
+              animate={
+                isMarqueeReady
+                  ? { opacity: 1, x: [0, -marqueeDistance] }
+                  : { opacity: 0, x: 0 }
+              }
+              transition={
+                isMarqueeReady
+                  ? {
+                      opacity: { duration: 0.5, ease: "easeOut" },
+                      x: {
+                        duration: marqueeDistance / 55,
+                        repeat: Infinity,
+                        ease: "linear",
+                      },
+                    }
+                  : { duration: 0 }
+              }
             >
-              <motion.span
-                aria-hidden="true"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-                className="absolute top-1/2 left-1/2 aspect-square w-[300%] -translate-x-1/2 -translate-y-1/2 blur-[1px]"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, transparent 0deg, transparent 260deg, rgba(173,153,231,0.25) 300deg, #AD99E7 325deg, #FFBC6C 345deg, rgba(255,188,108,0.25) 360deg)",
-                }}
-              />
-              <span className="relative z-10 flex flex-row items-center gap-2 rounded-full bg-linear-to-r from-[#564292] to-[#A77741] px-6 py-2 text-xl font-medium text-white md:gap-4 md:px-10 md:py-4 md:text-2xl">
-                Let’s Collaborate{" "}
-                <Sparkles className="h-5 w-5 text-white md:h-7 md:w-7" />
+              {[0, 1, 2].map((groupIndex) => (
+                <div
+                  key={groupIndex}
+                  ref={
+                    groupIndex === 0
+                      ? marqueeGroupRef
+                      : groupIndex === 1
+                        ? marqueeSecondGroupRef
+                        : undefined
+                  }
+                  className="flex shrink-0 items-center gap-10 md:gap-20"
+                >
+                  {BRANDS_AND_PARTNERS.map((brand) => (
+                    <motion.div
+                      key={brand.id}
+                      whileHover={{ scale: 1.15 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 20,
+                      }}
+                      style={GPU_ACCELERATION}
+                      className="flex h-10 shrink-0 items-center justify-center p-2 md:h-18 md:p-3"
+                    >
+                      <ExportedImage
+                        src={brand.image}
+                        alt={brand.title}
+                        width={1000}
+                        height={1000}
+                        onLoad={() => handleBrandLogoLoad(brand.image)}
+                        className="h-full w-auto object-contain opacity-90 grayscale-10 transition-opacity duration-200 hover:opacity-100"
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </section>
+
+        <section className="mt-[80px] flex w-full flex-col items-center justify-center gap-20 px-5 md:mt-[160px] md:w-[90%] lg:w-[75%]">
+          <motion.div
+            variants={FADE_UP_VARIANTS}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            style={GPU_ACCELERATION}
+            className="flex w-full flex-col items-center justify-center px-0 md:gap-4"
+          >
+            <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs font-medium tracking-wider md:text-sm">
+              <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+                OUR SERVICES
               </span>
+            </div>
+            <span className="bg-linear-to-r from-white/30 via-white to-white/30 bg-clip-text p-3 text-center text-2xl font-medium text-transparent sm:text-4xl md:text-5xl">
+              Complete Digital Solutions for Your Project
+            </span>
+            <p className="px-0 text-center text-sm font-normal text-white/80 md:text-xl xl:px-36">
+              We provide tailored software development services to help your
+              projects succeed, whether you’re a startup, business, or
+              organization.
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={STAGGER_CONTAINER_VARIANTS}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            style={{ transform: "translateZ(0)" }}
+            className="mx-auto flex w-full flex-wrap items-center justify-center gap-6"
+          >
+            {SERVICES.map((service) => (
+              <motion.div
+                key={service.id}
+                variants={FADE_UP_VARIANTS}
+                whileHover={{ y: -5 }}
+                style={GPU_ACCELERATION}
+                className={`${service.id % 2 === 0 ? "w-full md:w-[40%]" : "w-full md:w-[55%]"}`}
+              >
+                <GradientBorderDiv
+                  className="w-full overflow-hidden rounded-xl p-px"
+                  gradientClassName="p-[2px] rounded-[14px]"
+                  contentClassName="p-4 backdrop-blur-sm rounded-[14px]"
+                >
+                  <div
+                    className={`${service.id % 2 !== 0 ? "absolute top-0 left-0 hidden h-[150px] w-[150px] -translate-1/2 -translate-y-1/2 rounded-full border border-white/12 md:block" : ""}`}
+                  ></div>
+                  <div
+                    className={`${service.id % 2 !== 0 ? "absolute top-0 left-0 hidden h-[200px] w-[200px] -translate-1/2 -translate-y-1/2 rounded-full border border-white/12 md:block" : ""}`}
+                  ></div>
+                  <div
+                    className={`${service.id % 2 === 0 ? "absolute top-0 left-0 hidden h-[170px] w-[170px] -translate-1/2 -translate-y-1/2 rounded-lg border border-white/12 md:block" : ""}`}
+                  ></div>
+                  <div
+                    className={`${service.id % 2 === 0 ? "absolute right-0 bottom-0 hidden h-[250px] w-[250px] translate-1/2 translate-y-1/2 rounded-lg border border-white/12 md:block" : ""}`}
+                  ></div>
+                  <div className="flex h-[120px] w-full items-center justify-between gap-4 md:h-[200px]">
+                    <div className="flex h-full flex-1 flex-col justify-start md:justify-end">
+                      <span className="bg-linear-to-r from-white to-white/30 bg-clip-text text-xl font-medium text-transparent md:text-3xl">
+                        {service.title}
+                      </span>
+                      <p className="text-xs leading-tight font-light text-white/60 md:text-base">
+                        {service.desc}
+                      </p>
+                    </div>
+                    <div className="flex h-full w-[30%] shrink-0 items-center justify-center">
+                      <ExportedImage
+                        src={service.image}
+                        alt={service.title}
+                        width={2000}
+                        height={2000}
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
+                  </div>
+                </GradientBorderDiv>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+
+        {/*How We Work Section*/}
+        <section className="relative mt-[80px] flex w-full flex-col items-center justify-center gap-20 px-5 md:mt-[160px] md:w-[90%] lg:w-[75%]">
+          <motion.div
+            animate={{
+              x: [0, 10, 0],
+              y: [0, -10, 0],
+            }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            style={{ transform: "translateZ(0)", willChange: "transform" }}
+            className="pointer-events-none absolute top-1/2 left-0 z-0 hidden h-full -translate-x-[45%] -translate-y-1/2 scale-200 md:block"
+          >
+            <ExportedImage
+              src="/assets/landing/Bubble.svg"
+              alt="bubble"
+              width={2000}
+              height={2000}
+              className="h-full w-auto"
+            />
+          </motion.div>
+          <motion.div
+            animate={{
+              x: [0, -10, 0],
+              y: [0, 10, 0],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            style={{ transform: "translateZ(0)", willChange: "transform" }}
+            className="pointer-events-none absolute top-1/2 right-0 z-0 hidden h-full translate-x-[45%] -translate-y-1/2 scale-200 md:block"
+          >
+            <ExportedImage
+              src="/assets/landing/Bubble.svg"
+              alt="bubble"
+              width={2000}
+              height={2000}
+              className="h-full w-auto"
+            />
+          </motion.div>
+          <motion.div
+            variants={FADE_UP_VARIANTS}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            style={GPU_ACCELERATION}
+            className="flex w-full flex-col items-center justify-center px-0 md:gap-4"
+          >
+            <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs tracking-wider md:text-sm">
+              <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text font-medium text-transparent">
+                HOW WE WORK
+              </span>
+            </div>
+            <span className="bg-linear-to-r from-white/30 via-white to-white/30 bg-clip-text p-3 text-center text-2xl font-medium text-transparent sm:text-4xl md:text-5xl">
+              Building Together, Step by Step
+            </span>
+            <p className="px-0 text-center text-sm font-normal text-white/80 md:text-xl xl:px-36">
+              We make project development transparent and efficient, breaking
+              down complex work into simple, reliable steps.
+            </p>
+          </motion.div>
+          {/*DESKTOP*/}
+          <div className="hidden w-full flex-col items-center justify-center md:block">
+            <div className="relative w-full px-20">
+              <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, ease: "easeInOut" }}
+                style={{
+                  transform: "translateZ(0)",
+                  willChange: "transform",
+                  backgroundImage:
+                    "linear-gradient(to right, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
+                }}
+                className="absolute inset-0 h-[2px] origin-left -translate-y-[3px] blur-md"
+              />
+              <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, ease: "easeInOut" }}
+                style={{
+                  transform: "translateZ(0)",
+                  willChange: "transform",
+                  backgroundImage:
+                    "linear-gradient(to right, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
+                }}
+                className="relative h-[2px] w-full origin-left"
+              />
+            </div>
+            <motion.div
+              variants={STAGGER_CONTAINER_VARIANTS}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              style={{ transform: "translateZ(0)" }}
+              className="grid grid-cols-4"
+            >
+              {[
+                {
+                  step: "STEP 1",
+                  title: "Discover & Analysis",
+                  desc: "We listen to your needs and goals",
+                  colors: "from-[#AD99E7] to-white",
+                },
+                {
+                  step: "STEP 2",
+                  title: "Design & Development",
+                  desc: "Delivering solutions with the right tech stack",
+                  colors: "from-[#AD99E7] to-[#FFBC6C]",
+                },
+                {
+                  step: "STEP 3",
+                  title: "Testing & Launch",
+                  desc: "Regular demos, feedback, and time delivery",
+                  colors: "from-[#FFBC6C] to-white",
+                },
+              ].map((s, i) => (
+                <motion.div
+                  key={i}
+                  variants={FADE_UP_VARIANTS}
+                  style={GPU_ACCELERATION}
+                  className="relative flex translate-x-1/2 flex-col items-center justify-center p-10"
+                >
+                  <div
+                    className={`absolute top-0 left-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-r ${s.colors}`}
+                  ></div>
+                  <div className="my-2 shrink-0 rounded-full border border-white/12 bg-[#171717] px-4 py-1 text-sm font-medium tracking-wider">
+                    <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+                      {s.step}
+                    </span>
+                  </div>
+                  <div className="flex-1 flex-col items-center justify-center">
+                    <p className="text-center text-2xl font-medium text-[#D9D9D9]">
+                      {s.title}
+                    </p>
+                    <p className="text-center text-base font-light text-white/60">
+                      {s.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+          {/*MOBILE*/}
+          <div className="relative block w-full flex-col items-center justify-center md:hidden">
+            <div className="absolute top-0 bottom-0 left-1/2 w-[3px] -translate-x-1/2">
+              <motion.div
+                initial={{ scaleY: 0 }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1 }}
+                style={{
+                  transform: "translateZ(0)",
+                  willChange: "transform",
+                  backgroundImage:
+                    "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
+                }}
+                className="absolute inset-0 origin-top blur-md"
+              />
+              <motion.div
+                initial={{ scaleY: 0 }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1 }}
+                style={{
+                  transform: "translateZ(0)",
+                  willChange: "transform",
+                  backgroundImage:
+                    "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
+                }}
+                className="absolute top-0 bottom-0 left-1/2 w-[2px] origin-top -translate-x-1/2"
+              />
+            </div>
+            <motion.div
+              variants={STAGGER_CONTAINER_VARIANTS}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              style={{ transform: "translateZ(0)" }}
+              className="relative grid grid-rows-3"
+            >
+              {[
+                {
+                  step: "STEP 1",
+                  title: "Discover & Analysis",
+                  desc: "We listen to your needs and goals",
+                  colors: "from-[#AD99E7] to-white",
+                  align: "justify-self-start pr-5",
+                  dot: "right-0 translate-x-1/2",
+                },
+                {
+                  step: "STEP 2",
+                  title: "Design & Development",
+                  desc: "Delivering solutions with the right tech stack",
+                  colors: "from-[#AD99E7] to-[#FFBC6C]",
+                  align: "justify-self-end pl-5",
+                  dot: "left-0 -translate-x-1/2",
+                },
+                {
+                  step: "STEP 3",
+                  title: "Testing & Launch",
+                  desc: "Regular demos, feedback, and time delivery",
+                  colors: "from-[#FFBC6C] to-white",
+                  align: "justify-self-start pr-5",
+                  dot: "right-0 translate-x-1/2",
+                },
+              ].map((s, i) => (
+                <motion.div
+                  key={i}
+                  variants={FADE_UP_VARIANTS}
+                  style={GPU_ACCELERATION}
+                  className={`relative flex w-[50%] flex-col items-center justify-center ${s.align}`}
+                >
+                  <div
+                    className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-linear-to-r ${s.dot} ${s.colors}`}
+                  ></div>
+                  <div className="mb-2 rounded-full border border-white/12 bg-[#171717] px-4 py-1 text-xs">
+                    <span className="bg-linear-to-b from-[#7E67C1] to-[#FFBC6C] bg-clip-text font-medium tracking-wider text-transparent">
+                      {s.step}
+                    </span>
+                  </div>
+                  <p className="text-center text-base font-medium text-[#D9D9D9]">
+                    {s.title}
+                  </p>
+                  <p className="text-center text-xs font-light text-white/60">
+                    {s.desc}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/*Who We Are Section*/}
+        <section className="relative mt-[80px] flex w-full flex-col items-center justify-center gap-5 px-5 md:mt-[160px] md:w-[90%] md:gap-6 lg:w-[75%]">
+          <motion.div
+            animate={{
+              rotate: [0, 360],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            style={{ transform: "translateZ(0)", willChange: "transform" }}
+            className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-full -translate-x-1/2 -translate-y-1/2 opacity-50"
+          >
+            <ExportedImage
+              src="/assets/landing/Bubble.svg"
+              alt="bubble"
+              width={2000}
+              height={2000}
+              className="h-auto w-full"
+            />
+          </motion.div>
+          <motion.div
+            variants={FADE_UP_VARIANTS}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            style={GPU_ACCELERATION}
+            className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs font-medium tracking-wider md:text-sm"
+          >
+            <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+              WHO WE ARE
+            </span>
+          </motion.div>
+          <motion.span
+            variants={FADE_UP_VARIANTS}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            style={GPU_ACCELERATION}
+            className="text-center text-lg leading-8 text-white drop-shadow-white md:text-xl"
+          >
+            We make{" "}
+            <span className="mx-1 inline-block rounded-full border border-white/12 bg-white/12 px-4 py-1 text-sm font-semibold whitespace-nowrap shadow-inner shadow-white/60 md:text-base">
+              <span className="bg-linear-to-r from-[#a28aeb] to-[#FFBC6C] bg-clip-text text-transparent">
+                <span className="text-white">💻 </span>
+                Project Development
+              </span>
+            </span>{" "}
+            transparent and efficient. InkubatorIT is the professionalism
+            department under HMIF ITB, where the best{" "}
+            <span className="mx-1 inline-block rounded-full border border-white/12 bg-white/12 px-4 py-1 text-sm font-semibold whitespace-nowrap shadow-inner shadow-white/60 md:text-base">
+              <span className="bg-linear-to-r from-[#a28aeb] to-[#FFBC6C] bg-clip-text text-transparent">
+                <span className="text-white">👨🏻‍💻 </span>
+                Informatics Talent
+              </span>
+            </span>{" "}
+            create digital solutions that{" "}
+            <span className="mx-1 inline-block rounded-full border border-white/12 bg-white/12 px-4 py-1 text-sm font-semibold whitespace-nowrap shadow-inner shadow-white/60 md:text-base">
+              <span className="bg-linear-to-r from-[#a28aeb] to-[#FFBC6C] bg-clip-text text-transparent">
+                Make an Impact
+                <span className="text-white"> ✨</span>
+              </span>
+            </span>
+            , breaking down complex work into simple, reliable steps.
+          </motion.span>
+          <motion.div
+            variants={FADE_UP_VARIANTS}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            style={GPU_ACCELERATION}
+            className="w-full max-w-[1000px]"
+          >
+            <ExportedImage
+              src="/assets/landing/who_we_are.png"
+              alt="who we are img"
+              width={2000}
+              height={2000}
+              className="h-auto w-full object-contain"
+            />
+          </motion.div>
+          <motion.div
+            variants={STAGGER_CONTAINER_VARIANTS}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            style={{ transform: "translateZ(0)" }}
+            className="flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-10 lg:flex-nowrap lg:justify-between lg:gap-x-0"
+          >
+            {IMPACT_STATS.map((stat, index) => (
+              <div
+                key={stat.label}
+                className="flex basis-[42%] items-center justify-center sm:basis-[30%] lg:basis-auto"
+              >
+                <motion.div
+                  variants={FADE_UP_VARIANTS}
+                  style={GPU_ACCELERATION}
+                  className="flex flex-col items-center justify-center px-2"
+                >
+                  <StatNumber
+                    value={stat.value}
+                    decimals={"decimals" in stat ? stat.decimals : 0}
+                    suffix={stat.suffix}
+                    color={stat.color}
+                  />
+                  <p className="text-center text-sm leading-tight text-white italic md:pt-1 md:text-lg">
+                    {stat.label}
+                  </p>
+                </motion.div>
+                {index < IMPACT_STATS.length - 1 && (
+                  <div
+                    aria-hidden="true"
+                    className="mx-2 hidden h-16 w-px shrink-0 self-center md:h-20 lg:mx-6 lg:block"
+                    style={{
+                      background:
+                        "linear-gradient(to bottom, transparent, rgba(255,255,255,0.7), transparent)",
+                    }}
+                  />
+                )}
+              </div>
+            ))}
+          </motion.div>
+        </section>
+
+        {/*What Our Clients Say Section*/}
+        <section className="mt-[80px] flex w-full flex-col items-center justify-center gap-20 md:mt-[160px]">
+          <div className="flex w-full items-center justify-start gap-5 px-5 md:w-[75%] md:gap-10">
+            <motion.span
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              style={GPU_ACCELERATION}
+              className="max-w-[200px] flex-1 bg-linear-to-r from-white to-white/60 bg-clip-text text-xl font-medium text-transparent md:max-w-[500px] md:text-6xl"
+            >
+              What Our Clients Say
             </motion.span>
-          </Link>
-        </motion.div>
-      </section>
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              style={GPU_ACCELERATION}
+              className="flex max-w-[500px] flex-col items-start justify-center gap-4"
+            >
+              <div className="rounded-full border border-white/12 bg-[#171717] px-6 py-1 text-xs font-medium tracking-wider md:text-sm">
+                <span className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text text-transparent">
+                  TESTIMONIALS
+                </span>
+              </div>
+              <p className="max-w-[200px] text-xs text-white md:max-w-none md:text-2xl">
+                Don't just take our word for it, hear what our clients say about
+                working with us.
+              </p>
+            </motion.div>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            style={{
+              ...GPU_ACCELERATION,
+              maskImage:
+                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+            }}
+            className="relative w-full overflow-hidden py-14 md:py-28"
+          >
+            <div className="flex w-full justify-center [perspective:1600px]">
+              <div
+                className="flex w-full flex-col gap-6 [transform-style:preserve-3d] md:gap-10"
+                style={{
+                  transform: "rotateX(20deg) rotateZ(-12deg)",
+                  willChange: "transform",
+                }}
+              >
+                <TestimonialRow items={TESTIMONIALS_ROW_1} duration={55} />
+                <TestimonialRow
+                  items={TESTIMONIALS_ROW_2}
+                  duration={60}
+                  reverse
+                />
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        {/*Last Section*/}
+        <section className="relative my-[80px] flex w-full flex-col items-center justify-center gap-5 px-5 md:my-[160px] md:w-[90%] md:gap-10 lg:w-[75%]">
+          <motion.div
+            animate={{
+              scale: [1, 1.1, 1],
+              opacity: [0.5, 0.8, 0.5],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            style={{
+              transform: "translateZ(0)",
+              willChange: "transform, opacity",
+            }}
+            className="pointer-events-none absolute top-1/2 left-1/2 z-0 w-full max-w-[800px] -translate-x-1/2 -translate-y-1/2 scale-150 md:scale-100"
+          >
+            <ExportedImage
+              src="/assets/landing/Bubble.svg"
+              alt="bubble"
+              width={2000}
+              height={2000}
+              className="h-auto w-full"
+            />
+          </motion.div>
+          <div className="flex w-full justify-center px-10">
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              style={{
+                ...GPU_ACCELERATION,
+                willChange: "transform",
+                backgroundImage:
+                  "linear-gradient(to right, rgba(255,255,255,0) 0%, #AD99E7 20%, #FFB051 80%, rgba(255,255,255,0) 100%)",
+              }}
+              className="h-px w-full max-w-[500px]"
+            />
+          </div>
+          <div className="flex flex-col">
+            <motion.span
+              variants={FADE_UP_VARIANTS}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              style={GPU_ACCELERATION}
+              className="bg-linear-to-r from-[#7E67C1] to-[#FFBC6C] bg-clip-text p-4 text-center text-2xl font-medium text-transparent sm:text-4xl md:text-5xl"
+            >
+              Ready to Bring Your Ideas to Life?
+            </motion.span>
+            <motion.p
+              variants={FADE_UP_VARIANTS}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              style={GPU_ACCELERATION}
+              className="text-center text-base text-white md:text-lg"
+            >
+              Let’s turn your vision into reality with the right digital
+              solutions.
+            </motion.p>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            style={GPU_ACCELERATION}
+          >
+            <Link href="/contact" className="rounded-full">
+              <motion.span
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative my-10 block overflow-hidden rounded-full p-[1.5px] shadow-lg transition-shadow hover:shadow-purple-500/20 md:my-15 md:p-[2px]"
+              >
+                <motion.span
+                  aria-hidden="true"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                  className="absolute top-1/2 left-1/2 aspect-square w-[300%] -translate-x-1/2 -translate-y-1/2 blur-[1px]"
+                  style={{
+                    background:
+                      "conic-gradient(from 0deg, transparent 0deg, transparent 260deg, rgba(173,153,231,0.25) 300deg, #AD99E7 325deg, #FFBC6C 345deg, rgba(255,188,108,0.25) 360deg)",
+                  }}
+                />
+                <span className="relative z-10 flex flex-row items-center gap-2 rounded-full bg-linear-to-r from-[#564292] to-[#A77741] px-6 py-2 text-xl font-medium text-white md:gap-4 md:px-10 md:py-4 md:text-2xl">
+                  Let’s Collaborate{" "}
+                  <Sparkles className="h-5 w-5 text-white md:h-7 md:w-7" />
+                </span>
+              </motion.span>
+            </Link>
+          </motion.div>
+        </section>
+      </motion.div>
     </main>
   );
 }
