@@ -3,8 +3,10 @@
 import { useThree } from "@react-three/fiber";
 import { useMemo } from "react";
 import { CAMERA_FOV, getLayout } from "../config";
+import { Cables } from "./cables";
 import { CameraRig } from "./camera-rig";
 import { Desk } from "./desk";
+import { DeskObjects } from "./desk-objects";
 import { Lighting } from "./lighting";
 
 export interface SceneProps {
@@ -34,6 +36,8 @@ export function DeskScene({ tier, reducedMotion, pointer }: SceneProps) {
       />
       <Lighting tier={tier} />
       <Desk layout={layout} tier={tier} />
+      <Cables layout={layout} />
+      <DeskObjects layout={layout} animate={!reducedMotion} />
     </>
   );
 }

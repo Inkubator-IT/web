@@ -6,7 +6,7 @@ import * as THREE from "three";
 import { type DeskLayout, FIT_MARGIN, PARALLAX_RANGE } from "../config";
 
 /** Highest point we care about keeping in frame — the tallest desk object. */
-const CONTENT_HEIGHT = 0.75;
+const CONTENT_HEIGHT = 1.0;
 
 /**
  * Finds the camera distance at which the whole desk (plus the headroom the
@@ -26,13 +26,14 @@ function fitDistance(
   const halfW = layout.desk.width / 2;
   const halfD = layout.desk.depth / 2;
 
+  // The desk surface, plus headroom only along the back edge — that is where
+  // the tall objects live. Claiming full height at all four corners would
+  // reserve empty space the scene never occupies and shrink the desk in frame.
   const corners: THREE.Vector3[] = [];
   for (const x of [-halfW, halfW]) {
-    for (const z of [-halfD, halfD]) {
-      for (const y of [0, CONTENT_HEIGHT]) {
-        corners.push(new THREE.Vector3(x, y, z));
-      }
-    }
+    corners.push(new THREE.Vector3(x, 0, halfD));
+    corners.push(new THREE.Vector3(x, 0, -halfD));
+    corners.push(new THREE.Vector3(x, CONTENT_HEIGHT, -halfD));
   }
 
   const overflowAt = (distance: number) => {

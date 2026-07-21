@@ -15,7 +15,7 @@ export const BRAND = {
   backdrop: "#0C0C0C",
   deskTop: "#1a1a1f",
   deskEdge: "#101014",
-  deskPad: "#141419",
+  deskPad: "#232630",
 } as const;
 
 /** Camera tilt away from straight-down, in degrees. 0 = pure top-down. */
@@ -24,7 +24,7 @@ export const CAMERA_TILT_DEG_PORTRAIT = 30;
 export const CAMERA_FOV = 35;
 
 /** Fraction of the frustum kept empty around the desk when fitting the camera. */
-export const FIT_MARGIN = 0.14;
+export const FIT_MARGIN = 0.09;
 
 /** How far the camera drifts with the pointer, in world units. */
 export const PARALLAX_RANGE = { x: 0.55, y: 0.3 };

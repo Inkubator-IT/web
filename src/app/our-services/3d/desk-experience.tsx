@@ -74,7 +74,7 @@ export default function DeskExperience() {
         ref={stageRef}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
-        className="relative h-[62vh] max-h-[820px] min-h-[400px] w-full md:h-[68vh]"
+        className="relative h-[56vh] max-h-[760px] min-h-[380px] w-full md:h-[60vh]"
       >
         <Canvas
           dpr={profile.dpr}
@@ -104,9 +104,9 @@ export default function DeskExperience() {
 
 function Hero() {
   return (
-    <section className="px-4 pt-4 pb-6 md:px-6 md:pt-12 md:pb-8">
+    <section className="px-4 pt-2 pb-4 md:px-6 md:pt-6 md:pb-5">
       <div className="mx-auto w-full text-center md:w-[75%]">
-        <h1 className="mb-6 text-4xl leading-tight font-semibold sm:text-5xl md:text-6xl">
+        <h1 className="mb-4 text-4xl leading-tight font-semibold sm:text-5xl md:text-6xl">
           Our{" "}
           <span className="bg-gradient-to-r from-[#7E67C1] to-[#FFB051] bg-clip-text text-transparent">
             Services
