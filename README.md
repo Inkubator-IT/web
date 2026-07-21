@@ -105,6 +105,45 @@ import { cn } from "@/lib/utils";
 - Light/dark design tokens are provided; apply `.dark` on `<html>` or any parent node to switch.
 - Includes `tw-animate-css` for simple animations.
 
+### The `/our-services` 3D desk
+
+`/our-services` renders an interactive 3D desk: eight objects, one per service,
+that respond to hover and open a detail modal on click. See [`PLAN.md`](./PLAN.md)
+for the design and [`IMPLEMENTATION_PLAN.md`](./IMPLEMENTATION_PLAN.md) for how it
+was built.
+
+**Switching back to the original card grid** — one constant in
+`src/app/our-services/page.tsx`:
+
+```ts
+const MODE: "3d" | "classic" = "3d";   // change to "classic"
+```
+
+Both modes read the same content from `src/app/our-services/data/services.ts`,
+so nothing needs to be kept in sync. The classic view also renders automatically
+on devices without WebGL, no config required.
+
+Notes for anyone touching the scene:
+
+- Everything is built procedurally from three.js primitives — there are no model
+  files to download, and lighting is generated in-scene rather than fetched from
+  a CDN, which a static export cannot rely on.
+- Composition lives in `3d/config.ts`: object positions, anchor heights, and
+  hover amounts. Tune there rather than in the individual object components.
+- three.js loads through a client-only dynamic import. It must stay `ssr: false`
+  or the static export will try to run WebGL during prerender.
+
+**Visual checks.** With the dev server running:
+
+```sh
+node scripts/shoot.mjs <label>                            # idle, 4 viewports
+node scripts/shoot.mjs <label> --state=hover --target=iot # hover a service
+node scripts/shoot.mjs <label> --state=modal --target=ai-ml
+node scripts/diff-shots.mjs <labelA> <labelB>             # pixel diff two sets
+```
+
+Shots land in `scripts/.shots/` (gitignored). `--target` takes a `Service.id`.
+
 ### Run with Docker
 This repo provides a multi-stage Dockerfile using Bun for both build and runtime, leveraging Next.js `output: "standalone"`.
 
