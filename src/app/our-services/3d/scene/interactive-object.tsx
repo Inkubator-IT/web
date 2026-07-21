@@ -116,9 +116,8 @@ export function InteractiveObject({
   if (!Object3D) return null;
 
   return (
-    // biome-ignore lint/a11y/noStaticElementInteractions: <group> is a three.js
-    // object, not a DOM element — the rule misfires because R3F augments
-    // JSX.IntrinsicElements. Keyboard access is provided by A11yHotspots.
+    // <group> is a three.js object, not DOM; the rule misfires because R3F augments JSX.IntrinsicElements. Keyboard access comes from A11yHotspots.
+    // biome-ignore lint/a11y/noStaticElementInteractions: not a DOM element
     <group
       position={slot.position}
       onPointerOver={handleOver}
