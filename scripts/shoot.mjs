@@ -61,7 +61,7 @@ async function settle(page) {
       .waitForFunction(
         () =>
           [...document.querySelectorAll("[data-service-hotspot]")].some(
-            (el) => (el as HTMLElement).style.transform !== "",
+            (el) => el.style.transform !== "",
           ),
         { timeout: 30000 },
       )
