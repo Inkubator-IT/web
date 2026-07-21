@@ -13,6 +13,7 @@ import { DeskProvider, useDesk } from "./store";
 import { A11yHotspots } from "./ui/a11y-hotspots";
 import { HoverLabel } from "./ui/hover-label";
 import { SceneLoader } from "./ui/loader";
+import { ServiceModal } from "./ui/service-modal";
 
 export default function DeskExperience() {
   const profile = useQualityTier();
@@ -106,6 +107,7 @@ export default function DeskExperience() {
         </div>
 
         <ServicesCta />
+        <SelectedModal reducedMotion={profile.reducedMotion} />
       </div>
     </DeskProvider>
   );
@@ -116,6 +118,24 @@ function HoveredLabel() {
   const { hoveredId } = useDesk();
   const title = services.find((service) => service.id === hoveredId)?.title;
   return <HoverLabel title={title ?? null} />;
+}
+
+/** Resolves the selected id to its service and hands it to the modal. */
+function SelectedModal({ reducedMotion }: { reducedMotion: boolean }) {
+  const { selectedId, setSelected, setHovered } = useDesk();
+  const service = services.find((item) => item.id === selectedId) ?? null;
+
+  return (
+    <ServiceModal
+      service={service}
+      reducedMotion={reducedMotion}
+      onClose={() => {
+        setSelected(null);
+        setHovered(null);
+        document.body.style.cursor = "";
+      }}
+    />
+  );
 }
 
 function Hero() {

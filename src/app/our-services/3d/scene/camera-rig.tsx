@@ -3,7 +3,12 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
-import { type DeskLayout, FIT_MARGIN, PARALLAX_RANGE } from "../config";
+import {
+  ANCHOR_HEIGHT,
+  type DeskLayout,
+  FIT_MARGIN,
+  PARALLAX_RANGE,
+} from "../config";
 
 /** Highest point we care about keeping in frame — the tallest desk object. */
 const CONTENT_HEIGHT = 1.0;
@@ -63,12 +68,19 @@ function fitDistance(
 
 interface CameraRigProps {
   layout: DeskLayout;
-  /** Pointer position in -1..1, or null when the pointer has left the canvas. */
+  /** Pointer position in -1..1, recentred when the pointer leaves the canvas. */
   pointer: React.RefObject<{ x: number; y: number }>;
   enableParallax: boolean;
+  /** Service id to move in on, or null to sit at the resting framing. */
+  focusId: string | null;
 }
 
-export function CameraRig({ layout, pointer, enableParallax }: CameraRigProps) {
+export function CameraRig({
+  layout,
+  pointer,
+  enableParallax,
+  focusId,
+}: CameraRigProps) {
   const camera = useThree((state) => state.camera) as THREE.PerspectiveCamera;
   const size = useThree((state) => state.size);
   const aspect = size.width / size.height;
@@ -83,7 +95,40 @@ export function CameraRig({ layout, pointer, enableParallax }: CameraRigProps) {
     return direction.clone().multiplyScalar(distance);
   }, [layout, aspect, camera.fov, direction]);
 
+  /** Where the camera moves to, and what it looks at, when an object is opened. */
+  const focus = useMemo(() => {
+    if (!focusId) return null;
+    const slot = layout.slots.find((candidate) => candidate.id === focusId);
+    if (!slot) return null;
+
+    const lookAt = new THREE.Vector3(
+      slot.position[0],
+      (ANCHOR_HEIGHT[focusId] ?? 0.3) * 0.45,
+      slot.position[2],
+    );
+
+    // Sit closer along the same viewing axis, so moving in reads as a dolly
+    // rather than a cut to a different angle.
+    const distance = home.length() * 0.42;
+
+    // On wide viewports the modal sits centred, so aim off to one side to park
+    // the object beside it instead of directly behind it. Narrow viewports have
+    // no room either way, so they stay centred.
+    if (aspect >= 1.2) {
+      const halfWidth =
+        Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * distance * aspect;
+      lookAt.x += halfWidth * 0.52;
+    }
+
+    const position = lookAt
+      .clone()
+      .add(direction.clone().multiplyScalar(distance));
+
+    return { position, lookAt };
+  }, [focusId, layout, direction, home, aspect, camera.fov]);
+
   const current = useRef(home.clone());
+  const lookTarget = useRef(new THREE.Vector3(0, 0, 0));
 
   // Snap on the first frame and whenever the framing changes, so a resize never
   // shows a half-cropped desk mid-tween.
@@ -95,22 +140,32 @@ export function CameraRig({ layout, pointer, enableParallax }: CameraRigProps) {
   }, [home, camera]);
 
   useFrame((_, delta) => {
-    const damping = 1 - Math.exp(-4 * Math.min(delta, 0.1));
+    const step = Math.min(delta, 0.1);
+    // Moving in is a deliberate, slower move than the parallax drift.
+    const damping = 1 - Math.exp(-(focus ? 3.2 : 4) * step);
 
-    const targetX = enableParallax
-      ? home.x + pointer.current.x * PARALLAX_RANGE.x
-      : home.x;
-    const targetY = enableParallax
-      ? home.y + pointer.current.y * PARALLAX_RANGE.y
-      : home.y;
+    const base = focus ? focus.position : home;
+    const parallax = enableParallax && !focus;
+
+    const targetX = parallax
+      ? base.x + pointer.current.x * PARALLAX_RANGE.x
+      : base.x;
+    const targetY = parallax
+      ? base.y + pointer.current.y * PARALLAX_RANGE.y
+      : base.y;
 
     current.current.x += (targetX - current.current.x) * damping;
     current.current.y += (targetY - current.current.y) * damping;
-    current.current.z = home.z;
+    current.current.z += (base.z - current.current.z) * damping;
+
+    const goal = focus ? focus.lookAt : ORIGIN;
+    lookTarget.current.lerp(goal, damping);
 
     camera.position.copy(current.current);
-    camera.lookAt(0, 0, 0);
+    camera.lookAt(lookTarget.current);
   });
 
   return null;
 }
+
+const ORIGIN = new THREE.Vector3(0, 0, 0);
